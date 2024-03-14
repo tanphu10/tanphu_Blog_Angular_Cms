@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "dfdHT8Ybkr3TQyqfW0EpFrdAmyADWDHx3UnbgpWT+B8=",
+  "Source": "TPBlog.Api",
+  "BasePath": "_content/TPBlog.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
