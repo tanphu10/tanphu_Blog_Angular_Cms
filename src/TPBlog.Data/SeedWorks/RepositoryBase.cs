@@ -35,7 +35,9 @@ namespace TPBlog.Data.SeedWorks
         }
         public async Task<T> GetByIdAsync(Key id)
         {
-            return await _dbSet.FindAsync(id);
+
+            var a= await _dbSet.FindAsync(id);
+            return a;
         }
         public void Remove(T entity)
         {

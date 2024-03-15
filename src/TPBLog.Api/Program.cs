@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 using TPBlog.Api;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Models.content;
 using TPBlog.Data;
 using TPBlog.Data.Repositories;
 using TPBlog.Data.SeedWorks;
@@ -39,10 +43,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
-builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes().Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
-&& !x.IsAbstract && !x.IsGenericType);
+&& !x.IsAbstract && x.IsClass && !x.IsGenericType);
 
 foreach (var service in services)
 {
@@ -54,11 +58,24 @@ foreach (var service in services)
     }
 }
 
+builder.Services.AddAutoMapper(typeof(PostInListDto));
 //Default config for ASP.NET Core
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.CustomOperationIds(apiDesc =>
+    {
+        return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+    });
+    c.SwaggerDoc("AdminAPI", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API for Administrators",
+        Description = "API for CMS core domain. This domain keeps track of campaigns, campaign rules, and campaign execution."
+    });
+});
 
 var app = builder.Build();
 
@@ -66,7 +83,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("AdminAPI/swagger.json", "Admin API");
+        c.DisplayOperationId();
+        c.DisplayRequestDuration();
+    });
 }
 
 app.UseHttpsRedirection();
