@@ -14,7 +14,7 @@ namespace TPBlog.Core.Domain.Content
     public class Post
     {
         [Key]
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [MaxLength(250)]
         public required string Name { get; set; }

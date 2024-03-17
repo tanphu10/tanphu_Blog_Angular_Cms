@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace TPBlog.Data
 {
-    public class TPContexFactory : IDesignTimeDbContextFactory<TPBlogContext>
+    public class TPContextFactory : IDesignTimeDbContextFactory<TPBlogContext>
     {
         public TPBlogContext CreateDbContext(string[] args)
         {
