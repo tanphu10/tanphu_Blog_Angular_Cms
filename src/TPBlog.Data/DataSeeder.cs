@@ -21,7 +21,7 @@ namespace TPBlog.Data
                 await context.SaveChangesAsync();
 
             }
-            if (!context.UserClaims.Any())
+            if (!context.Users.Any())
             {
                 var userId = Guid.NewGuid();
                 var user = new AppUser()

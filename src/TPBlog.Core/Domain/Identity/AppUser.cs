@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TPBlog.Core.Domain.Identity
 {
+    //[Table("AppRoles")] nếu như chúng ta không để bảng table thì nó sẽ tự generate ra 
+
     public class AppUser : IdentityUser<Guid>
     {
         [required]
@@ -27,6 +30,5 @@ namespace TPBlog.Core.Domain.Identity
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public double Balance { get; set; }
-
     }
 }
