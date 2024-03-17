@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TPBlog.Core.Domain.Content;
-using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
+using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Api.Controllers
 {
-    [Route("api/admin/Post")]
+
+    [Route("api/admin/post")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -86,3 +87,4 @@ namespace TPBlog.Api.Controllers
         }
     }
 }
+

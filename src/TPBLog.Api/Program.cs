@@ -1,19 +1,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using TPBlog.Api.Services;
 using TPBlog.Api;
+using TPBlog.Core.ConfigureOptions;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models.content;
-using TPBlog.Data;
 using TPBlog.Data.Repositories;
 using TPBlog.Data.SeedWorks;
+using TPBlog.Data;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
-
 //Config DB Context and ASP.NET Core Identity
 builder.Services.AddDbContext<TPBlogContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -41,12 +42,15 @@ builder.Services.Configure<IdentityOptions>(options =>
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
 });
+
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-// business services and repositories
-var services = typeof(PostRepository).Assembly.GetTypes().Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
-&& !x.IsAbstract && x.IsClass && !x.IsGenericType);
+
+// Business services and repositories
+var services = typeof(PostRepository).Assembly.GetTypes()
+    .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
+    && !x.IsAbstract && x.IsClass && !x.IsGenericType);
 
 foreach (var service in services)
 {
@@ -58,7 +62,16 @@ foreach (var service in services)
     }
 }
 
+//Auto mapper
 builder.Services.AddAutoMapper(typeof(PostInListDto));
+
+//Authen and author
+builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+
 //Default config for ASP.NET Core
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -75,6 +88,7 @@ builder.Services.AddSwaggerGen(c =>
         Title = "API for Administrators",
         Description = "API for CMS core domain. This domain keeps track of campaigns, campaign rules, and campaign execution."
     });
+    c.ParameterFilter<SwaggerNullableParameterFilter>();
 });
 
 var app = builder.Build();
@@ -82,7 +96,18 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((document, request) =>
+        {
+            var paths = document.Paths.ToDictionary(item => item.Key.ToLowerInvariant(), item => item.Value);
+            document.Paths.Clear();
+            foreach (var pathItem in paths)
+            {
+                document.Paths.Add(pathItem.Key, pathItem.Value);
+            }
+        });
+    });
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("AdminAPI/swagger.json", "Admin API");
@@ -92,9 +117,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
-// seeding Data
+//Seeding data
 app.MigrateDatabase();
+
 app.Run();

@@ -16,7 +16,7 @@ namespace TPBlog.Data.Repositories
         public TagRepositiory(TPBlogContext context, IMapper mapper) : base
             (context)
         {
-            _mapper = mapper
+            _mapper = mapper;
 
         }
     }
