@@ -4,12 +4,14 @@ using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TPBlog.Api.Controllers
 {
 
     [Route("api/admin/post")]
     [ApiController]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
