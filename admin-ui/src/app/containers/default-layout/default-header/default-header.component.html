@@ -15,19 +15,13 @@
     <c-header-nav class="d-none d-lg-flex me-auto">
       <c-nav-item>
         <a cNavLink routerLink="/dashboard" routerLinkActive="active">
-          Dashboard
+          Trang Chủ
         </a>
       </c-nav-item>
       <c-nav-item>
-        <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
-      </c-nav-item>
-      <c-nav-item>
-        <a cNavLink routerLink="/settings" routerLinkActive="active">
-          Settings
-        </a>
+        <a cNavLink routerLink="/system/users" routerLinkActive="active">Người dùng</a>
       </c-nav-item>
     </c-header-nav>
-
     <c-header-nav class="d-none d-lg-flex">
       <c-nav-item>
         <a routerLink="./" cNavLink>
@@ -153,9 +147,9 @@
         <hr cDropdownDivider/>
       </li>
       <li>
-        <a routerLink="./" cDropdownItem>
+        <a routerLink="./" (click)="logout()" cDropdownItem>
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
-          Lock Account
+         Đăng Xuất
         </a>
       </li>
       <li></li>
