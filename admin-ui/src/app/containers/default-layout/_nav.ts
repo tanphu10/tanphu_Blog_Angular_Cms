@@ -2,52 +2,72 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Trang Chủ',
+    name: 'Trang chủ',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
-      text: 'NEW'
+      text: 'NEW',
+    },
+    attributes: {
+      "policyName": "Permissions.Dashboard.View"
     }
   },
-  
   {
-    name: 'Nội Dung',
+    name: 'Nội dung',
     url: '/content',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
         name: 'Danh mục',
-        url: '/content/post-categories'
+        url: '/content/post-categories',
+        attributes: {
+          "policyName": "Permissions.PostCategories.View"
+        }
       },
       {
-        name: 'Bài Viết',
-        url: '/content/posts'
+        name: 'Bài viết',
+        url: '/content/posts',
+        attributes: {
+          "policyName": "Permissions.Posts.View"
+        }
       },
       {
         name: 'Loạt bài',
-        url: '/content/series'
+        url: '/content/series',
+        attributes: {
+          "policyName": "Permissions.Series.View"
+        }
       },
       {
         name: 'Nhuận bút',
-        url: '/content/royalty'
-      },
-    ]
+        url: '/content/royalty',
+        attributes: {
+          "policyName": "Permissions.Loyalty.View"
+        }
+      }
+    ],
   },
+
   {
-    name: 'Hệ Thống ',
-    url: '/System',
+    name: 'Hệ thống',
+    url: '/system',
     iconComponent: { name: 'cil-notes' },
     children: [
       {
         name: 'Quyền',
-        url: '/system/roles'
+        url: '/system/roles',
+        attributes: {
+          "policyName": "Permissions.Roles.View"
+        }
       },
       {
-        name: 'Người Dùng',
-        url: '/system/users'
-      },
-    
-    ]
+        name: 'Người dùng',
+        url: '/system/users',
+        attributes: {
+          "policyName": "Permissions.Users.View"
+        }
+      }
+    ],
   },
 ];

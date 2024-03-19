@@ -38,6 +38,7 @@ import { contentRoutingModule } from './content-routing.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
+    
   ],
   declarations: []
 })

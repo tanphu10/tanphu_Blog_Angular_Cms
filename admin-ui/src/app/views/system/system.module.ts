@@ -18,8 +18,6 @@ import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { SystemRoutingModule } from './system-routing.module';
-
-
 @NgModule({
   imports: [
     SystemRoutingModule,
