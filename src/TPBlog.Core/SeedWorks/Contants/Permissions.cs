@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TPBlog.Data.SeedWorks.Contants
+namespace TPBlog.Core.SeedWorks.Contants
 {
     public static class Permissions
     {

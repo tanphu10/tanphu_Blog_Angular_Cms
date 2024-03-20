@@ -53,6 +53,7 @@ export class LoginComponent implements OnDestroy{
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe({
       next: (res: AuthenticatedResult) => {
+        console.log("check trả về res",res)
         //Save token and refresh token to localstorage
         this.tokenSerivce.saveToken(res.token);
         this.tokenSerivce.saveRefreshToken(res.refreshToken);

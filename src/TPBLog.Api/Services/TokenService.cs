@@ -24,7 +24,7 @@ namespace TPBlog.Api.Services
                 issuer: _jwtTokenSetting.Issuer,
                 audience: _jwtTokenSetting.Issuer,
                 claims: claims,
-                expires: DateTime.Now.AddHours(_jwtTokenSetting.ExpireInHours),
+                expires: DateTime.Now.AddDays(_jwtTokenSetting.ExpireInHours),
                 signingCredentials: signInCredentials
                 );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

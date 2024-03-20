@@ -38,7 +38,6 @@ namespace TPBlog.Api.Controllers
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
-
             await _userManager.UpdateAsync(user);
             return Ok(new AuthenticatedResult()
             {

@@ -11,7 +11,7 @@ namespace TPBlog.Api.Controllers
 
     [Route("api/admin/post")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
