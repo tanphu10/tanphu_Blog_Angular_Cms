@@ -17,8 +17,4 @@
     <ProjectReference Include="..\TPBlog.Data\TPBlog.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\AdminApi\" />
-  </ItemGroup>
-
 </Project>

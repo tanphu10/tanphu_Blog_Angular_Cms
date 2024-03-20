@@ -30,7 +30,7 @@ import { WidgetsModule } from '../widgets/widgets.module';
     IconModule,
     TabsModule,
     CommonModule,
-    GridModule,
+    GridModule, 
     ProgressModule,
     ReactiveFormsModule,
     ButtonModule,

@@ -9,7 +9,7 @@ using TPBlog.Api.Services;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models.Auth;
 using TPBlog.Core.Models.system;
-using TPBlog.Data.SeedWorks.Contants;
+using TPBlog.Core.SeedWorks.Contants;
 
 namespace TPBlog.Api.Controllers
 {

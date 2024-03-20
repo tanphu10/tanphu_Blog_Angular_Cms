@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TPBlog.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2da1ed2d5b1e9b4452c51c2385338748e3f4aff4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9db2f8b21f9b8308863108c34f4ff4a81c1f30f")]
 [assembly: System.Reflection.AssemblyProductAttribute("TPBlog.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TPBlog.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
