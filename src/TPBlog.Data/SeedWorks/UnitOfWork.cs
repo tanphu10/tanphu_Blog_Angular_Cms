@@ -16,9 +16,12 @@ namespace TPBlog.Data.SeedWorks
         {
             _context = context;
             BaiPost = new PostRepository(context, mapper);
+            PostCategories = new PostCategoryRepository(context, mapper);
             Tags = new TagRepositiory(context, mapper);
         }
         public IPostRepository BaiPost { get; private set; }
+        public IPostCategoryRepository PostCategories { get; private set; }
+
         public ITagRepository Tags { get; private set; }
         public async Task<int> CompleteAsync()
         {

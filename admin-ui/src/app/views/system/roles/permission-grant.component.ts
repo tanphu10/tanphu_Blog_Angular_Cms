@@ -52,6 +52,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: PermissionDto) => {
+                    console.log("response permission",response)
                     this.permissions = response.roleClaims;
                     this.buildForm();
                     this.toggleBlockUI(false);
@@ -115,7 +116,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
             setTimeout(() => {
                 this.btnDisabled = false;
                 this.blockedPanelDetail = false;
-            }, 1000);
+            }, 100);
         }
     }
 }
