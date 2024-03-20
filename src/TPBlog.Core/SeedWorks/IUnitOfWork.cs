@@ -10,6 +10,7 @@ namespace TPBlog.Data.SeedWorks
     public interface IUnitOfWork
     {
         IPostRepository BaiPost { get; }
+        IPostCategoryRepository PostCategories { get; }
         ITagRepository Tags { get; }
         Task<int> CompleteAsync();
     }

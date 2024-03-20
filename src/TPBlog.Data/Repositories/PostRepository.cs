@@ -4,6 +4,7 @@ using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
+using TPBlog.Data;
 using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
@@ -14,7 +15,6 @@ namespace TPBlog.Data.Repositories
         public PostRepository(TPBlogContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
-
         }
         public Task<List<Post>> GetPopularPostAsync(int count)
         {
@@ -28,12 +28,18 @@ namespace TPBlog.Data.Repositories
             {
                 query = query.Where(x => x.Name.Contains(keyword));
             }
+
             if (categoryId.HasValue)
             {
                 query = query.Where(x => x.CategoryId == categoryId.Value);
             }
+
             var totalRow = await query.CountAsync();
-            query = query.OrderByDescending(x => x.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            query = query.OrderByDescending(x => x.DateCreated)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize);
+
             return new PageResult<PostInListDto>
             {
                 Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
