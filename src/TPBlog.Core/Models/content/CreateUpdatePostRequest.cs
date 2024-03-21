@@ -25,12 +25,11 @@ namespace TPBlog.Core.Models.content
         public string? Source { get; set; }
         public string? Tags { get; set; }
         public string? SeoDescription { get; set; }
-   
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdatePostRequest,Post >();
+                CreateMap<CreateUpdatePostRequest, Post>();
             }
         }
 

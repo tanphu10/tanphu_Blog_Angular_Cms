@@ -10,7 +10,7 @@ using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Controllers
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/admin/postCategory")]
     [ApiController]
     public class PostCategoryController : ControllerBase
     {

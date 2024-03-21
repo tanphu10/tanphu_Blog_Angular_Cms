@@ -11,6 +11,7 @@ namespace TPBlog.Data.SeedWorks
     {
         IPostRepository BaiPost { get; }
         IPostCategoryRepository PostCategories { get; }
+        ISeriesRepository Series { get; }
         ITagRepository Tags { get; }
         Task<int> CompleteAsync();
     }
