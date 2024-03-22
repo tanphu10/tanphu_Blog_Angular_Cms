@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using TPBlog.Api.Authorization;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -34,8 +35,7 @@ builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
 }));
 //Config DB Context and ASP.NET Core Identity
 builder.Services.AddDbContext<TPBlogContext>(options =>
-                options.UseSqlServer(connectionString));
-
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<TPBlogContext>();
 
@@ -85,6 +85,10 @@ builder.Services.AddAutoMapper(typeof(PostInListDto));
 
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
+
+
+
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -111,7 +115,7 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "Please enter token",
         Name = "Authorization",
-        //Type = SecuritySchemeType.Http,
+        Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
         Scheme = "bearer"
     });
@@ -172,6 +176,7 @@ if (app.Environment.IsDevelopment())
         c.DisplayRequestDuration();
     });
 }
+app.UseStaticFiles();
 app.UseCors(TeduCorsPolicy);
 
 app.UseHttpsRedirection();

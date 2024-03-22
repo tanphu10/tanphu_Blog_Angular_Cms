@@ -10,7 +10,7 @@ using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Controllers
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/admin/postCategory")]
     [ApiController]
     public class PostCategoryController : ControllerBase
     {
@@ -55,12 +55,12 @@ namespace TPBlog.Api.Controllers
         {
             foreach (var id in ids)
             {
-                var post = await _unitOfWork.BaiPost.GetByIdAsync(id);
+                var post = await _unitOfWork.PostCategories.GetByIdAsync(id);
                 if (post == null)
                 {
                     return NotFound();
                 }
-                _unitOfWork.BaiPost.Remove(post);
+                _unitOfWork.PostCategories.Remove(post);
             }
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();

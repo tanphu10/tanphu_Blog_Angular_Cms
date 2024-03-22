@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TPBlog.Core.Domain.Identity
 {
-    //[Table("AppRoles")] nếu như chúng ta không để bảng table thì nó sẽ tự generate ra 
+    //[Table("AppUsers")]
+    //nếu như chúng ta không để bảng table thì nó sẽ tự generate ra 
 
     public class AppUser : IdentityUser<Guid>
     {
@@ -24,6 +26,10 @@ namespace TPBlog.Core.Domain.Identity
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public double Balance { get; set; }
-       
+        public double RoyaltyAmountPerPost { get; set; }
+        public string GetFullName()
+        {
+            return this.FirstName + " " + this.LastName;
+        }
     }
 }

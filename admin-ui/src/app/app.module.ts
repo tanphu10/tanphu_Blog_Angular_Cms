@@ -38,7 +38,7 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import {ADMIN_API_BASE_URL, AdminApiAuthApiClient, AdminApiPostCategoryApiClient, AdminApiRoleApiClient, AdminApiTestApiClient, AdminApiTokenApiClient, AdminApiUserApiClient} from './api/admin-api.service.generated';
+import {ADMIN_API_BASE_URL, AdminApiAuthApiClient, AdminApiPostApiClient, AdminApiPostCategoryApiClient, AdminApiRoleApiClient, AdminApiSeriesApiClient, AdminApiTestApiClient, AdminApiTokenApiClient, AdminApiUserApiClient} from './api/admin-api.service.generated';
 import {environment} from './../environments/environment'
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -51,6 +51,7 @@ import {TokenInterceptor} from './shared/interceptors/token.interceptor'
 import { DialogService ,DynamicDialogModule} from 'primeng/dynamicdialog';
 import { UtilityService } from './shared/services/utility.service';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {UploadService} from './shared/services/upload.service';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultHeaderComponent,
@@ -121,7 +122,10 @@ const APP_CONTAINERS = [
     AdminApiTestApiClient,
     AdminApiTokenApiClient,
     AdminApiRoleApiClient,
-    AdminApiPostCategoryApiClient
+    AdminApiPostCategoryApiClient,
+    AdminApiSeriesApiClient ,
+    AdminApiPostApiClient ,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

@@ -24,7 +24,13 @@ namespace TPBlog.Core.Models.content
 
         public int ViewCount { get; set; }
         public DateTime DateCreated { get; set; }
-        public class AutoMapperProfiles:Profile
+        public required string CategorySlug { get; set; }
+        public required string CategoryName { get; set; }
+        public string AuthorUserName { get; set; }
+        public string AuthorName { get; set; }
+        public PostStatus Status { get; set; }
+
+        public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
