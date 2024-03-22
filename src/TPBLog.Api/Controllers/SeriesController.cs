@@ -15,17 +15,16 @@ namespace TPBlog.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public SeriesController(IMapper mapper,IUnitOfWork unitOfWork)
+        public SeriesController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         [HttpPost]
-        [Authorize(Permissions.Series.Create)]
+        //[Authorize(Permissions.Series.Create)]
         public async Task<IActionResult> CreateSeries([FromBody] CreateUpdateSeriesRequest request)
         {
             var post = _mapper.Map<CreateUpdateSeriesRequest, Core.Domain.Content.Series>(request);
-
             _unitOfWork.Series.Add(post);
 
             var result = await _unitOfWork.CompleteAsync();
@@ -33,7 +32,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Permissions.Series.Edit)]
+        //[Authorize(Permissions.Series.Edit)]
         public async Task<IActionResult> UpdateSeries(Guid id, [FromBody] CreateUpdateSeriesRequest request)
         {
             var post = await _unitOfWork.Series.GetByIdAsync(id);
@@ -48,7 +47,7 @@ namespace TPBlog.Api.Controllers
         }
         [Route("post-series")]
         [HttpPut()]
-        [Authorize(Permissions.Series.Edit)]
+        //[Authorize(Permissions.Series.Edit)]
         public async Task<IActionResult> AddPostSeries([FromBody] AddPostSeriesRequest request)
         {
             var isExisted = await _unitOfWork.Series.IsPostInSeries(request.SeriesId, request.PostId);
@@ -60,16 +59,29 @@ namespace TPBlog.Api.Controllers
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
-        [Route("post-series/{seriesId}")]
-        [HttpGet()]
-        [Authorize(Permissions.Series.Edit)]
-        public async Task<ActionResult<List<PostInListDto>>> GetPostsInSeries(Guid seriesId)
+        [HttpGet("post-series/{id}")]
+        //[Authorize(Permissions.Series.Edit)]
+        public async Task<ActionResult<List<PostInListDto>>> GetPostsInSeries(Guid id)
         {
-            var posts = await _unitOfWork.Series.GetAllPostsInSeries(seriesId);
+            var posts = await _unitOfWork.Series.GetAllPostsInSeries(id);
             return Ok(posts);
         }
+        [Route("post-series")]
+        [HttpDelete()]
+        //[Authorize(Permissions.Series.Edit)]
+        public async Task<IActionResult> DeletePostSeries([FromBody] AddPostSeriesRequest request)
+        {
+            var isExisted = await _unitOfWork.Series.IsPostInSeries(request.SeriesId, request.PostId);
+            if (!isExisted)
+            {
+                return NotFound();
+            }
+            await _unitOfWork.Series.RemovePostToSeries(request.SeriesId, request.PostId);
+            var result = await _unitOfWork.CompleteAsync();
+            return result > 0 ? Ok() : BadRequest();
+        }
         [HttpDelete]
-        [Authorize(Permissions.Series.Delete)]
+        //[Authorize(Permissions.Series.Delete)]
         public async Task<IActionResult> DeleteSeries([FromQuery] Guid[] ids)
         {
             foreach (var id in ids)
@@ -86,7 +98,7 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Permissions.Series.View)]
+        //[Authorize(Permissions.Series.View)]
         public async Task<ActionResult<SeriesDto>> GetSeriesById(Guid id)
         {
             var post = await _unitOfWork.Series.GetByIdAsync(id);
@@ -98,7 +110,7 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet]
         [Route("paging")]
-        [Authorize(Permissions.Series.View)]
+        //[Authorize(Permissions.Series.View)]
         public async Task<ActionResult<PageResult<SeriesInListDto>>> GetSeriesPaging(string? keyword,
           int pageIndex, int pageSize = 10)
         {
@@ -108,7 +120,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Permissions.Series.View)]
+        //[Authorize(Permissions.Series.View)]
         public async Task<ActionResult<List<SeriesInListDto>>> GetAllSeries()
         {
             var result = await _unitOfWork.Series.GetAllAsync();

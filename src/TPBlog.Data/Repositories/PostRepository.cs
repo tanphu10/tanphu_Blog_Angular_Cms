@@ -73,16 +73,15 @@ namespace TPBlog.Data.Repositories
             };
 
         }
-        public async Task<List<SeriesInListDto>> GetAllSeries(Guid postId)
+        public async Task<List<SeriesInListDto>> GetAllSeries(Guid id)
         {
             var query = from pis in _context.PostInSeries
                         join s in _context.Series
                         on pis.SeriesId equals s.Id
-                        where pis.PostId == postId
+                        where pis.PostId == id
                         select s;
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
-
         public IEnumerable<Post> GetPopularPosts(int count)
         {
             return _context.Posts.OrderByDescending(d => d.ViewCount).Take(count).ToList();
@@ -117,7 +116,6 @@ namespace TPBlog.Data.Repositories
             post.Status = PostStatus.Published;
             _context.Posts.Update(post);
         }
-
         public async Task ReturnBack(Guid id, Guid currentUserId, string note)
         {
             var post = await _context.Posts.FindAsync(id);
@@ -159,7 +157,6 @@ namespace TPBlog.Data.Repositories
                 .OrderByDescending(x => x.DateCreated);
             return await _mapper.ProjectTo<PostActivityLogDto>(query).ToListAsync();
         }
-
         public async Task SendToApprove(Guid id, Guid currentUserId)
         {
             var post = await _context.Posts.FindAsync(id);
@@ -167,7 +164,8 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Không tồn tại bài viết");
             }
-            var user = await _context.Users.FindAsync(currentUserId.ToString());
+           //checked lại ở đây vì sao không dùng -context.Findbyit 
+            var user = await _userManager.FindByIdAsync(currentUserId.ToString());
             if (user == null)
             {
                 throw new Exception("Không tồn tại user");
@@ -181,7 +179,6 @@ namespace TPBlog.Data.Repositories
                 UserName = user.UserName,
                 Note = $"{user.UserName} gửi bài chờ duyệt"
             });
-
             post.Status = PostStatus.WaitingForApproval;
             _context.Posts.Update(post);
         }

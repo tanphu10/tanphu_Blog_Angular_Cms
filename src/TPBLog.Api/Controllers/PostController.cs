@@ -86,15 +86,24 @@ namespace TPBlog.Api.Controllers
             return Ok(post);
         }
         [HttpGet]
-        [Route("series-belong/{postId}")]
-        //[Authorize(Posts.View)]
-        public async Task<ActionResult<List<SeriesInListDto>>> GetSeriesBelong(Guid postId)
+        [Route("GetAll")]
+        public async Task<ActionResult<PostInListDto>> GetAllPost()
         {
-            var result = await _unitOfWork.BaiPost.GetAllSeries(postId);
+            var data = await _unitOfWork.BaiPost.GetAllAsync();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("series-belong/{id}")]
+        //[Authorize(Posts.View)]
+        public async Task<ActionResult<List<SeriesInListDto>>> GetSeriesBelong(Guid id)
+        {
+
+            var result = await _unitOfWork.BaiPost.GetAllSeries(id);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Posts.Delete)]
+        //[Authorize(Posts.Delete)]
         public async Task<IActionResult> DeletePosts([FromQuery] Guid[] ids)
         {
             foreach (var id in ids)
@@ -120,7 +129,7 @@ namespace TPBlog.Api.Controllers
             return Ok(result);
         }
         [HttpGet("approve/{id}")]
-        [Authorize(Posts.Approve)]
+        //[Authorize(Posts.Approve)]
         public async Task<IActionResult> ApprovePost(Guid id)
         {
             await _unitOfWork.BaiPost.Approve(id, User.GetUserId());
@@ -129,7 +138,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpGet("approval-submit/{id}")]
-        [Authorize(Posts.Edit)]
+        //[Authorize(Posts.Edit)]
         public async Task<IActionResult> SendToApprove(Guid id)
         {
             await _unitOfWork.BaiPost.SendToApprove(id, User.GetUserId());
@@ -138,7 +147,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpPost("return-back/{id}")]
-        [Authorize(Posts.Approve)]
+        //[Authorize(Posts.Approve)]
         public async Task<IActionResult> ReturnBack(Guid id, [FromBody] ReturnBackRequest model)
         {
             await _unitOfWork.BaiPost.ReturnBack(id, User.GetUserId(), model.Reason);
@@ -147,7 +156,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpGet("return-reason/{id}")]
-        [Authorize(Posts.Approve)]
+        //[Authorize(Posts.Approve)]
         public async Task<ActionResult<string>> GetReason(Guid id)
         {
             var note = await _unitOfWork.BaiPost.GetReturnReason(id);
@@ -155,7 +164,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpGet("activity-logs/{id}")]
-        [Authorize(Posts.Approve)]
+        //[Authorize(Posts.Approve)]
         public async Task<ActionResult<List<PostActivityLogDto>>> GetActivityLogs(Guid id)
         {
             var logs = await _unitOfWork.BaiPost.GetActivityLogs(id);

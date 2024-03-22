@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\tanphu2_.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\032024\\tanphu2_.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\tanphu_.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\032024\\tanphu_.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TPBlog.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.TPBlog.Api.props",
+      "PackagePath": "build\\TPBlog.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.TPBlog.Api.props",
+      "PackagePath": "buildMultiTargeting\\TPBlog.Api.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.TPBlog.Api.props",
+      "PackagePath": "buildTransitive\\TPBlog.Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TPBlog.Core.Models.content
 {
-    public interface AddPostSeriesRequest
+    public class AddPostSeriesRequest
     {
         public Guid PostId { get; set; }
         public Guid SeriesId { get; set; }
