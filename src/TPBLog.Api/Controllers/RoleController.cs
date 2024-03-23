@@ -99,7 +99,7 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet("{id}/permission")]
         //[Route("{roleid}/permission")]
-        [Authorize(Permissions.Roles.View)]
+        //[Authorize(Permissions.Roles.View)] 
         public async Task<ActionResult<PermissionDto>> GetAllRolePermission(string id)
         {
             var roleId = id;

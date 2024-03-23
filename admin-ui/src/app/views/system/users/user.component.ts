@@ -208,6 +208,7 @@ export class UserComponent implements OnInit, OnDestroy {
    
     
     assignRole(id: string) {
+        console.log("gán role",id)
         const ref = this.dialogService.open(RoleAssignComponent, {
             data: {
                 id: id,
