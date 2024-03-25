@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Domain.Royalty;
+using TPBlog.Core.SeedWorks.Constants;
 
 namespace TPBlog.Data
 {
@@ -18,6 +20,7 @@ namespace TPBlog.Data
         public DbSet<PostActivityLog> PostActivityLogs { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<PostInSeries> PostInSeries { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         //  đây là phần ghi đè 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,5 +34,22 @@ namespace TPBlog.Data
 
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
         }
+        //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        //{
+        //    var entries = ChangeTracker
+        //       .Entries()
+        //       .Where(e => e.State == EntityState.Added);
+
+        //    foreach (var entityEntry in entries)
+        //    {
+        //        var dateCreatedProp = entityEntry.Entity.GetType().GetProperty(SystemConstants.DateCreatedField);
+        //        if (entityEntry.State == EntityState.Added
+        //            && dateCreatedProp != null)
+        //        {
+        //            dateCreatedProp.SetValue(entityEntry.Entity, DateTime.Now);
+        //        }
+        //    }
+        //    return base.SaveChangesAsync(cancellationToken);
+        //}
     }
 }

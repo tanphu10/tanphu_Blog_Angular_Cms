@@ -77,5 +77,9 @@ namespace TPBlog.Data.Repositories
                 _context.PostInSeries.Remove(postInSeries);
             }
         }
+        public async Task<bool> HasPost(Guid seriesId)
+        {
+            return await _context.PostInSeries.AnyAsync(x => x.SeriesId == seriesId);
+        }
     }
 }

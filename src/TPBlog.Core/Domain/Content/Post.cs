@@ -54,6 +54,7 @@ namespace TPBlog.Core.Domain.Content
         public string AuthorUserName { get; set; }
         [MaxLength(250)]
         public string AuthorName { get; set; }
+        public DateTime? PaidDate { get; set; }
 
     }
     public enum PostStatus

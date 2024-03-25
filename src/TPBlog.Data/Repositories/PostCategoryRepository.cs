@@ -20,8 +20,6 @@ namespace TPBlog.Data.Repositories
         public PostCategoryRepository(TPBlogContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
-            
-
         }
         public async Task<PageResult<PostCategoryDto>> GetPagingPostCategoryAsync(string? keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -39,6 +37,10 @@ namespace TPBlog.Data.Repositories
                 RowCount = totalRow,
                 PageSize = pageSize
             };
+        }
+        public async Task<bool> HasPost(Guid categoryId)
+        {
+            return await _context.Posts.AnyAsync(x => x.CategoryId == categoryId);
         }
     }
 }

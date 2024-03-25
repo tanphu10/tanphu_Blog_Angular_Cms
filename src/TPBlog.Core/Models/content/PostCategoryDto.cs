@@ -7,7 +7,6 @@ namespace TPBlog.Core.Models.content
     {
 
         public Guid Id { get; set; }
-
         public required string Name { set; get; }
         public required string Slug { set; get; }
         public Guid? ParentId { set; get; }

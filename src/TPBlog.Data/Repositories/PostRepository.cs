@@ -157,6 +157,13 @@ namespace TPBlog.Data.Repositories
                 .OrderByDescending(x => x.DateCreated);
             return await _mapper.ProjectTo<PostActivityLogDto>(query).ToListAsync();
         }
+        public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
+        {
+            return await _context.Posts
+               .Where(x => x.AuthorUserId == userId && x.IsPaid == false
+                       && x.Status == PostStatus.Published)
+               .ToListAsync();
+        }
         public async Task SendToApprove(Guid id, Guid currentUserId)
         {
             var post = await _context.Posts.FindAsync(id);
@@ -164,7 +171,7 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Không tồn tại bài viết");
             }
-           //checked lại ở đây vì sao không dùng -context.Findbyit 
+            //checked lại ở đây vì sao không dùng -context.Findbyit 
             var user = await _userManager.FindByIdAsync(currentUserId.ToString());
             if (user == null)
             {
@@ -182,5 +189,6 @@ namespace TPBlog.Data.Repositories
             post.Status = PostStatus.WaitingForApproval;
             _context.Posts.Update(post);
         }
+
     }
 }

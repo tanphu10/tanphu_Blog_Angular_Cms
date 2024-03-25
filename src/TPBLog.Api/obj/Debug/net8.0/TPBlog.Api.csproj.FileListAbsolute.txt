@@ -149,3 +149,4 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\tr\Microsoft.CodeAna
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\TPBlog.Api.staticwebassets.runtime.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Dapper.dll

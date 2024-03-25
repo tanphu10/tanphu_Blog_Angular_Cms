@@ -75,12 +75,14 @@ export class RoleAssignComponent implements OnInit, OnDestroy {
       });
   }
   loadDetail(id: any) {
+    // console.log("detailrole",id)
     this.toggleBlockUI(true);
     this.userApiClient
       .getUserById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: UserDto) => {
+          // console.log("check==>>",response)
           this.seletedRoles = response.roles;
           this.availableRoles = this.availableRoles.filter(x => !this.seletedRoles.includes(x));
           this.toggleBlockUI(false);
@@ -97,6 +99,7 @@ export class RoleAssignComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
+    console.log("first",this.seletedRoles)
     this.userApiClient
       .assignRolesToUser(this.config.data.id, this.seletedRoles)
       .pipe(takeUntil(this.ngUnsubscribe))

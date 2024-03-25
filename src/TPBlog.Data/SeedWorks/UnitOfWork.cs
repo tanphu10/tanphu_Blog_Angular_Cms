@@ -14,19 +14,23 @@ namespace TPBlog.Data.SeedWorks
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TPBlogContext _context;
-        
-        public UnitOfWork(TPBlogContext context, IMapper mapper,UserManager<AppUser> userManager)
+
+        public UnitOfWork(TPBlogContext context, IMapper mapper, UserManager<AppUser> userManager)
         {
             _context = context;
             BaiPost = new PostRepository(context, mapper, userManager);
             PostCategories = new PostCategoryRepository(context, mapper);
             Tags = new TagRepositiory(context, mapper);
+            Transactions = new TransactionRepository(context, mapper);
             Series = new SeriesRepository(context, mapper);
+            Users = new UserRepository(context, mapper);
         }
         public IPostRepository BaiPost { get; private set; }
         public IPostCategoryRepository PostCategories { get; private set; }
+        public ITransactionRepository Transactions { get; private set; }
         public ISeriesRepository Series { get; private set; }
         public ITagRepository Tags { get; private set; }
+        public IUserRepository Users { get; private set; }
         public async Task<int> CompleteAsync()
         {
             return await _context.SaveChangesAsync();

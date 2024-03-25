@@ -16,7 +16,6 @@ namespace TPBlog.Core.Domain.Content
 
         [Column(TypeName = "varchar(250)")]
         public required string Slug { set; get; }
-
         public Guid? ParentId { set; get; }
         public bool IsActive { set; get; }
         public DateTime DateCreated { set; get; }

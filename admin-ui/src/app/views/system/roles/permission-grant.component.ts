@@ -45,14 +45,14 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
     }
 
     loadDetail(roleId: string) {
-        console.log("check->>> roleid",roleId)
+        // console.log("check->>> roleid",roleId)
         this.toggleBlockUI(true);
         this.roleService
             .getAllRolePermission(roleId)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: PermissionDto) => {
-                    console.log("response permission",response)
+                    // console.log("response permission",response)
                     this.permissions = response.roleClaims;
                     this.buildForm();
                     this.toggleBlockUI(false);

@@ -230,7 +230,7 @@ export class ChartSample implements AfterViewInit {
       let { datasets, labels } = { ...this.data };
       // @ts-ignore
       const before = this.chartComponent?.chart?.data.datasets.length;
-      console.log('before', before);
+      // console.log('before', before);
       // console.log('datasets, labels', datasets, labels)
       // @ts-ignore
       // this.data = data()
