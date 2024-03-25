@@ -36,7 +36,7 @@ namespace TPBlog.Api.Controllers
             {
                 return BadRequest("Đã tồn tại slug");
             }
-            var post = _mapper.Map<CreateUpdatePostRequest,Post>(request);
+            var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
             var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
             post.CategoryName = category.Name;
             post.CategorySlug = category.Slug;
@@ -72,7 +72,6 @@ namespace TPBlog.Api.Controllers
             var res = await _unitOfWork.CompleteAsync();
             return Ok();
         }
-
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<PostDto>> GetPostById(Guid id)
