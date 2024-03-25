@@ -67,7 +67,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     };
 
     loadDetail(id: any) {
-        console.log("id detail",id)
+        // console.log("id detail",id)
         this.toggleBlockUI(true);
         this.roleService
             .getRoleById(id)

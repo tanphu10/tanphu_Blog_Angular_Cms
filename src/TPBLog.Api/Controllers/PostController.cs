@@ -36,18 +36,17 @@ namespace TPBlog.Api.Controllers
             {
                 return BadRequest("Đã tồn tại slug");
             }
-            var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
+            var post = _mapper.Map<CreateUpdatePostRequest,Post>(request);
             var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
             post.CategoryName = category.Name;
             post.CategorySlug = category.Slug;
-
             var userId = User.GetUserId();
             var user = await _userManager.FindByIdAsync(userId.ToString());
             post.AuthorUserId = userId;
             post.AuthorName = user.GetFullName();
             post.AuthorUserName = user.UserName;
+            post.DateCreated = DateTime.Now;
             _unitOfWork.BaiPost.Add(post);
-
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }

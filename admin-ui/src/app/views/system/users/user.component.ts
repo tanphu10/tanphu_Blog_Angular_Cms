@@ -89,6 +89,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event: any): void {
+        this.pageIndex = event.page;
         this.pageIndex = event.page + 1;
         this.pageSize = event.rows;
         this.loadData();
@@ -102,7 +103,7 @@ export class UserComponent implements OnInit, OnDestroy {
             return;
         }
         var id = this.selectedItems[0].id;
-        console.log(id)
+        // console.log(id)
         const ref = this.dialogService.open(UserDetailComponent, {
             data: {
                 id: id,
@@ -208,7 +209,7 @@ export class UserComponent implements OnInit, OnDestroy {
    
     
     assignRole(id: string) {
-        console.log("gán role",id)
+        // console.log("gán role",id)
         const ref = this.dialogService.open(RoleAssignComponent, {
             data: {
                 id: id,

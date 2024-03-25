@@ -17,7 +17,7 @@ namespace TPBlog.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRoyaltyService _RoyaltyService;
-        public RoyaltyController(IUnitOfWork unitOfWork,IRoyaltyService royaltyService)
+        public RoyaltyController(IUnitOfWork unitOfWork, IRoyaltyService royaltyService)
         {
             _RoyaltyService = royaltyService;
             _unitOfWork = unitOfWork;

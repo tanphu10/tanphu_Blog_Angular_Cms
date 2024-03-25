@@ -43,7 +43,7 @@ export class SeriesPostsComponent implements OnInit {
 
   loadData(id: string) {
     this.toggleBlockUI(true);
-    console.log("check series id =>>",id)
+    // console.log("check series id =>>",id)
     this.seriesApiClient.getPostsInSeries(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({

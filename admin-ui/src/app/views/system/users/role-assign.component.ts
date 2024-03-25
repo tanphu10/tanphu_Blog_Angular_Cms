@@ -75,14 +75,14 @@ export class RoleAssignComponent implements OnInit, OnDestroy {
       });
   }
   loadDetail(id: any) {
-    console.log("detailrole",id)
+    // console.log("detailrole",id)
     this.toggleBlockUI(true);
     this.userApiClient
       .getUserById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: UserDto) => {
-          console.log("check==>>",response)
+          // console.log("check==>>",response)
           this.seletedRoles = response.roles;
           this.availableRoles = this.availableRoles.filter(x => !this.seletedRoles.includes(x));
           this.toggleBlockUI(false);

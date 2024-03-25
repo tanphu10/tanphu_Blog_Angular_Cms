@@ -27,26 +27,26 @@ namespace TPBlog.Data.Services
             {
                 if (conn.State == ConnectionState.Closed) await conn.OpenAsync();
                 var coreSql = @"select 
-                                datepart(month,p.DateCreated) as Month,
-                                datepart(year,p.DateCreated) as Year,
-                                sum(case when p.Status=0 then 1 else 0 end) as NumberOfDraftPosts,
-                                sum(case when p.Status=1 then 1 else 0 end) as NumberOfWaitingApprovalPosts,
-                                sum(case when p.Status=2 then 1 else 0 end) as NumberOfRejectedPosts,
-                                sum(case when p.Status=3 then 1 else 0 end) as NumberOfPublishPosts,
-                                sum(case when p.Status=3 and p.IsPaid=1 then 1  else 0 end) as NumberOfPaidPublishPosts,
-                                sum(case when p.Status=3 and p.IsPaid=1 then 1 else 0 end) as NumberOfUnpaidPublishPosts
+                                    datepart(month,p.DateCreated) as Month,
+                                    datepart(year,p.DateCreated) as Year,
+                                    sum(case when p.Status = 0 then 1 else 0 end) as NumberOfDraftPosts,
+                                    sum(case when p.Status = 1 then 1 else 0 end) as NumberOfWaitingApprovalPosts,
+                                    sum(case when p.Status = 2 then 1 else 0 end) as NumberOfRejectedPosts,
+                                    sum(case when p.Status = 3 then 1 else 0 end) as NumberOfPublishPosts,
+                                    sum(case when p.Status = 3 and p.IsPaid = 1 then 1 else 0 end) as NumberOfPaidPublishPosts,
+                                    sum(case when p.Status = 3 and p.IsPaid = 0 then 1 else 0 end) as NumberOfUnpaidPublishPosts
                                 from Posts p
-                                group by
-                                   datepart(month,p.DateCreated),
-                                   datepart(year,p.Datecreated),
-                                   p.AuthorUserId
-                                having
-                                (@fromMonth =0 or datepart(month, p.DateCreated)>= @fromMonth)
-                                and (@fromYear =0 or datepart(year, p.DateCreated)>= @fromYear)
-                                and (@toMonth =0 or datepart(year, p.DateCreated)<= @toMonth)
-                                and (@toYear =0 or datepart(year, p.DateCreated)<= @toYear)
-                                and (@userId is null or p.AuthorUserId=@userId )
-                                ";
+                                group by 
+                                    datepart(month,p.DateCreated),
+                                    datepart(year,p.DateCreated),
+	                                p.AuthorUserId
+                                having 
+                                    (@fromMonth = 0 or datepart(month,p.DateCreated) >= @fromMonth) 
+                                    and (@fromYear = 0 or datepart(year,p.DateCreated) >= @fromYear)
+                                    and (@fromYear = 0 or datepart(month,p.DateCreated) <= @toMonth)
+                                    and (@toYear = 0 or datepart(year,p.DateCreated) <= @toYear)
+                                    and (@userId is null or p.AuthorUserId = @userId)";
+
                 var items = await conn.QueryAsync<RoyaltyReportByMonthDto>(coreSql, new
                 {
                     fromMonth,

@@ -80,14 +80,14 @@ export class PostSeriesComponent implements OnInit, OnDestroy {
       });
   }
   loadSeries(id: string) {
-    console.log("get series id post",id)
+    // console.log("get series id post",id)
 
     this.postApiClient
       .getSeriesBelong(id) 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: SeriesInListDto[]) => {
-          console.log("response",response)
+          // console.log("response",response)
           this.postSeries = response;
           this.toggleBlockUI(false);
         },
@@ -99,7 +99,7 @@ export class PostSeriesComponent implements OnInit, OnDestroy {
   }
 
   removeSeries(id: string) {
-    console.log("remove id series",id)
+    // console.log("remove id series",id)
     var body: AddPostSeriesRequest = new AddPostSeriesRequest({
       postId: this.config.data.id,
       seriesId: id

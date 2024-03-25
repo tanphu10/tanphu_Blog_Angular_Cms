@@ -5,7 +5,14 @@ import { Subject, takeUntil } from 'rxjs';
 import { MessageConstants } from 'src/app/shared/constants/message.constant';
 import { PostDetailComponent } from './post-detail.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { AdminApiPostApiClient, AdminApiPostCategoryApiClient, PostCategoryDto, PostDto, PostInListDto, PostInListDtoPageResult } from 'src/app/api/admin-api.service.generated';
+import {
+  AdminApiPostApiClient,
+  AdminApiPostCategoryApiClient,
+  PostCategoryDto,
+  PostDto,
+  PostInListDto,
+  PostInListDtoPageResult,
+} from 'src/app/api/admin-api.service.generated';
 import { PostSeriesComponent } from 'src/app/views/content/posts/post-series.component';
 import { PostReturnReasonComponent } from 'src/app/views/content/posts/post-return-reason.component';
 import { PostActivityLogsComponent } from 'src/app/views/content/posts/post-activity-logs.component';
@@ -16,7 +23,6 @@ import { PostActivityLogsComponent } from 'src/app/views/content/posts/post-acti
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit, OnDestroy {
-
   //System variables
   private ngUnsubscribe = new Subject<void>();
   public blockedPanel: boolean = false;
@@ -34,13 +40,13 @@ export class PostComponent implements OnInit, OnDestroy {
   public categoryId?: string = null;
   public postCategories: any[] = [];
 
-
   constructor(
     private postCategoryApiClient: AdminApiPostCategoryApiClient,
     private postApiClient: AdminApiPostApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -54,7 +60,13 @@ export class PostComponent implements OnInit, OnDestroy {
 
   loadData(selectionId = null) {
     this.toggleBlockUI(true);
-    this.postApiClient.getPostsPaging(this.keyword, this.categoryId, this.pageIndex, this.pageSize)
+    this.postApiClient
+      .getPostsPaging(
+        this.keyword,
+        this.categoryId,
+        this.pageIndex,
+        this.pageSize
+      )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: PostInListDtoPageResult) => {
@@ -64,18 +76,19 @@ export class PostComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.toggleBlockUI(false);
-        }
+        },
       });
   }
 
   loadPostCategories() {
-    this.postCategoryApiClient.getPostCategories()
+    this.postCategoryApiClient
+      .getPostCategories()
       .subscribe((response: PostCategoryDto[]) => {
-        response.forEach(element => {
+        response.forEach((element) => {
           this.postCategories.push({
             value: element.id,
-            label: element.name
-          })
+            label: element.name,
+          });
         });
       });
   }
@@ -83,7 +96,7 @@ export class PostComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(PostDetailComponent, {
       header: 'Thêm mới bài viết',
-      width: '70%'
+      width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
@@ -100,6 +113,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   pageChanged(event: any): void {
     this.pageIndex = event.page;
+    this.pageIndex = event.page + 1;
     this.pageSize = event.rows;
     this.loadData();
   }
@@ -112,10 +126,10 @@ export class PostComponent implements OnInit, OnDestroy {
     var id = this.selectedItems[0].id;
     const ref = this.dialogService.open(PostDetailComponent, {
       data: {
-        id: id
+        id: id,
       },
       header: 'Cập nhật bài viết',
-      width: '70%'
+      width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
@@ -136,14 +150,14 @@ export class PostComponent implements OnInit, OnDestroy {
       return;
     }
     var ids = [];
-    this.selectedItems.forEach(element => {
+    this.selectedItems.forEach((element) => {
       ids.push(element.id);
     });
     this.confirmationService.confirm({
       message: MessageConstants.CONFIRM_DELETE_MSG,
       accept: () => {
         this.deleteItemsConfirm(ids);
-      }
+      },
     });
   }
 
@@ -158,16 +172,16 @@ export class PostComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.toggleBlockUI(false);
-      }
+      },
     });
   }
   addToSeries(id: string) {
     const ref = this.dialogService.open(PostSeriesComponent, {
       data: {
-        id: id
+        id: id,
       },
       header: 'Thêm vào loạt bài',
-      width: '70%'
+      width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
@@ -192,7 +206,7 @@ export class PostComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.toggleBlockUI(false);
-      }
+      },
     });
   }
 
@@ -200,7 +214,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.postApiClient.sendToApprove(id).subscribe({
       next: () => {
-        console.log("check send approve",id)
+        // console.log("check send approve",id)
         this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
         this.loadData();
         this.selectedItems = [];
@@ -208,17 +222,17 @@ export class PostComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.toggleBlockUI(false);
-      }
+      },
     });
   }
 
   reject(id: string) {
     const ref = this.dialogService.open(PostReturnReasonComponent, {
       data: {
-        id: id
+        id: id,
       },
       header: 'Trả lại bài',
-      width: '70%'
+      width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
@@ -236,10 +250,10 @@ export class PostComponent implements OnInit, OnDestroy {
   showLogs(id: string) {
     const ref = this.dialogService.open(PostActivityLogsComponent, {
       data: {
-        id: id
+        id: id,
       },
       header: 'Xem lịch sử',
-      width: '70%'
+      width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
@@ -256,12 +270,10 @@ export class PostComponent implements OnInit, OnDestroy {
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;
-    }
-    else {
+    } else {
       setTimeout(() => {
         this.blockedPanel = false;
       }, 1000);
     }
-
   }
 }

@@ -65,6 +65,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
   pageChanged(event: any): void {
     this.pageIndex = event.page;
+    this.pageIndex = event.page + 1;
     this.pageSize = event.rows;
     this.loadData();
   }
@@ -79,7 +80,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     }
   }
   showPermissionModal(id: string, name: string) {
-    console.log("id",id)
+    // console.log("id",id)
     const ref = this.dialogService.open(PermissionGrantComponent, {
       data: {
           id: id,
@@ -107,7 +108,7 @@ export class RoleComponent implements OnInit, OnDestroy {
       return;
     }
     var id = this.selectedItems[0].id;
-    console.log('id ', id);
+    // console.log('id ', id);
     const ref = this.dialogService.open(RoleDetailComponent, {
       data: {
         id: id,

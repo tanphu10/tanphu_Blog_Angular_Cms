@@ -60,6 +60,10 @@ namespace TPBlog.Api.Controllers
                 {
                     return NotFound();
                 }
+                if (await _unitOfWork.PostCategories.HasPost(id))
+                {
+                    return BadRequest("Danh mục đang chứa bài viết, không thể xóa");
+                }
                 _unitOfWork.PostCategories.Remove(post);
             }
             var result = await _unitOfWork.CompleteAsync();

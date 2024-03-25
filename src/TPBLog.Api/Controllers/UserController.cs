@@ -15,6 +15,7 @@ using TPBlog.Api.Extensions;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.system;
+using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Api.Controllers
 {
@@ -24,10 +25,12 @@ namespace TPBlog.Api.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public UserController(IMapper mapper, UserManager<AppUser> userManager)
+        private readonly IUnitOfWork _unitOfWork;
+        public UserController(IMapper mapper, UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -78,7 +81,9 @@ namespace TPBlog.Api.Controllers
             {
                 return BadRequest();
             }
+            //AppUser.DateCreated = DateTime.Now; 
             var user = _mapper.Map<CreateUserRequest, AppUser>(request);
+            user.DateCreated = DateTime.Now;
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
@@ -96,6 +101,7 @@ namespace TPBlog.Api.Controllers
                 return NotFound();
             }
             _mapper.Map(request, user);
+            user.Dob = DateTime.Now;
             var res = await _userManager.UpdateAsync(user);
             if (res.Succeeded)
             {
@@ -173,15 +179,13 @@ namespace TPBlog.Api.Controllers
                 return NotFound();
             }
             var currentRoles = await _userManager.GetRolesAsync(user);
-            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _unitOfWork.Users.RemoveUserFromRoles(user.Id, currentRoles.ToArray());
             var addResult = await _userManager.AddToRolesAsync(user, roles);
-            if (!addResult.Succeeded || !removeResult.Succeeded)
+            if (!addResult.Succeeded)
             {
                 List<IdentityError> addedErrorList = addResult.Errors.ToList();
-                List<IdentityError> removeErrorList = addResult.Errors.ToList();
                 var errorList = new List<IdentityError>();
                 errorList.AddRange(addedErrorList);
-                errorList.AddRange(removeErrorList);
                 return BadRequest(string.Join("<br>", errorList.Select(x => x.Description)));
             }
             return Ok();
