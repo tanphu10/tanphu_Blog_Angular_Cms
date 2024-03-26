@@ -42,5 +42,11 @@ namespace TPBlog.Data.Repositories
         {
             return await _context.Posts.AnyAsync(x => x.CategoryId == categoryId);
         }
+        public async Task<PostCategoryDto> GetBySlug(string Slug)
+        {
+            var query = await _context.PostCategories.FirstOrDefaultAsync(x => x.Slug == Slug);
+            if (query == null) { throw new Exception($" not found{Slug}"); }    
+            return _mapper.Map<PostCategoryDto>(query);
+        }
     }
 }

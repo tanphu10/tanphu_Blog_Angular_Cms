@@ -1,0 +1,34 @@
+﻿@model PostDetailViewModel
+@{
+    ViewData["Title"] = Model.Posts.Name;
+    ViewData["Description"] = Model.Posts.SeoDescription;
+}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>detail tan phu</h1>
+                    <h1>@Model.Posts.Name</h1>
+                    <h2 class="subheading">@Model.Posts.Description</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="@string.Format(UrlConsts.Author,Model.Posts.AuthorUserName)">@Model.Posts.AuthorName</a>
+                        on @Model.Posts.DateCreated.ToLongTimeString()
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+              @Html.Raw(Model.Posts.Content)
+            </div>
+        </div>
+    </div>
+</article>

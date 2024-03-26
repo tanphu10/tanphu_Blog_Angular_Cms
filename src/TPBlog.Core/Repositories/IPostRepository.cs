@@ -17,5 +17,8 @@ namespace TPBlog.Core.Repositories
         Task<bool> HasPublishInLast(Guid id);
         Task<List<PostActivityLogDto>> GetActivityLogs(Guid id);
         Task<List<Post>> GetListUnpaidPublishPosts(Guid userId);
+        Task<List<PostInListDto>> GetLatestPublishPost(int top);
+        Task<PageResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
+        Task<PostDto> GetBySlug(string slug);
     }
 }
