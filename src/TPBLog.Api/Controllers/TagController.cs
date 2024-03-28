@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models.content;
 using TPBlog.Data.SeedWorks;
+using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Controllers
 {
@@ -30,16 +33,20 @@ namespace TPBlog.Api.Controllers
             return res > 0 ? Ok() : BadRequest();
         }
         [HttpGet]
+        //[Authorize(Posts.)]
+
         public async Task<ActionResult<TagDto>> GetAllTagsAsync()
         {
             var data = await _unitOfWork.Tags.GetAllAsync();
             return Ok(data);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TagDto>> GetTagById(Guid id
+        [HttpGet("/detail/{tagid}")]
+        public async Task<ActionResult<TagDto>> GetTagById(Guid tagid
             )
         {
-            var data = await _unitOfWork.Tags.GetByIdAsync(id);
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            var data = await _unitOfWork.Tags.GetByIdAsync(tagid);
             if (data == null)
             {
                 return NotFound();

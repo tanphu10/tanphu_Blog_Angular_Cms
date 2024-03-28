@@ -28,21 +28,30 @@ namespace TPBlog.WebApp.Controllers
                 Category = category
             }); ;
         }
-        [Route("tag/{tagSlug}")]
-        public IActionResult ListByTag([FromRoute] string tagLug, [FromQuery] int? page = 1)
-        {
 
-            return View();
+        //vì sao ở đây dùng id là tagSlug lại không được 
+        [Route("tag/{slug}")]
+        public async Task<IActionResult> ListByTag([FromRoute] string slug, [FromQuery] int page = 1)
+        {
+            var posts = await _unitOfWork.BaiPost.GetPostByTagPaging(slug, page);
+            var tag = await _unitOfWork.Tags.GetBySlug(slug);
+            return View(new PostListByTagViewModel()
+            {
+                Posts = posts,
+                Tag = tag
+            }); ;
         }
         [Route("posts/detail/{slug}")]
         public async Task<IActionResult> Details(string slug)
         {
             var posts = await _unitOfWork.BaiPost.GetBySlug(slug);
             var category = await _unitOfWork.PostCategories.GetBySlug(posts.CategorySlug);
+            var tags = await _unitOfWork.BaiPost.GetTagsObjectsByPostId(posts.Id);
             return View(new PostDetailViewModel()
             {
                 Posts = posts,
-                Category = category
+                Category = category,
+                Tags=tags
             });
         }
     }

@@ -18,6 +18,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -32,6 +40,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Post/ListByCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxMaXN0QnlDYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Post/ListByTag.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxMaXN0QnlUYWcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Series/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VyaWVzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Series/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VyaWVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Shared/Components/Navigation/Default.cshtml]

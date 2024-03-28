@@ -37,7 +37,7 @@ namespace TPBlog.Api.Controllers
             {
                 return BadRequest("Invalid request");
             }
-            //ở đây thì nếu giả sử như UserName nó có thể trùng dữ liệu rồi thì như thế nào 
+            //ở đây thì nếu giả sử như UserName nó có thể trùng dữ liệu rồi thì như thế nào nó đã check khi tạo ra rồi
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null || user.IsActive == false || user.LockoutEnabled)
             {
@@ -65,10 +65,7 @@ namespace TPBlog.Api.Controllers
                 new Claim(UserClaims.Permissions,JsonSerializer.Serialize(permission)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-
-
-            var accessToken = _tokenService.GenerateAccessToken(claims)
-                ;
+            var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = refreshToken;
             user.RefreshTOkenExpiryTime = DateTime.Now.AddDays(30);

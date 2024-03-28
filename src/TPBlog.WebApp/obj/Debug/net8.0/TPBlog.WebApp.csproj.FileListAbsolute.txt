@@ -83,3 +83,5 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\TPBlog.Data.pdb
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\obj\Debug\net8.0\TPBlog.WebApp.csproj.AssemblyReference.cache
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\obj\Debug\net8.0\TPBlog.WebApp.csproj.CopyComplete
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\appsettings.Production.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MediatR.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MediatR.Contracts.dll

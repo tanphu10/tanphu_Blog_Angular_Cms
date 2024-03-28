@@ -15,6 +15,8 @@ namespace TPBlog.Core.SeedWorks.Contants
         public static string PostByCategorySlug = "/posts/{0}";
         public static string PostDetails = "/posts/detail/{0}";
         public static string PostByTagSlug = "/tag/{0}";
+        public static string Series = "/series";
+        public static string SeriesDetails = "/series/detail/{0}";
         public static string Login = "/login";
         public static string Register = "/register";
         public static string Profile = "/profile";

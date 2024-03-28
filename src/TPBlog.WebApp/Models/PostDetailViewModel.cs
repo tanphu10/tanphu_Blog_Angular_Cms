@@ -6,6 +6,6 @@ namespace TPBlog.WebApp.Models
     {
         public PostDto Posts { get; set; }
         public PostCategoryDto Category { get; set; }
-
+        public List<TagDto> Tags { get; set ; }
     }
 }

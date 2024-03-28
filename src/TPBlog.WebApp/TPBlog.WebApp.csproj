@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TPBlog.Core\TPBlog.Core.csproj" />
     <ProjectReference Include="..\TPBlog.Data\TPBlog.Data.csproj" />
   </ItemGroup>

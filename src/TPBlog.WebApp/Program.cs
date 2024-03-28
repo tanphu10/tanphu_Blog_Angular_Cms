@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.ConfigureOptions;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Events.LoginSuccessed;
 using TPBlog.Core.Models.content;
 using TPBlog.Data;
 using TPBlog.Data.Repositories;
@@ -22,6 +23,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
 
 builder.Services.AddDbContext<TPBlogContext>(opions => opions.UseSqlServer(connectionString));
+
+#region Configure Identity
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<TPBlogContext>().AddDefaultTokenProviders();
 
@@ -44,7 +47,17 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
+builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
+#endregion
+//Auto mapper
+builder.Services.AddAutoMapper(typeof(PostInListDto));
+builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(typeof(LoginSuccessedEvent).Assembly));
+
+
+#region Configure Services
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -64,14 +77,11 @@ foreach (var service in services)
     }
 }
 
-//Auto mapper
-builder.Services.AddAutoMapper(typeof(PostInListDto));
+#endregion
 
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 
-builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 //start pipe line
 var app = builder.Build();
 

@@ -818,6 +818,125 @@ export class AdminApiPostApiClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @return Success
+     */
+    getAllTags(): Observable<string[]> {
+        let url_ = this.baseUrl + "/api/admin/post/tags";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllTags(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllTags(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string[]>;
+        }));
+    }
+
+    protected processGetAllTags(response: HttpResponseBase): Observable<string[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getPostTags(id: string): Observable<string[]> {
+        let url_ = this.baseUrl + "/api/admin/post/tags/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPostTags(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPostTags(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string[]>;
+        }));
+    }
+
+    protected processGetPostTags(response: HttpResponseBase): Observable<string[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable()
@@ -1883,6 +2002,7 @@ export class AdminApiRoyaltyApiClient {
      * @return Success
      */
     payRoyalty(userId: string): Observable<void> {
+        console.log("admin userId =>>>",userId)
         let url_ = this.baseUrl + "/api/admin/royalty/{userid}";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
@@ -3638,7 +3758,7 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
     categoryId?: string;
     content?: string | undefined;
     source?: string | undefined;
-    tags?: string | undefined;
+    tags?: string[] | undefined;
     seoDescription?: string | undefined;
 
     constructor(data?: ICreateUpdatePostRequest) {
@@ -3659,7 +3779,11 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
             this.categoryId = _data["categoryId"];
             this.content = _data["content"];
             this.source = _data["source"];
-            this.tags = _data["tags"];
+            if (Array.isArray(_data["tags"])) {
+                this.tags = [] as any;
+                for (let item of _data["tags"])
+                    this.tags!.push(item);
+            }
             this.seoDescription = _data["seoDescription"];
         }
     }
@@ -3680,7 +3804,11 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
         data["categoryId"] = this.categoryId;
         data["content"] = this.content;
         data["source"] = this.source;
-        data["tags"] = this.tags;
+        if (Array.isArray(this.tags)) {
+            data["tags"] = [];
+            for (let item of this.tags)
+                data["tags"].push(item);
+        }
         data["seoDescription"] = this.seoDescription;
         return data;
     }
@@ -3694,7 +3822,7 @@ export interface ICreateUpdatePostRequest {
     categoryId?: string;
     content?: string | undefined;
     source?: string | undefined;
-    tags?: string | undefined;
+    tags?: string[] | undefined;
     seoDescription?: string | undefined;
 }
 
@@ -4092,8 +4220,12 @@ export interface IPostCategoryDto {
 
 export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: PostCategoryDto[] | undefined;
 
     constructor(data?: IPostCategoryDtoPageResult) {
@@ -4108,8 +4240,12 @@ export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -4128,8 +4264,12 @@ export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -4141,8 +4281,12 @@ export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
 
 export interface IPostCategoryDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: PostCategoryDto[] | undefined;
 }
 
@@ -4360,8 +4504,12 @@ export interface IPostInListDto {
 
 export class PostInListDtoPageResult implements IPostInListDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: PostInListDto[] | undefined;
 
     constructor(data?: IPostInListDtoPageResult) {
@@ -4376,8 +4524,12 @@ export class PostInListDtoPageResult implements IPostInListDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -4396,8 +4548,12 @@ export class PostInListDtoPageResult implements IPostInListDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -4409,8 +4565,12 @@ export class PostInListDtoPageResult implements IPostInListDtoPageResult {
 
 export interface IPostInListDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: PostInListDto[] | undefined;
 }
 
@@ -4551,8 +4711,12 @@ export interface IRoleDto {
 
 export class RoleDtoPageResult implements IRoleDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: RoleDto[] | undefined;
 
     constructor(data?: IRoleDtoPageResult) {
@@ -4567,8 +4731,12 @@ export class RoleDtoPageResult implements IRoleDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -4587,8 +4755,12 @@ export class RoleDtoPageResult implements IRoleDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -4600,8 +4772,12 @@ export class RoleDtoPageResult implements IRoleDtoPageResult {
 
 export interface IRoleDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: RoleDto[] | undefined;
 }
 
@@ -4875,8 +5051,12 @@ export interface ISeriesInListDto {
 
 export class SeriesInListDtoPageResult implements ISeriesInListDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: SeriesInListDto[] | undefined;
 
     constructor(data?: ISeriesInListDtoPageResult) {
@@ -4891,8 +5071,12 @@ export class SeriesInListDtoPageResult implements ISeriesInListDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -4911,8 +5095,12 @@ export class SeriesInListDtoPageResult implements ISeriesInListDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -4924,8 +5112,12 @@ export class SeriesInListDtoPageResult implements ISeriesInListDtoPageResult {
 
 export interface ISeriesInListDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: SeriesInListDto[] | undefined;
 }
 
@@ -4968,6 +5160,7 @@ export interface ISetPasswordRequest {
 export class TagDto implements ITagDto {
     id?: string;
     name?: string | undefined;
+    slug?: string | undefined;
 
     constructor(data?: ITagDto) {
         if (data) {
@@ -4982,6 +5175,7 @@ export class TagDto implements ITagDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            this.slug = _data["slug"];
         }
     }
 
@@ -4996,6 +5190,7 @@ export class TagDto implements ITagDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        data["slug"] = this.slug;
         return data;
     }
 }
@@ -5003,6 +5198,7 @@ export class TagDto implements ITagDto {
 export interface ITagDto {
     id?: string;
     name?: string | undefined;
+    slug?: string | undefined;
 }
 
 export class TokenRequest implements ITokenRequest {
@@ -5111,8 +5307,12 @@ export interface ITransactionDto {
 
 export class TransactionDtoPageResult implements ITransactionDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: TransactionDto[] | undefined;
 
     constructor(data?: ITransactionDtoPageResult) {
@@ -5127,8 +5327,12 @@ export class TransactionDtoPageResult implements ITransactionDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -5147,8 +5351,12 @@ export class TransactionDtoPageResult implements ITransactionDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -5160,8 +5368,12 @@ export class TransactionDtoPageResult implements ITransactionDtoPageResult {
 
 export interface ITransactionDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: TransactionDto[] | undefined;
 }
 
@@ -5335,8 +5547,12 @@ export interface IUserDto {
 
 export class UserDtoPageResult implements IUserDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: UserDto[] | undefined;
 
     constructor(data?: IUserDtoPageResult) {
@@ -5351,8 +5567,12 @@ export class UserDtoPageResult implements IUserDtoPageResult {
     init(_data?: any) {
         if (_data) {
             this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
             this.pageSize = _data["pageSize"];
             this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -5371,8 +5591,12 @@ export class UserDtoPageResult implements IUserDtoPageResult {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
         data["pageSize"] = this.pageSize;
         data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
         if (Array.isArray(this.results)) {
             data["results"] = [];
             for (let item of this.results)
@@ -5384,8 +5608,12 @@ export class UserDtoPageResult implements IUserDtoPageResult {
 
 export interface IUserDtoPageResult {
     currentPage?: number;
+    pageCount?: number;
     pageSize?: number;
     rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: string | undefined;
     results?: UserDto[] | undefined;
 }
 
