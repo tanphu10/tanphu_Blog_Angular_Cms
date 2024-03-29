@@ -8,6 +8,7 @@ using TPBlog.Data;
 using TPBlog.Data.Repositories;
 using TPBlog.Data.SeedWorks;
 using TPBlog.WebApp.Helpers;
+using TPBlog.WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddControllersWithViews();
 
 //custom setup
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
+
 
 builder.Services.AddDbContext<TPBlogContext>(opions => opions.UseSqlServer(connectionString));
 
@@ -61,6 +65,7 @@ builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(typeof(LoginSu
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()

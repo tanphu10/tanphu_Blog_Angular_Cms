@@ -85,3 +85,7 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\obj\Debug\net8.0\TPBlog.WebApp.csp
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\appsettings.Production.json
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MediatR.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MediatR.Contracts.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Handlebars.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MailKit.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\MimeKit.dll

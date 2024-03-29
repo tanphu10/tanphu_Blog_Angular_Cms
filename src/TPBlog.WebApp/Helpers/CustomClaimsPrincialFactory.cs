@@ -10,10 +10,10 @@ namespace TPBlog.WebApp.Helpers
     UserClaimsPrincipalFactory<AppUser, AppRole>
     {
         public CustomClaimsPrincipalFactory(
-    UserManager<AppUser> userManager,
-    RoleManager<AppRole> roleManager,
-    IOptions<IdentityOptions> optionsAccessor) :
-       base(userManager, roleManager, optionsAccessor)
+        UserManager<AppUser> userManager,
+        RoleManager<AppRole> roleManager,
+        IOptions<IdentityOptions> optionsAccessor) :
+        base(userManager, roleManager, optionsAccessor)
         {
         }
 

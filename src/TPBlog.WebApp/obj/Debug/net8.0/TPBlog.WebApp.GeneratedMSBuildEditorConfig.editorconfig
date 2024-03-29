@@ -18,12 +18,20 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Auth/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Home/Index.cshtml]
@@ -44,6 +52,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Post/ListByTag.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxMaXN0QnlUYWcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/ChangeProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Series/Details.cshtml]
