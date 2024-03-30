@@ -286,5 +286,31 @@ namespace TPBlog.Data.Repositories
             var totalRow = await query.CountAsync();
             return await _mapper.ProjectTo<TagDto>(query).ToListAsync();
         }
+
+        public async Task<PageResult<PostInListDto>> GetPostByUserPaging(string keyword, Guid userId, int pageIndex = 1, int pageSize = 10)
+        {
+
+
+            var query = _context.Posts.Where(x => x.AuthorUserId == userId).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(x => x.Name.Contains(keyword));
+            }
+
+
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize);
+
+            return new PageResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize
+            };
+        }
     }
 }

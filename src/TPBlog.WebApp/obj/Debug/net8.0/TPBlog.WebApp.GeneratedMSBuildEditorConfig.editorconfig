@@ -62,8 +62,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDaGFuZ2VQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/CreatePost.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxDcmVhdGVQb3N0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Profile/ListPosts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxMaXN0UG9zdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/05_ASP.Net/02_CMS/TPBlog/src/TPBlog.WebApp/Views/Series/Details.cshtml]

@@ -1,0 +1,69 @@
+﻿@using TPBlog.Core.SeedWorks.Constants
+@{
+    ViewData["Title"] = "create new post";
+    ViewData["Description"] = "create new post";
+
+}
+@model CreatePostViewModel
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>change profile</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <form asp-action="CreatePost" asp-controller="Profile" method="post" enctype="multipart/form-data" class="row g-12">
+                <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                @if (TempData[SystemConstants.FormSuccessMsg] != null)
+                {
+                    <div class="alert alert-success">@TempData[SystemConstants.FormSuccessMsg]</div>
+
+                }
+                <div class="col-md-12">
+                    <label for="firstName" class="form-label">Title</label>
+                    <input type="text" class="form-control" asp-for="Title" id="Title" required>
+                    <span class="invalid-feedback" asp-validation-for="Title"></span>
+                </div>
+                <div class="col-md-12">
+                    <label for="firstName" class="form-label">Description</label>
+                    <input type="text" class="form-control" asp-for="Description" id="Description" required>
+                    <span class="invalid-feedback" asp-validation-for="Description"></span>
+                </div>
+                <div class="col-md-12 my-2">
+                    <label for="lastName" class="form-label">Category</label>
+                    <select asp-for="CategoryId" asp-items="Model.Categories">
+                        <option>Please select category </option>
+                    </select>
+                    <span class="invalid-feedback" asp-validation-for="CategoryId"></span>
+                </div>
+                <div class="col-md-12">
+                    <label for="lastName" class="form-label">Thumbnail</label>
+                    <input type="file" class="form-control" name="thumbnail" id="thumbnail" required>
+                    <input type="hidden" asp-for="ThumbnailImage" />
+                </div>
+                <div class="col-md-12">
+                    <label for="firstName" class="form-label">SEO Description</label>
+                    <textarea class="form-control" asp-for="SeoDescription" id="SeoDescription" rows="5"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <label for="firstName" class="form-label">Content</label>
+                    <textarea class="form-control" asp-for="Content" id="txtContent"></textarea>
+                </div>
+                 
+                <div class="col-12 my-2">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+                <a href="@UrlConsts.PostListByUser">back to list</a>
+            </form>
+        </div>
+    </div>
+</div>

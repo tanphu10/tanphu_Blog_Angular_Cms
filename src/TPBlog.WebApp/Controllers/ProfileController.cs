@@ -2,12 +2,20 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
+using System.Net;
+using System.Text.Json;
+using TPBlog.Core.ConfigureOptions;
+using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.SeedWorks.Constants;
 using TPBlog.Core.SeedWorks.Contants;
 using TPBlog.Data.SeedWorks;
 using TPBlog.WebApp.Extensions;
 using TPBlog.WebApp.Models;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace TPBlog.WebApp.Controllers
 {
@@ -17,13 +25,14 @@ namespace TPBlog.WebApp.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SystemConfig _config;
 
-
-        public ProfileController(IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public ProfileController(IUnitOfWork unitOfWork, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IOptions<SystemConfig> config)
         {
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _userManager = userManager;
+            _config = config.Value;
         }
         [Route("/profile")]
         public async Task<IActionResult> Index()
@@ -38,7 +47,7 @@ namespace TPBlog.WebApp.Controllers
         }
         [HttpGet]
         [Route("/profile/edit")]
-        public async  Task<IActionResult> ChangeProfile()
+        public async Task<IActionResult> ChangeProfile()
         {
             var user = await GetCurrentUser();
 
@@ -46,7 +55,7 @@ namespace TPBlog.WebApp.Controllers
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName
-            }) ;
+            });
         }
         [HttpPost]
         [Route("/profile/edit")]
@@ -123,5 +132,113 @@ namespace TPBlog.WebApp.Controllers
             var userId = User.GetUserId();
             return await _unitOfWork.Users.GetByIdAsync(userId);
         }
+
+        [HttpGet]
+        [Route("/profile/posts/create")]
+        public async Task<IActionResult> CreatePost()
+        {
+            return View(await SetCreatePostModel());
+        }
+
+        [Route("/profile/posts/create")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePost([FromForm] CreatePostViewModel model, IFormFile thumbnail)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(await SetCreatePostModel());
+            }
+            var user = await GetCurrentUser();
+            var category = await _unitOfWork.PostCategories.GetByIdAsync(model.CategoryId);
+            var post = new Post()
+            {
+                Name = model.Title,
+                CategoryName = category.Name,
+                CategorySlug = category.Slug,
+                Slug = TextHelper.ToUnsignedString(model.Title),
+                CategoryId = model.CategoryId,
+                Content = model.Content,
+                SeoDescription = model.SeoDescription,
+                Status = PostStatus.Draft,
+                AuthorUserId = user.Id,
+                AuthorName = user.GetFullName(),
+                AuthorUserName = user.UserName,
+                Description = model.Description
+            };
+            _unitOfWork.BaiPost.Add(post);
+            if (thumbnail != null)
+            {
+                await UploadThumbnail(thumbnail, post);
+            }
+            int result = await _unitOfWork.CompleteAsync();
+            if (result > 0)
+            {
+                TempData[SystemConstants.FormSuccessMsg] = "Post is created successful.";
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Create post failed");
+
+            }
+            return View(model);
+
+        }
+
+        private async Task UploadThumbnail(IFormFile thumbnail, Post post)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_config.BackendApiUrl);
+
+                byte[] data;
+                using (var br = new BinaryReader(thumbnail.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)thumbnail.OpenReadStream().Length);
+                }
+
+                var bytes = new ByteArrayContent(data);
+
+                var multiContent = new MultipartFormDataContent
+                {
+                    { bytes, "file", thumbnail.FileName }
+                };
+
+                var uploadResult = await client.PostAsync("api/admin/media?type=posts", multiContent);
+                if (uploadResult.StatusCode != HttpStatusCode.OK)
+                {
+                    ModelState.AddModelError("", await uploadResult.Content.ReadAsStringAsync());
+                }
+                else
+                {
+                    var path = await uploadResult.Content.ReadAsStringAsync();
+                    var pathObj = JsonSerializer.Deserialize<UploadResponse>(path);
+                    post.Thumbnail = pathObj?.Path;
+                }
+
+            }
+        }
+
+        private async Task<CreatePostViewModel> SetCreatePostModel()
+        {
+            var model = new CreatePostViewModel()
+            {
+                Title = "Untitled",
+                Categories = new SelectList(await _unitOfWork.PostCategories.GetAllAsync(), "Id", "Name")
+            };
+            return model;
+        }
+
+        [HttpGet]
+        [Route("/profile/posts/list")]
+        public async Task<IActionResult> ListPosts(string keyword, int page = 1)
+        {
+            var posts = await _unitOfWork.BaiPost.GetPostByUserPaging(keyword, User.GetUserId(), page, 12);
+            return View(new ListPostByUserViewModel()
+            {
+                Posts = posts
+            });
+        }
+
     }
 }
