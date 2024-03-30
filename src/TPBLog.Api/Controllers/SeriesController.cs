@@ -120,7 +120,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Permissions.Series.View)]
+        [Authorize(Permissions.Series.View)]
         public async Task<ActionResult<List<SeriesInListDto>>> GetAllSeries()
         {
             var result = await _unitOfWork.Series.GetAllAsync();

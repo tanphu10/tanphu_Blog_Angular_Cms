@@ -16,6 +16,8 @@ namespace TPBlog.Core.Repositories
         Task AddPostToSeries(Guid seriesId, Guid postId, int sortOrder);
         Task RemovePostToSeries(Guid seriesId, Guid postId);
         Task<List<PostInListDto>> GetAllPostsInSeries(Guid seriesId);
+        Task<PageResult<PostInListDto>> GetPostsInSeriesPaging(string slug, int pageIndex = 1, int pageSize = 10);
+        Task<SeriesDto> GetBySlug(string slug);
         Task<bool> IsPostInSeries(Guid seriesId, Guid postId);
         Task<bool> HasPost(Guid seriesId);
     }

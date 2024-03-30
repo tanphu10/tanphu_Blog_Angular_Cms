@@ -4,14 +4,14 @@
     "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj": {}
   },
   "projects": {
-    "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj": {
+    "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj",
-        "projectName": "TPBlog.WebApp",
-        "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj",
+        "projectUniqueName": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj",
+        "projectName": "TPBlog.Core",
+        "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj",
         "packagesPath": "C:\\Users\\T14\\.nuget\\packages\\",
-        "outputPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\obj\\",
+        "outputPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\T14\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,189 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\TPBlog.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\TPBlog.Data.csproj",
+        "projectName": "TPBlog.Data",
+        "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\TPBlog.Data.csproj",
+        "packagesPath": "C:\\Users\\T14\\.nuget\\packages\\",
+        "outputPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\T14\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj": {
+                "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj",
+        "projectName": "TPBlog.WebApp",
+        "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\TPBlog.WebApp.csproj",
+        "packagesPath": "C:\\Users\\T14\\.nuget\\packages\\",
+        "outputPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\T14\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj": {
+                "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj"
+              },
+              "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\TPBlog.Data.csproj": {
+                "projectPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\TPBlog.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Handlebars.Net": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.4.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

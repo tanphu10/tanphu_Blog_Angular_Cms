@@ -17,5 +17,15 @@ namespace TPBlog.Core.Repositories
         Task<bool> HasPublishInLast(Guid id);
         Task<List<PostActivityLogDto>> GetActivityLogs(Guid id);
         Task<List<Post>> GetListUnpaidPublishPosts(Guid userId);
+        Task<List<PostInListDto>> GetLatestPublishPost(int top);
+        Task<PageResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
+        Task<PostDto> GetBySlug(string slug);
+        Task AddTagToPost(Guid postId,Guid tagId);
+        Task<List<string>> GetTagsByPostId(Guid postId);
+        Task<List<TagDto>> GetTagsObjectsByPostId(Guid postId);
+
+        Task<PageResult<PostInListDto>> GetPostByTagPaging(string tagSlug, int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<PostInListDto>> GetPostByUserPaging(string keyword,Guid userId, int pageIndex = 1, int pageSize = 10);
+
     }
 }

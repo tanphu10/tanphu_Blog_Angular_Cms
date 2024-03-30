@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "qb17RatASfOhp+vvVeGiXmhFKoX66eYamVkjDrJy3UvHVZa/9pwKoJFRuw6FSS/rG6khZDZ/yZ0XESA9HIMazQ==",
+  "dgSpecHash": "Q+sX3R2xcVWa5Cu0fe7EpKeXAe3AgxFwx3N5GdJnRJ2JpZ9TqGv1qwumePAC7mKvYtauY2M3t3mn5FIr5I3J0A==",
   "success": true,
   "projectFilePath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\TPBlog.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\T14\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "C:\\Users\\T14\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\T14\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.1\\microsoft.aspnetcore.cryptography.internal.8.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.1\\microsoft.aspnetcore.cryptography.keyderivation.8.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\8.0.1\\microsoft.aspnetcore.identity.entityframeworkcore.8.0.1.nupkg.sha512",

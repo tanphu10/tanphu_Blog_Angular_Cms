@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EyXywjB+4qXqV/IWEelywi5foZCGF6VXRUAKkVGhEfwHUssHIMdJmgVI1T+HRGwY4Q+/H0n25BcZ5jtQOfvlYQ==",
+  "dgSpecHash": "I38tes3txWl8v9rwLUgbFX3ZeyFNxphe1WpCvGbXrQTs1OWzSPtO2gKqbSnn/CwxiNgp/y0HRQ/QQUw0IzSpEw==",
   "success": true,
   "projectFilePath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\TPBlog.Api.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "C:\\Users\\T14\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\dapper\\2.1.4\\dapper.2.1.4.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\T14\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\T14\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.3\\microsoft.aspnetcore.authentication.jwtbearer.8.0.3.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.1\\microsoft.aspnetcore.cryptography.internal.8.0.1.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.1\\microsoft.aspnetcore.cryptography.keyderivation.8.0.1.nupkg.sha512",

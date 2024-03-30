@@ -81,5 +81,31 @@ namespace TPBlog.Data.Repositories
         {
             return await _context.PostInSeries.AnyAsync(x => x.SeriesId == seriesId);
         }
+
+        public async Task<PageResult<PostInListDto>> GetPostsInSeriesPaging(string? slug, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = from pis in _context.PostInSeries
+                        join s in _context.Series on pis.SeriesId equals s.Id
+                        join p in _context.Posts on pis.PostId equals p.Id
+                        where s.Slug == slug
+                        select p;
+
+            var totalRow = await query.CountAsync();
+            query = query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize);
+            return new PageResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize
+            };
+        }
+        public async Task<SeriesDto> GetBySlug(string slug)
+        {
+            var series = await _context.Series.FirstOrDefaultAsync(x => x.Slug == slug);
+            return _mapper.Map<SeriesDto>(series);
+        }
     }
 }

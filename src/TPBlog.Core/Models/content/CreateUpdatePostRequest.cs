@@ -23,7 +23,7 @@ namespace TPBlog.Core.Models.content
         public Guid CategoryId { get; set; }
         public string? Content { get; set; }
         public string? Source { get; set; }
-        public string? Tags { get; set; }
+        public string[] Tags { get; set; }
         public string? SeoDescription { get; set; }
         public class AutoMapperProfiles : Profile
         {

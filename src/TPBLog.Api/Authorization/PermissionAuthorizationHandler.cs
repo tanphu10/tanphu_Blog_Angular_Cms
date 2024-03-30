@@ -18,6 +18,7 @@ namespace TPBlog.Api.Authorization
         }
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
+            //AuthorizationHandlerContext xử lí lấy user từ token và xử lí lấy token dưới header như thế nào
             if (context.User.Identity.IsAuthenticated == false)
             {
                 return;
@@ -38,7 +39,7 @@ namespace TPBlog.Api.Authorization
 
             }
             var permissions = allPermissions.Where(x => x.Type == "Permission" &&
-                x.Value == requirement.Permission &&x.Issuer == "LOCAL AUTHORITY");
+                x.Value == requirement.Permission && x.Issuer == "LOCAL AUTHORITY");
             if (permissions.Any())
             {
                 context.Succeed(requirement);

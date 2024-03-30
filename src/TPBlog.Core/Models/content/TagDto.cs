@@ -13,11 +13,13 @@ namespace TPBlog.Core.Models.content
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
+        public string Slug { get; set; }
+
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<TagDto, Tag>();
+                CreateMap<Tag, TagDto>();
             }
         }
     }

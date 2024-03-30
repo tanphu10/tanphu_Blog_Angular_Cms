@@ -16,10 +16,10 @@ namespace TPBlog.Api.Controllers
     public class RoyaltyController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRoyaltyService _RoyaltyService;
+        private readonly IRoyaltyService _royaltyService;
         public RoyaltyController(IUnitOfWork unitOfWork, IRoyaltyService royaltyService)
         {
-            _RoyaltyService = royaltyService;
+            _royaltyService = royaltyService;
             _unitOfWork = unitOfWork;
         }
         [HttpGet]
@@ -38,7 +38,7 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<List<RoyaltyReportByUserDto>>> GetRoyaltyReportByUser(Guid? userId,
           int fromMonth, int fromYear, int toMonth, int toYear)
         {
-            var result = await _RoyaltyService.GetRoyaltyReportByUserAsync(userId, fromMonth, fromYear, toMonth, toYear);
+            var result = await _royaltyService.GetRoyaltyReportByUserAsync(userId, fromMonth, fromYear, toMonth, toYear);
             return Ok(result);
         }
 
@@ -48,17 +48,20 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<List<RoyaltyReportByMonthDto>>> GetRoyaltyReportByMonth(Guid? userId,
          int fromMonth, int fromYear, int toMonth, int toYear)
         {
-            var result = await _RoyaltyService.GetRoyaltyReportByMonthAsync(userId, fromMonth, fromYear, toMonth, toYear);
+            var result = await _royaltyService.GetRoyaltyReportByMonthAsync(userId, fromMonth, fromYear, toMonth, toYear);
             return Ok(result);
         }
 
         [HttpPost]
+        //[Route("{userId}")]
         [Route("{userId}")]
+
         //[Authorize(Royalty.Pay)]
+        //public async Task<IActionResult> PayRoyalty(Guid userId)
         public async Task<IActionResult> PayRoyalty(Guid userId)
         {
             var fromUserId = User.GetUserId();
-            await _RoyaltyService.PayRoyaltyForUserAsync(fromUserId, userId);
+            await _royaltyService.PayRoyaltyForUserAsync(fromUserId, userId);
             return Ok();
         }
     }
