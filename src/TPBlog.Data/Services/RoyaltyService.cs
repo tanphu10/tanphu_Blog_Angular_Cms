@@ -15,7 +15,6 @@ namespace TPBlog.Data.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-
         private readonly IConfiguration _configuration;
         public RoyaltyService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IConfiguration configuration)
         {
@@ -103,6 +102,10 @@ namespace TPBlog.Data.Services
             if (fromUser == null)
             {
                 throw new Exception($"User {fromUserId} not found");
+            }
+            if (fromUser.Balance < 0)
+            {
+                throw new Exception($"User {fromUserId} nộp tiền để có thể thanh toán");
             }
 
             var toUser = await _userManager.FindByIdAsync(toUserId.ToString());

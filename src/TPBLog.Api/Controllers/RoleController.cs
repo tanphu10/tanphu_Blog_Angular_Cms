@@ -56,7 +56,7 @@ namespace TPBlog.Api.Controllers
             {
                 var role = await _roleManager.FindByIdAsync(id.ToString());
                 if (role is null)
-                    return NotFound();
+                return NotFound();
                 await _roleManager.DeleteAsync(role);
             }
             return Ok();
@@ -115,9 +115,13 @@ namespace TPBlog.Api.Controllers
             if (role == null)
                 return NotFound();
             model.RoleId = roleId;
+            //ở đây sẽ lấy tất cả các quyền mà role đó có ra biến claims
             var claims = await _roleManager.GetClaimsAsync(role);
+            //lấy list value của permission
             var allClaimValues = allPermissions.Select(a => a.Value).ToList();
+            //ở đây  sẽ lấy value tất cả quyền mà role đó có
             var roleClaimValues = claims.Select(a => a.Value).ToList();
+            //là authorized lấy phần chung của quyền role đó với all các quyền
             var authorizedClaims = allClaimValues.Intersect(roleClaimValues).ToList();
             foreach (var permission in allPermissions)
             {

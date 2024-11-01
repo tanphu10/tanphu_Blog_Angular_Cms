@@ -73,7 +73,6 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\staticwebassets\msbu
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.TPBlog.Api.props
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\staticwebassets.pack.json
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\scopedcss\bundle\TPBlog.Api.styles.css
-D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.csproj.CopyComplete
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\refint\TPBlog.Api.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.pdb
@@ -152,3 +151,7 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\TPBlog.Api.staticweb
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Dapper.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MediatR.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MediatR.Contracts.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.csproj.Up2Date
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\web.config
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\appsettings.Production.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\appsettings.UAT.json

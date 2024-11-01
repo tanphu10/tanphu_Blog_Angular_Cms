@@ -31,7 +31,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Posts.Create)]
+        //[Authorize(Posts.Create)]
         public async Task<IActionResult> CreatePost([FromBody] CreateUpdatePostRequest request)
         {
             if (await _unitOfWork.BaiPost.IsSlugAlreadyExisted(request.Slug))

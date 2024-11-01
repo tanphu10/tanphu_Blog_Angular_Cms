@@ -131,7 +131,6 @@ namespace TPBlog.Api.Controllers
                 return NotFound();
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, request.NewPassword);
             var result = await _userManager.UpdateAsync(user);
-
             if (result.Succeeded)
             {
                 return Ok();
@@ -189,7 +188,6 @@ namespace TPBlog.Api.Controllers
                 return BadRequest(string.Join("<br>", errorList.Select(x => x.Description)));
             }
             return Ok();
-
         }
     }
 }

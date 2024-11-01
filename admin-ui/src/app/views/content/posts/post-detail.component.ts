@@ -49,7 +49,6 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   filteredTags: string[] | undefined;
   postTags: string[];
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
-
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -111,7 +110,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
             this.postApiClient
               .getPostTags(this.config.data?.id)
               .subscribe((res) => {
-                this.postTags= res;
+                this.postTags = res;
                 this.loadFormDetails(this.config.data?.id);
               });
           } else {
@@ -200,6 +199,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     }
   }
   buildForm() {
+    console.log("post cate>>>",this.postCategories);
     this.form = this.fb.group({
       name: new FormControl(
         this.selectedEntity.name || null,
@@ -236,7 +236,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   filterTag(event: AutoCompleteCompleteEvent) {
     let filtered: string[] = [];
     let query = event.query;
-    console.log('query tag', query);
+    // console.log('query tag', query);
     for (let i = 0; i < (this.tags as any[]).length; i++) {
       let tag = (this.tags as string[])[i];
       if (tag.toLowerCase().indexOf(query.toLowerCase()) == 0) {
