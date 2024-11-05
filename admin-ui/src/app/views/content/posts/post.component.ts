@@ -70,7 +70,7 @@ export class PostComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: PostInListDtoPageResult) => {
-          console.log("check postinlistDto",response)
+          // console.log("check postinlistDto",response)
           this.items = response.results;
           this.totalCount = response.rowCount;
           this.toggleBlockUI(false);

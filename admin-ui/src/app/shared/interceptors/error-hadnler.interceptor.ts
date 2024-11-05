@@ -17,7 +17,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError( async ex => {
-        console.log(ex);
+        // console.log(ex);
         if (ex.status == 500) {
           this.alertService.showError('Hệ thống có lỗi xảy ra. Vui lòng liên hệ admin');
         }

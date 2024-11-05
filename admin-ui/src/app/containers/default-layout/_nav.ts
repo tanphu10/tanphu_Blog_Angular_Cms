@@ -10,63 +10,91 @@ export const navItems: INavData[] = [
       text: 'NEW',
     },
     attributes: {
-      "policyName": "Permissions.Dashboard.View"
-    }
+      policyName: 'Permissions.Dashboard.View',
+    },
   },
   {
-    name: 'Nội dung',
+    name: 'Quản Lí Văn Phòng',
     url: '/content',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-pencil' },
     children: [
+      {
+        name: 'Dự Án',
+        url: '/content/series',
+        attributes: {
+          policyName: 'Permissions.Series.View',
+        },
+      },
       {
         name: 'Danh mục',
         url: '/content/post-categories',
         attributes: {
-          "policyName": "Permissions.PostCategories.View"
-        }
+          policyName: 'Permissions.PostCategories.View',
+        },
       },
       {
         name: 'Bài viết',
         url: '/content/posts',
         attributes: {
-          "policyName": "Permissions.Posts.View"
-        }
+          policyName: 'Permissions.Posts.View',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Quản Lí Kho',
+    url: '/inventory',
+    iconComponent: { name: 'cilMenu' },
+    children: [
+      {
+        name: 'Tồn Kho',
+        url: '/inventory/inventories',
+        attributes: {
+          policyName: 'Permissions.Inventories.View',
+        },
       },
       {
-        name: 'Loạt bài',
-        url: '/content/series',
+        name: 'Sản Phẩm',
+        url: '/inventory/products',
         attributes: {
-          "policyName": "Permissions.Series.View"
-        }
-      }
+          policyName: 'Permissions.Products.View',
+        },
+      },
+      {
+        name: 'Danh Mục Sản Phẩm',
+        url: '/inventory/product-categories',
+        attributes: {
+          policyName: 'Permissions.ProductCategories.View',
+        },
+      },
     ],
   },
   {
     name: 'Nhuận bút',
     url: '/royalty',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cilDollar' },
     children: [
       {
         name: 'Thống kê tháng',
         url: '/royalty/royalty-month',
         attributes: {
-          "policyName": "Permissions.Royalty.View"
-        }
+          policyName: 'Permissions.Royalty.View',
+        },
       },
       {
         name: 'Thống kê tác giả',
         url: '/royalty/royalty-user',
         attributes: {
-          "policyName": "Permissions.Royalty.View"
-        }
+          policyName: 'Permissions.Royalty.View',
+        },
       },
       {
         name: 'Giao dịch',
         url: '/royalty/transactions',
         attributes: {
-          "policyName": "Permissions.Royalty.View"
-        }
-      }
+          policyName: 'Permissions.Royalty.View',
+        },
+      },
     ],
   },
   {
@@ -78,16 +106,17 @@ export const navItems: INavData[] = [
         name: 'Quyền',
         url: '/system/roles',
         attributes: {
-          "policyName": "Permissions.Roles.View"
-        }
+          policyName: 'Permissions.Roles.View',
+        },
       },
       {
         name: 'Người dùng',
         url: '/system/users',
         attributes: {
-          "policyName": "Permissions.Users.View"
-        }
-      }
+          policyName: 'Permissions.Users.View',
+        },
+      },
     ],
   },
+
 ];

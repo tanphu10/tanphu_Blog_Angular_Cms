@@ -2,6 +2,7 @@
 using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
 using TPBlog.Core.Models.Royalty;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TPBlog.Core.Repositories
 {

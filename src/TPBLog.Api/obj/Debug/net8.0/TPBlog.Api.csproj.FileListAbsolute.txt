@@ -62,7 +62,6 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.Generated
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.AssemblyInfoInputs.cache
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.AssemblyInfo.cs
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.csproj.CoreCompileInputs.cache
-D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.MvcApplicationPartsAssemblyInfo.cs
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.MvcApplicationPartsAssemblyInfo.cache
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.sourcelink.json
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\staticwebassets.build.json
@@ -152,6 +151,8 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Dapper.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MediatR.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MediatR.Contracts.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.csproj.Up2Date
-D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\web.config
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\appsettings.Production.json
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\appsettings.UAT.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.MvcApplicationPartsAssemblyInfo.cs
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Scrutor.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Scrutor.AspNetCore.dll

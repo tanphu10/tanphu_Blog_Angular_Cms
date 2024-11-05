@@ -1,21 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using TPBlog.Core.Domain.Content;
+using TPBlog.Core.Shared.Enums;
+using TPBlog.Core.Domain.Entity;
 
 namespace TPBlog.Core.Domain.Content
 {
     [Table("PostActivityLogs")]
-    public class PostActivityLog
+    public class PostActivityLog:EntityBase<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
+        //[Key]
+        //public Guid Id { get; set; }
         public Guid PostId { get; set; }
 
         public PostStatus FromStatus { set; get; }
 
         public PostStatus ToStatus { set; get; }
 
-        public DateTime DateCreated { get; set; }
+        //public DateTime DateCreated { get; set; }
 
         [MaxLength(500)]
         public string? Note { set; get; }
@@ -23,6 +25,8 @@ namespace TPBlog.Core.Domain.Content
         public Guid UserId { get; set; }
         [MaxLength(250)]
         public string UserName { set; get; }
+        public Guid ProjectId { get; set; }
+
 
     }
 }

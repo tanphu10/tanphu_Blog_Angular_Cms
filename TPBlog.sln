@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPBlog.Api", "src\TPBLog.Api\TPBlog.Api.csproj", "{644868F3-C044-4B96-8C48-0572C746942A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPBlog.Api", "src\TPBLog.Api\TPBlog.Api.csproj", "{644868F3-C044-4B96-8C48-0572C746942A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPBlog.Core", "src\TPBlog.Core\TPBlog.Core.csproj", "{2D290406-FFD0-446C-8B9E-0A2DF74047E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPBlog.Core", "src\TPBlog.Core\TPBlog.Core.csproj", "{2D290406-FFD0-446C-8B9E-0A2DF74047E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPBlog.Data", "src\TPBlog.Data\TPBlog.Data.csproj", "{3C53668D-CFB9-4D02-9660-A097E94D869C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPBlog.Data", "src\TPBlog.Data\TPBlog.Data.csproj", "{3C53668D-CFB9-4D02-9660-A097E94D869C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPBlog.WebApp", "src\TPBlog.WebApp\TPBlog.WebApp.csproj", "{499C3501-4B1C-4830-B598-F334031BCBE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPBlog.WebApp", "src\TPBlog.WebApp\TPBlog.WebApp.csproj", "{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{3C53668D-CFB9-4D02-9660-A097E94D869C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C53668D-CFB9-4D02-9660-A097E94D869C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C53668D-CFB9-4D02-9660-A097E94D869C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{499C3501-4B1C-4830-B598-F334031BCBE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{499C3501-4B1C-4830-B598-F334031BCBE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{499C3501-4B1C-4830-B598-F334031BCBE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{499C3501-4B1C-4830-B598-F334031BCBE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

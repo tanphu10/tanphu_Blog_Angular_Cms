@@ -54,7 +54,7 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: PostCategoryDtoPageResult) => {
-          console.log('check category', response);
+          // console.log('check category', response);
           this.items = response.results;
           this.totalCount = response.rowCount;
 

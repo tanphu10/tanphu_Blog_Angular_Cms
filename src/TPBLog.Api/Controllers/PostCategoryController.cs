@@ -26,8 +26,8 @@ namespace TPBlog.Api.Controllers
 
         public async Task<IActionResult> CreatePostCategory([FromBody] CreateUpdatePostCategoryRequest request)
         {
+            request.DateCreated = DateTimeOffset.Now;
             var post = _mapper.Map<CreateUpdatePostCategoryRequest, PostCategory>(request);
-
             _unitOfWork.PostCategories.Add(post);
 
             var result = await _unitOfWork.CompleteAsync();
@@ -43,6 +43,8 @@ namespace TPBlog.Api.Controllers
             {
                 return NotFound();
             }
+            post.DateLastModified = DateTimeOffset.Now;
+
             _mapper.Map(request, post);
 
             await _unitOfWork.CompleteAsync();

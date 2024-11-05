@@ -1,77 +1,40 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using static TPBlog.Core.SeedWorks.Contants.Permissions;
-using TPBlog.Api.Extensions;
 using TPBlog.Core.Domain.Identity;
-using System.Diagnostics;
-using TPBlog.Core.Helpers;
+using TPBlog.Api.Extensions;
+using TPBlog.Api.Services;
 
 namespace TPBlog.Api.Controllers
 {
 
     [Route("api/admin/post")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPostService _postService;
         private readonly UserManager<AppUser> _userManager;
-        public PostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager)
+
+        public PostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IPostService postService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _postService = postService;
         }
-
         [HttpPost]
-        //[Authorize(Posts.Create)]
+        [Authorize(Posts.Create)]
         public async Task<IActionResult> CreatePost([FromBody] CreateUpdatePostRequest request)
         {
-            if (await _unitOfWork.BaiPost.IsSlugAlreadyExisted(request.Slug))
-            {
-                return BadRequest("Đã tồn tại slug");
-            }
-            var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
-            var postId = Guid.NewGuid();
-            var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
-            post.Id = postId;
-            post.CategoryName = category.Name;
-            post.CategorySlug = category.Slug;
-            var userId = User.GetUserId();
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            post.AuthorUserId = userId;
-            post.AuthorName = user.GetFullName();
-            post.AuthorUserName = user.UserName;
-            post.DateCreated = DateTime.Now;
-            _unitOfWork.BaiPost.Add(post);
-            //Process tag 
-            if (request.Tags != null && request.Tags.Length > 0)
-            {
-                foreach (var tagName in request.Tags)
-                {
-                    var tagSlug = TextHelper.ToUnsignedString(tagName);
-                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
-                    Guid tagId;
-                    if (tag == null)
-                    {
-                        tagId = Guid.NewGuid();
-                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
-
-                    }
-                    else
-                    {
-                        tagId = tag.Id;
-                    }
-                    await _unitOfWork.BaiPost.AddTagToPost(postId, tagId);
-                }
-            }
+            await _postService.CreatePostServiceAsync(request);
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
@@ -79,43 +42,7 @@ namespace TPBlog.Api.Controllers
         [Authorize(Posts.Edit)]
         public async Task<IActionResult> UpdatePost(Guid id, [FromBody] CreateUpdatePostRequest request)
         {
-            if (await _unitOfWork.BaiPost.IsSlugAlreadyExisted(request.Slug, id))
-            {
-                return BadRequest("đã tồn tại slug");
-            }
-            var post = await _unitOfWork.BaiPost.GetByIdAsync(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            if (post.CategoryId != request.CategoryId)
-            {
-                var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
-                post.CategoryName = category.Name;
-                post.CategorySlug = category.Slug;
-            }
-            _mapper.Map(request, post);
-            //Process tag 
-            if (request.Tags != null && request.Tags.Length > 0)
-            {
-                foreach (var tagName in request.Tags)
-                {
-                    var tagSlug = TextHelper.ToUnsignedString(tagName);
-                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
-                    Guid tagId;
-                    if (tag == null)
-                    {
-                        tagId = Guid.NewGuid();
-                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
-
-                    }
-                    else
-                    {
-                        tagId = tag.Id;
-                    }
-                    await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
-                }
-            }
+            await _postService.UpdatePostServiceAsync(id, request);
             var res = await _unitOfWork.CompleteAsync();
             return Ok();
         }
@@ -136,7 +63,7 @@ namespace TPBlog.Api.Controllers
         [Authorize(Posts.View)]
         public async Task<ActionResult<PostInListDto>> GetAllPost()
         {
-            var data = await _unitOfWork.BaiPost.GetAllAsync();
+            var data = await _postService.GetAllPostAsync();
             return Ok(data);
         }
 
@@ -169,7 +96,7 @@ namespace TPBlog.Api.Controllers
         [Route("paging")]
         [Authorize(Posts.View)]
         public async Task<ActionResult<PageResult<PostInListDto>>> GetPostsPaging(string? keyword, Guid? categoryId,
-           int pageIndex, int pageSize = 10)
+           int pageIndex=1, int pageSize = 10)
         {
             var userId = User.GetUserId();
             var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, categoryId, pageIndex, pageSize);
@@ -233,4 +160,3 @@ namespace TPBlog.Api.Controllers
         }
     }
 }
-

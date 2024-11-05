@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Shared.Enums;
 
 namespace TPBlog.Data
 {
@@ -46,6 +48,38 @@ namespace TPBlog.Data
                     UserId = userId,
                 });
                 await context.SaveChangesAsync();
+            }
+
+
+            if (!context.Inventories.Any())
+            {
+                var entity = new List<InventoryEntry>
+                {
+                    new()
+                    {
+                        Quantity=10,
+                        DocumentNo=Guid.NewGuid().ToString(),
+                        ItemNo="Lotus",
+                        ExternalDocumentNo=Guid.NewGuid().ToString(),
+                        DocumentType=EDocumentType.Purchase,
+                        Notice="Ghi Chú Tồn Kho 1"
+
+                    },
+                     new()
+                    {
+                        Quantity=10,
+                        DocumentNo=Guid.NewGuid().ToString(),
+                        ItemNo="Cadillac",
+                        ExternalDocumentNo=Guid.NewGuid().ToString(),
+                        DocumentType=EDocumentType.Purchase,
+                        Notice="Ghi Chú Tồn Kho 2",
+
+
+                    },
+                };
+                await context.Inventories.AddRangeAsync(entity);
+                await context.SaveChangesAsync();
+
             }
         }
     }

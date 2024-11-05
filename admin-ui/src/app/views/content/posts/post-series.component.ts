@@ -80,18 +80,18 @@ export class PostSeriesComponent implements OnInit, OnDestroy {
       });
   }
   loadSeries(id: string) {
-    console.log("get series id post",id)
+    // console.log("get series id post",id)
     this.postApiClient
       .getSeriesBelong(id) 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: SeriesInListDto[]) => {
-          console.log("response",response)
+          // console.log("response",response)
           this.postSeries = response;
           this.toggleBlockUI(false);
         },
         error: (error) => {
-          console.log("error",error)
+          // console.log("error",error)
           this.toggleBlockUI(false);
         },
       });

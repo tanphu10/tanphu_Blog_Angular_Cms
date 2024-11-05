@@ -24,6 +24,10 @@ namespace TPBlog.Data.SeedWorks
             Transactions = new TransactionRepository(context, mapper);
             Series = new SeriesRepository(context, mapper);
             Users = new UserRepository(context, mapper);
+            Projects = new ProjectRepository(context, mapper);
+            Inventories = new InventoryRepository(context, mapper);
+            Products = new ProductRepository(context, mapper);
+            ProCategories = new ProCategoryRepository(context, mapper);
         }
         public IPostRepository BaiPost { get; private set; }
         public IPostCategoryRepository PostCategories { get; private set; }
@@ -31,6 +35,14 @@ namespace TPBlog.Data.SeedWorks
         public ISeriesRepository Series { get; private set; }
         public ITagRepository Tags { get; private set; }
         public IUserRepository Users { get; private set; }
+
+        public IProjectRepository Projects { get; private set; }
+
+        public IInventoryRepository Inventories { get; private set; }
+        public IProductRepository Products { get; private set; }
+
+        public IProCategoryRepository ProCategories { get; private set; }
+
         public async Task<int> CompleteAsync()
         {
             return await _context.SaveChangesAsync();

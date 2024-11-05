@@ -95,7 +95,7 @@ export class SeriesDetailComponent implements OnInit, OnDestroy {
             this.thumbnailImage = environment.API_URL + response.path;
           },
           error: (err: any) => {
-            console.log(err);
+            // console.log(err);
           }
         });
     }

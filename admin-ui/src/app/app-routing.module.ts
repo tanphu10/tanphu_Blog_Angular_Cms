@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/royalty/royalty.module').then((m) => m.RoyaltyModule),
       },
+      {
+        path: 'inventory',
+        loadChildren: () =>
+          import('./views/inventory/inventory.module').then((m) => m.InventoryModule),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

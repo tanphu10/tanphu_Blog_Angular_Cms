@@ -8,6 +8,7 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Models.system;
 using TPBlog.Core.Repositories;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Core.Shared.Enums;
 using TPBlog.Data;
 using TPBlog.Data.SeedWorks;
 

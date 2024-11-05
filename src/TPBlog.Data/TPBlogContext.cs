@@ -19,8 +19,13 @@ namespace TPBlog.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PostActivityLog> PostActivityLogs { get; set; }
         public DbSet<Series> Series { get; set; }
-        public DbSet<PostInSeries> PostInSeries { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<PostInSeries> PostInSeries { get; set; }
+        public DbSet<Project> Project { get; set; }
+        public DbSet<PostInProject> PostInProject { get; set; }
+        public DbSet<InventoryEntry> Inventories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         //  đây là phần ghi đè 
         protected override void OnModelCreating(ModelBuilder builder)
         {

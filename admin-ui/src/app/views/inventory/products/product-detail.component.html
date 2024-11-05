@@ -1,0 +1,92 @@
+<form class="form-horizontal form-label-left" skipValidation [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnlDetail header="Thông tin" [toggleable]="true" [collapsed]="false">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label for="title" class="block">Tiêu đề <span class="required">*</span></label>
+        <input id="title" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="name"
+          (keyup)="generateSlug()" [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="name" [validationMessages]="validationMessages">
+        </app-validation-message>
+      </div>
+      
+      <div class="field col-12 md:col-6">
+        <label for="slug">Slug<span class="required">*</span></label>
+        <input id="slug" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="slug"
+          [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="slug" [validationMessages]="validationMessages">
+        </app-validation-message>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="proCategoryId" class="block">Danh Mục</label>
+        <p-dropdown id="proCategoryId" [options]="productCategories" formControlName="proCategoryId" [showClear]="true"
+          placeholder="Chọn Danh Mục" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12">
+        <label for="summary" class="block">Tóm tắt <span class="required">*</span></label>
+        <textarea id="summary" type="text" rows="4" pInputTextarea formControlName="summary"
+          [style]="{ width: '100%' }"></textarea>
+        <app-validation-message [entityForm]="form" fieldName="summary"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="description" class="block">Mô tả ngắn <span class="required">*</span></label>
+        <textarea id="description" type="text" rows="4" pInputTextarea formControlName="description"
+          [style]="{ width: '100%' }"></textarea>
+        <app-validation-message [entityForm]="form" fieldName="description"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+     
+      <div class="field col-12 md:col-6">
+        <label for="thumbnailFileContent">Hình ảnh <span class="required">*</span></label>
+        <input type="hidden" formControlName="image" />
+        <input (change)="onFileChange($event)" type="file" class="w-full" multiple />
+    </div>
+    <div *ngIf="thumbnailImages && thumbnailImages.length" class="field col-12 md:col-6">
+        <ng-container *ngFor="let image of thumbnailImages">
+            <p-image [src]="image" [preview]="true" [alt]="selectedEntity?.name || 'Image'" width="250">
+            </p-image>
+        </ng-container>
+    </div>
+      <div class="field col-12 md:col-6">
+        <label for="catalogPdf">File PDF <span class="required">*</span></label>
+        <input type="hidden" formControlName="catalogPdf" />
+        <input (change)="onFilePdfChange($event)" type="file" class="w-full" />
+      </div>
+      <!-- <div class="field col-12">
+        <label for="content">Nội dung</label>
+        <p-editor formControlName="content" [style]="{ height: '320px' }">
+        </p-editor>
+      </div> -->
+      <div class="field col-12">
+        <label for="no">DocumentNo</label>
+        <textarea id="no" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
+          formControlName="no" [style]="{ width: '100%' }"></textarea>
+      </div>
+      <!-- <div class="field col-12 md:col-12">
+        <label for="tags">Tags</label>
+        <p-autoComplete
+          formControlName="tags"
+          [suggestions]="filteredTags" 
+          (completeMethod)="filterTag($event)"
+          [multiple]="true"
+        ></p-autoComplete>
+      </div> -->
+      <div class="field-checkbox col-12 md:col-6">
+        <p-checkbox formControlName="isActive" [binary]="true" id="isActive"></p-checkbox>
+        <label for="isActive">Kích hoạt</label>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button type="submit" class="btn btn-primary ms-1" [disabled]="!form.valid || btnDisabled">
+        Lưu 
+      </button>
+    </ng-template>
+
+    <p-blockUI [target]="pnlDetail" [blocked]="blockedPanelDetail">
+      <p-progressSpinner [style]="{ width: '100px', height: '100px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

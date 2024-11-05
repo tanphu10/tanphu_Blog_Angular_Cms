@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TPBlog.Core.Domain.Content;
+using TPBlog.Core.Shared.Enums;
 
 namespace TPBlog.Core.Models.content
 {
@@ -14,7 +15,7 @@ namespace TPBlog.Core.Models.content
 
         public PostStatus ToStatus { set; get; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTimeOffset DateCreated { get; set; }
 
         public string? Note { set; get; }
 

@@ -44,7 +44,7 @@ export class RoyaltyUserComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: RoyaltyReportByUserDto[]) => {
-          console.log("checkdata royalty trả về",response)
+          // console.log("checkdata royalty trả về",response)
           this.items = response;
           this.toggleBlockUI(false);
         },
@@ -55,7 +55,7 @@ export class RoyaltyUserComponent implements OnInit, OnDestroy {
       });
   }
   payForUser(userId: string) {
-    console.log("check",userId)
+    // console.log("check",userId)
     this.confirmationService.confirm({
       message: "Bạn có chắc muốn thanh toán?",
       accept: () => {
@@ -65,18 +65,18 @@ export class RoyaltyUserComponent implements OnInit, OnDestroy {
   }
 
   payConfirm(userId: string) {
-    console.log("confirm id",userId);
+    // console.log("confirm id",userId);
     this.toggleBlockUI(true);
     this.RoyaltyApiClient.payRoyalty(userId)
       .subscribe({
         next: () => {
-          console.log("oke")
+          // console.log("oke")
           this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
           this.loadData();
           this.toggleBlockUI(false);
         },
         error: (error) => {
-          console.log("check lỗi pay for user",error);
+          // console.log("check lỗi pay for user",error);
           this.toggleBlockUI(false);
         }
       });

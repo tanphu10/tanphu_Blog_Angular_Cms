@@ -99,7 +99,7 @@ export class RoleAssignComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
-    console.log("first",this.seletedRoles)
+    // console.log("first",this.seletedRoles)
     this.userApiClient
       .assignRolesToUser(this.config.data.id, this.seletedRoles)
       .pipe(takeUntil(this.ngUnsubscribe))

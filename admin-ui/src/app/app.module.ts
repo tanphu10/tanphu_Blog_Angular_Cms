@@ -36,9 +36,8 @@ import {
   TabsModule,
   UtilitiesModule
 } from '@coreui/angular';
-
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import {ADMIN_API_BASE_URL, AdminApiAuthApiClient, AdminApiPostApiClient, AdminApiPostCategoryApiClient, AdminApiRoleApiClient, AdminApiRoyaltyApiClient, AdminApiSeriesApiClient, AdminApiTestApiClient, AdminApiTokenApiClient, AdminApiUserApiClient} from './api/admin-api.service.generated';
+import {ADMIN_API_BASE_URL, AdminApiAuthApiClient, AdminApiPostApiClient, AdminApiPostCategoryApiClient, AdminApiProductApiClient, AdminApiProductCategoryApiClient, AdminApiRoleApiClient, AdminApiRoyaltyApiClient, AdminApiSeriesApiClient, AdminApiTestApiClient, AdminApiTokenApiClient, AdminApiUserApiClient} from './api/admin-api.service.generated';
 import {environment} from './../environments/environment'
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -126,6 +125,8 @@ const APP_CONTAINERS = [
     AdminApiSeriesApiClient ,
     AdminApiPostApiClient ,
     AdminApiRoyaltyApiClient,
+    AdminApiProductCategoryApiClient ,
+    AdminApiProductApiClient ,
     UploadService
   ],
   bootstrap: [AppComponent]

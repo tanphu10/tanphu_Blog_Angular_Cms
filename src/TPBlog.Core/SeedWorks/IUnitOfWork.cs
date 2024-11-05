@@ -12,9 +12,13 @@ namespace TPBlog.Data.SeedWorks
         IPostRepository BaiPost { get; }
         IPostCategoryRepository PostCategories { get; }
         ISeriesRepository Series { get; }
+        IProjectRepository Projects { get; }
         ITransactionRepository Transactions { get; }
         ITagRepository Tags { get; }
         IUserRepository Users { get; }
+        IInventoryRepository Inventories { get; }
+        IProductRepository Products { get; }
+        IProCategoryRepository ProCategories { get; }
         Task<int> CompleteAsync();
     }
 }

@@ -19,7 +19,7 @@ namespace TPBlog.Core.Models.content
 
         [MaxLength(500)]
         public string? Thumbnail { get; set; }
-
+        public string? FilePdf { get; set; }
         public Guid CategoryId { get; set; }
         public string? Content { get; set; }
         public string? Source { get; set; }

@@ -1,0 +1,281 @@
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
+import {
+  Validators,
+  FormControl,
+  FormGroup,
+  FormBuilder,
+} from '@angular/forms';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
+import { UtilityService } from '../../../../app/shared/services/utility.service';
+import {
+  AdminApiProductApiClient,
+  AdminApiProductCategoryApiClient,
+  ProductCategoryDto,
+  ProductDto,
+  ProductInListDto,
+} from '../../../../app/api/admin-api.service.generated';
+import { UploadService } from '../../../../app/shared/services/upload.service';
+import { environment } from '../../../../environments/environment';
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
+@Component({
+  templateUrl: 'product-detail.component.html',
+})
+export class ProductDetailComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe = new Subject<void>();
+
+  // Default
+  public blockedPanelDetail: boolean = false;
+  public form: FormGroup;
+  public title: string;
+  public btnDisabled = false;
+  public saveBtnName: string;
+  public productCategories: any[] = [];
+  // public contentTypes: any[] = [];
+  // public series: any[] = [];
+
+  selectedEntity = {} as ProductDto;
+  public thumbnailImages: string[] = []; // Array to hold image previews
+  public catalogPdf;
+
+  tags: string[] | undefined;
+  filteredTags: string[] | undefined;
+  postTags: string[];
+  formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
+  constructor(
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
+    private utilService: UtilityService,
+    private fb: FormBuilder,
+    private productApiClient: AdminApiProductApiClient,
+    private productCategoryApiClient: AdminApiProductCategoryApiClient,
+    private uploadService: UploadService
+  ) {}
+  ngOnDestroy(): void {
+    if (this.ref) {
+      this.ref.close();
+    }
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  public generateSlug() {
+    var slug = this.utilService.makeSeoTitle(this.form.get('name').value);
+    this.form.controls['slug'].setValue(slug);
+  }
+  // Validate
+  noSpecial: RegExp = /^[^<>*!_~]+$/;
+  validationMessages = {
+    name: [
+      { type: 'required', message: 'Bạn phải nhập tên' },
+      { type: 'minlength', message: 'Bạn phải nhập ít nhất 3 kí tự' },
+      { type: 'maxlength', message: 'Bạn không được nhập quá 255 kí tự' },
+    ],
+    slug: [{ type: 'required', message: 'Bạn phải URL duy nhất' }],
+    description: [{ type: 'required', message: 'Bạn phải nhập mô tả ngắn' }],
+  };
+
+  ngOnInit() {
+    //Init form
+    this.buildForm();
+    //Load data to form
+    var categories = this.productCategoryApiClient.getProductCategories();
+    // var tags = this.productApiClient.getAllTags();
+    this.toggleBlockUI(true);
+    forkJoin({
+      categories,
+      // tags,
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (repsonse: any) => {
+          //Push categories to dropdown list
+          this.tags = repsonse.tags as string[];
+
+          var categories = repsonse.categories as ProductCategoryDto[];
+          categories.forEach((element) => {
+            this.productCategories.push({
+              value: element.id,
+              label: element.name,
+            });
+          });
+          this.toggleBlockUI(false);
+        },
+        error: () => {
+          this.toggleBlockUI(false);
+        },
+      });
+  }
+  loadFormDetails(id: string) {
+    this.productApiClient
+      .getProductById(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (response: ProductDto) => {
+          this.selectedEntity = response;
+          this.buildForm();
+          this.toggleBlockUI(false);
+        },
+        error: () => {
+          this.toggleBlockUI(false);
+        },
+      });
+  }
+
+  onFileChange(event) {
+    const fileInput = event.target;
+    if (fileInput?.files && fileInput.files.length) {
+      this.uploadService.uploadImage('products', fileInput.files).subscribe({
+        next: (response: any[]) => {
+          // Assuming `response` is an array of paths for each uploaded image
+          const paths = response.map((file) => file.path);
+
+          // Set the form control with the array of paths
+          this.form.controls['thumbnail'].setValue(paths);
+
+          // Update `thumbnailImages` to display each image URL
+          this.thumbnailImages = paths.map(
+            (path) => `${environment.API_URL}${path}`
+          );
+        },
+        error: (err: any) => {
+          console.error(err);
+        },
+      });
+    }
+
+    // if (event.target.files && event.target.files.length) {
+    //   this.uploadService.uploadImage('products', event.target.files).subscribe({
+    //             next: (response: any) => {
+    //       this.form.controls['thumbnail'].setValue(response.path);
+    //       this.thumbnailImage = environment.API_URL + response.path;
+    //     },
+    //     error: (err: any) => {
+    //       console.log(err);
+    //     },
+    //   });
+    // }
+  }
+  onFilePdfChange(event) {
+    if (event.target.files && event.target.files.length) {
+      this.uploadService.uploadPdf('products', event.target.files).subscribe({
+        next: (response: any) => {
+          this.form.controls['catalogPdf'].setValue(response.path);
+          this.catalogPdf = environment.API_URL + response.path;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    }
+  }
+  saveChange() {
+    this.toggleBlockUI(true);
+    this.saveData();
+  }
+
+  private saveData() {
+    this.toggleBlockUI(true);
+    if (this.utilService.isEmpty(this.config.data?.id)) {
+      console.log('check data->>>', this.form.value);
+      this.productApiClient
+        .createProduct(this.form.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe({
+          next: () => {
+            this.ref.close(this.form.value);
+            this.toggleBlockUI(false);
+          },
+          error: () => {
+            this.toggleBlockUI(false);
+          },
+        });
+    } else {
+      this.productApiClient
+        .updateProduct(this.config.data?.id, this.form.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe({
+          next: () => {
+            this.toggleBlockUI(false);
+
+            this.ref.close(this.form.value);
+          },
+          error: () => {
+            this.toggleBlockUI(false);
+          },
+        });
+    }
+  }
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.btnDisabled = true;
+      this.blockedPanelDetail = true;
+    } else {
+      setTimeout(() => {
+        this.btnDisabled = false;
+        this.blockedPanelDetail = false;
+      }, 1000);
+    }
+  }
+  buildForm() {
+    console.log('post cate>>>', this.productCategories);
+    this.form = this.fb.group({
+      name: new FormControl(
+        this.selectedEntity.name || null,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(255),
+          Validators.minLength(3),
+        ])
+      ),
+      slug: new FormControl(
+        this.selectedEntity.slug || null,
+        Validators.required
+      ),
+      proCategoryId: new FormControl(
+        this.selectedEntity.proCategoryId || null,
+        Validators.required
+      ),
+      description: new FormControl(
+        this.selectedEntity.description || null,
+        Validators.required
+      ),
+      summary: new FormControl(this.selectedEntity.summary || null),
+      no: new FormControl(this.selectedEntity.no || null),
+      // content: new FormControl(this.selectedEntity.content || null),
+      image: new FormControl(this.selectedEntity.image || []),
+      isActive: new FormControl(this.selectedEntity.isActive || true),
+      catalogPdf: new FormControl(this.selectedEntity.catalogPdf || null),
+    });
+    if (this.selectedEntity.image) {
+      this.thumbnailImages = this.selectedEntity.image.map(
+        (imgPath: string) => `${environment.API_URL}${imgPath}`
+      );
+    }
+  }
+  filterTag(event: AutoCompleteCompleteEvent) {
+    let filtered: string[] = [];
+    let query = event.query;
+    // console.log('query tag', query);
+    for (let i = 0; i < (this.tags as any[]).length; i++) {
+      let tag = (this.tags as string[])[i];
+      if (tag.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(tag);
+      }
+    }
+    if (filtered.length == 0) {
+      filtered.push(query);
+    }
+
+    this.filteredTags = filtered;
+  }
+}

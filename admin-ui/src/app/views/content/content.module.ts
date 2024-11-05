@@ -32,6 +32,8 @@ import { PostComponent } from './posts/post.component';
 import { SeriesComponent } from './series/series.component';
 import { SeriesDetailComponent } from './series/series-detail.component';
 import { SeriesPostsComponent } from './series/series-post.component';
+import { PostLinkComponent } from './posts/post-link.component';
+
 
 @NgModule({
   imports: [
@@ -71,6 +73,8 @@ import { SeriesPostsComponent } from './series/series-post.component';
     PostReturnReasonComponent,
     PostSeriesComponent,
     PostActivityLogsComponent,
+    PostLinkComponent,
+    
   ],
 })
 export class ContentModule {}

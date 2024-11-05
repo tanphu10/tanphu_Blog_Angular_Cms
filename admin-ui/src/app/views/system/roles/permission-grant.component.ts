@@ -58,7 +58,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
                     this.toggleBlockUI(false);
                 },
                 error: (err:any) => {
-                    console.log("check lỗi errr",err)
+                    // console.log("check lỗi errr",err)
                     this.toggleBlockUI(false);
                 },
             });

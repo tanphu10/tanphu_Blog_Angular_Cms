@@ -6,15 +6,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPBlog.Core.Domain.Entity;
+using TPBlog.Core.Shared.Enums;
 
 namespace TPBlog.Core.Domain.Content
 {
     [Table("Posts")]
     [Index(nameof(Slug), IsUnique = true)]
-    public class Post
+    public class Post : EntityBase<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
+        //[Key]
+        //public Guid Id { get; set; }
         [Required]
         [MaxLength(250)]
         public required string Name { get; set; }
@@ -37,8 +39,7 @@ namespace TPBlog.Core.Domain.Content
         [MaxLength(160)]
         public string? SeoDescription { get; set; }
         public int ViewCount { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateModified { get; set; }
+
         public bool IsPaid { get; set; }
         public double RoyaltyAmount { get; set; }
         public PostStatus Status { get; set; }
@@ -55,13 +56,10 @@ namespace TPBlog.Core.Domain.Content
         [MaxLength(250)]
         public string AuthorName { get; set; }
         public DateTime? PaidDate { get; set; }
+        public string? FilePdf { get; set; }
+        public int IdOffer { get; set; }
+        public Guid ProjectId { get; set; }
 
     }
-    public enum PostStatus
-    {
-        Draft = 0,
-        WaitingForApproval = 1,
-        Rejected = 2,
-        Published = 3
-    }
+
 }

@@ -19,8 +19,8 @@ namespace TPBlog.Core.Models.content
 
         public Guid? ParentId { set; get; }
         public bool IsActive { set; get; }
-        public DateTime DateCreated { set; get; }
-        public DateTime? DateModified { set; get; }
+        public DateTimeOffset DateCreated { set; get; }
+        public DateTimeOffset? DateModified { set; get; }
 
         public string? SeoKeywords { set; get; }
 

@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "Fff9Lt2W/cGa0Pb6+5GeuaLIssa2MdKihTb2tDz39fo=",
+  "Source": "TPBlog.Api",
+  "BasePath": "_content/TPBlog.Api",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "TPBlog.Api\\wwwroot",
+      "Source": "TPBlog.Api",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/posts/032024/IMG_20191125_204029-01.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg"
+    },
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\tanphu_.jpg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/posts/032024/tanphu_.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\posts\\032024\\tanphu_.jpg"
+    },
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\tanphu2_.jpg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/posts/032024/tanphu2_.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\posts\\032024\\tanphu2_.jpg"
+    }
+  ]
+}

@@ -44,6 +44,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   selectedEntity = {} as PostDto;
   public thumbnailImage;
+  public filePdf;
 
   tags: string[] | undefined;
   filteredTags: string[] | undefined;
@@ -151,6 +152,19 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       });
     }
   }
+  onFilePdfChange(event) {
+    if (event.target.files && event.target.files.length) {
+      this.uploadService.uploadPdf('posts', event.target.files).subscribe({
+        next: (response: any) => {
+          this.form.controls['filePdf'].setValue(response.path);
+          this.filePdf = environment.API_URL + response.path;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    }
+  }
   saveChange() {
     this.toggleBlockUI(true);
     this.saveData();
@@ -199,7 +213,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     }
   }
   buildForm() {
-    console.log("post cate>>>",this.postCategories);
+    // console.log("post cate>>>",this.postCategories);
     this.form = this.fb.group({
       name: new FormControl(
         this.selectedEntity.name || null,
@@ -228,6 +242,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       content: new FormControl(this.selectedEntity.content || null),
       thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
       tags: new FormControl(this.postTags),
+      filePdf: new FormControl(this.selectedEntity.filePdf || null)
     });
     if (this.selectedEntity.thumbnail) {
       this.thumbnailImage = environment.API_URL + this.selectedEntity.thumbnail;

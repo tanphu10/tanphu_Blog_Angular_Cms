@@ -12,6 +12,7 @@ using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Helpers;
 using TPBlog.Core.SeedWorks.Constants;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Core.Shared.Enums;
 using TPBlog.Data.SeedWorks;
 using TPBlog.WebApp.Extensions;
 using TPBlog.WebApp.Models;

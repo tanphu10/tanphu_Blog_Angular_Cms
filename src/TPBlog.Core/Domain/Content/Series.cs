@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using TPBlog.Core.Domain.Entity;
 
 namespace TPBlog.Core.Domain.Content
 {
     [Table("Series")]
     [Index(nameof(Slug), IsUnique = true)]
-    public class Series
+    public class Series : EntityBase<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
 
         [MaxLength(250)]
         [Required]
@@ -32,6 +31,7 @@ namespace TPBlog.Core.Domain.Content
 
         public string? Content { get; set; }
         public Guid AuthorUserId { get; set; }
-        public DateTime DateCreated { get; set; }
+        public Guid ProjectId { get; set; }
+
     }
 }

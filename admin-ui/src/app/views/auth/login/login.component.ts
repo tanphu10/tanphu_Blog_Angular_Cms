@@ -62,7 +62,6 @@ export class LoginComponent implements OnDestroy{
         this.router.navigate([UrlConstants.HOME]);
       },
       error: (error: any) => {
-        console.log(error);
         this.alertService.showError('Đăng nhập không đúng.');
         this.loading = false;
       },

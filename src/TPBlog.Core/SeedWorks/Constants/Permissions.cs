@@ -72,6 +72,50 @@ namespace TPBlog.Core.SeedWorks.Contants
             [Description("Xóa loạt bài")]
             public const string Delete = "Permissions.Series.Delete";
         }
+        public static class Projects
+        {
+            [Description("Xem dự án")]
+            public const string View = "Permissions.Projects.View";
+            [Description("Tạo dự án")]
+            public const string Create = "Permissions.Projects.Create";
+            [Description("Sửa dự án")]
+            public const string Edit = "Permissions.Projects.Edit";
+            [Description("Xóa dự án")]
+            public const string Delete = "Permissions.Projects.Delete";
+        }
+        public static class Inventories
+        {
+            [Description("Xem Tồn Kho ")]
+            public const string View = "Permissions.Inventories.View";
+            [Description("Tạo Tồn Kho")]
+            public const string Create = "Permissions.Inventories.Create";
+            [Description("Sửa Tồn Kho")]
+            public const string Edit = "Permissions.Inventories.Edit";
+            [Description("Xóa Tồn Kho")]
+            public const string Delete = "Permissions.Inventories.Delete";
+        }
+        public static class Products
+        {
+            [Description("Xem sản phẩm")]
+            public const string View = "Permissions.Products.View";
+            [Description("Tạo sản phẩm")]
+            public const string Create = "Permissions.Products.Create";
+            [Description("Sửa sản phẩm")]
+            public const string Edit = "Permissions.Products.Edit";
+            [Description("Xóa sản phẩm")]
+            public const string Delete = "Permissions.Products.Delete";
+        }
+        public static class ProductCategories
+        {
+            [Description("Xem danh mục sản phẩm")]
+            public const string View = "Permissions.ProductCategories.View";
+            [Description("Tạo danh mục sản phẩm")]
+            public const string Create = "Permissions.ProductCategories.Create";
+            [Description("Sửa danh mục sản phẩm")]
+            public const string Edit = "Permissions.ProductCategories.Edit";
+            [Description("Xóa danh mục sản phẩm")]
+            public const string Delete = "Permissions.ProductCategories.Delete";
+        }
         public static class Royalty
         {
             [Description("Xem nhuận bút")]

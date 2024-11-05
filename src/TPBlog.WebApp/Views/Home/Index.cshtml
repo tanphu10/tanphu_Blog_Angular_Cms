@@ -33,7 +33,7 @@
                     <p class="post-meta">
                         Posted by
                         <a href="@string.Format(UrlConsts.Author,item.AuthorUserName)">@item.AuthorName</a>
-                        on @item.DateCreated.ToLongTimeString()
+                        on @item.DateCreated.ToString("HH:mm:ss")
                     </p>
                 </div>
                 <!-- Divider-->
