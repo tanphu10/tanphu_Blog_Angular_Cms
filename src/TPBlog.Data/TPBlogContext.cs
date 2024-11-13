@@ -41,8 +41,8 @@ namespace TPBlog.Data
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.RoleId, x.UserId });
 
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
-            builder.Entity<AnnouncementUser>().ToTable("AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
 
+            builder.Entity<AnnouncementUser>().ToTable("AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
         }
         //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{

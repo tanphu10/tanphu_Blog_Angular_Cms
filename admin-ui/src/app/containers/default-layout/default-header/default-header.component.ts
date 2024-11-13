@@ -1,7 +1,6 @@
 import { Component, Input, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '@coreui/angular';
-import * as moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import {
   AdminApiAnnouncementApiClient,
@@ -40,6 +39,25 @@ export class DefaultHeaderComponent extends HeaderComponent {
   public pageIndex: number = 1;
   public pageSize: number = 10;
   public totalCount: number;
+
+  // --theme
+  readonly #colorModeService = inject(ColorModeService);
+  readonly colorMode = this.#colorModeService.colorMode;
+
+  readonly colorModes = [
+    { name: 'light', text: 'Light', icon: 'cilSun' },
+    { name: 'dark', text: 'Dark', icon: 'cilMoon' },
+    { name: 'auto', text: 'Auto', icon: 'cilContrast' },
+  ];
+
+  readonly icons = computed(() => {
+    const currentMode = this.colorMode();
+    return (
+      this.colorModes.find((mode) => mode.name === currentMode)?.icon ??
+      'cilSun'
+    );
+  });
+
   constructor(
     private tokenService: TokenStorageService,
     private router: Router,
@@ -74,7 +92,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
           // Format date and push the announcement
           // announcement.dateCreated = moment(announcement.dateCreated).fromNow(); // Sử dụng moment để chuyển đổi ngày
           // this.announcements.push(announcement);
-          this.announcements.push(response)
+          this.announcements.push(response);
           console.log('check res  ', response);
         });
       });
@@ -108,4 +126,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
         },
       });
   }
-  }
+}
+function inject(ColorModeService: any) {
+  throw new Error('Function not implemented.');
+}
+
+function computed(arg0: () => string) {
+  throw new Error('Function not implemented.');
+}

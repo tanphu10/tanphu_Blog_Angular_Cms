@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
+    {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
       "PackagePath": "staticwebassets\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg"
     },

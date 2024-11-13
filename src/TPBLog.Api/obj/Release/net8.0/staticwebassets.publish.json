@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tB38pjhBR+BUumlborW1fnvYskES5+4tt9zwp2IYP6A=",
+  "Hash": "L6bQzTUpEENzsUXOhEcRVYW83f2bpvJKsLp3cvTa0+0=",
   "Source": "TPBlog.Api",
   "BasePath": "_content/TPBlog.Api",
   "Mode": "Default",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/avatars/112024/IMG_20191125_204029-01.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg"
+    },
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/avatars/112024/pexels-robert-stokoe-105922-733148.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
     {
       "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
       "SourceId": "TPBlog.Api",

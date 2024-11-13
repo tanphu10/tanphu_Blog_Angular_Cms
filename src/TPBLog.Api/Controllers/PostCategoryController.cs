@@ -22,7 +22,7 @@ namespace TPBlog.Api.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-        //[Authorize(PostCategories.View)]
+        [Authorize(PostCategories.View)]
 
         public async Task<IActionResult> CreatePostCategory([FromBody] CreateUpdatePostCategoryRequest request)
         {
