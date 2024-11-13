@@ -1,13 +1,14 @@
 <div class="animated fadeIn">
   <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
-    <p-header> Quản lý bài viết </p-header>
+    <p-header> Quản lý Tồn kho </p-header>
     <div class="row">
       <div class="col-4">
-        <!-- <button appPermission appPolicy="Permissons.Posts.Add" pButton type="button" label="Thêm" icon="fa fa-plus"
+        <button appPermission appPolicy="Permissons.Products.Add" pButton type="button" label="Mua Hàng" icon="fa fa-plus"
           (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
-        <button appPermission appPolicy="Permissons.Posts.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-          class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"></button>
-        <button appPermission appPolicy="Permissons.Posts.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
+        <button appPermission appPolicy="Permissons.Products.Delete" pButton type="button" label="Xóa"
+          icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0"
+          (click)="deleteItems()"></button>
+        <!-- <button appPermission appPolicy="Permissons.Products.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
           class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
           (click)="showEditModal()"></button> -->
       </div>
@@ -18,8 +19,8 @@
               placeholder="Nhập từ khóa..." type="text" />
           </div>
           <div class="col">
-            <p-dropdown [options]="postCategories" (onChange)="loadData()" [style]="{ width: '100%' }"
-              placeholder="Chọn danh mục" [showClear]="true" [(ngModel)]="categoryId">
+            <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%' }"
+              placeholder="Chọn Dự Án" [showClear]="true" [(ngModel)]="projectId">
             </p-dropdown>
           </div>
           <div class="col">
@@ -36,36 +37,37 @@
             <th style="width: 10px">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th>Tiêu đề</th>
-            <th>Danh mục</th>
-            <!-- <th>Lượt xem</th> -->
+            <th>Tên Dự Án</th>
+            <th>ItemNo</th>
+            <th>Số Lượng</th>
             <th>Ngày tạo</th>
             <th>PDF</th>
-            <th style="width: 150px">Xuất bản</th>
+            <th style="width: 150px">Loại</th>
             <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
-          <tr [pSelectableRow]="row" >
+          <tr [pSelectableRow]="row">
             <td style="width: 10px">
               <span class="ui-column-title"></span>
               <p-tableCheckbox [value]="row"></p-tableCheckbox>
             </td>
-            <td>{{ row.name }}</td>
-            <td>{{ row.categoryName }}</td>
-            <!-- <td>{{ row.viewCount | number }}</td> -->
+            <td>{{ row.projectName }}</td>
+            <td>{{ row.itemNo }}</td>
+            <td>{{ row.quantity }}</td>
             <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-            <td >
-              <!-- <app-pdf-link [pdfPath]="row.filePdf"></app-pdf-link> -->
+            <td>
+              <app-pdf-link [pdfPath]="row.catalogPdf"></app-pdf-link>
             </td>
             <td style="width: 150px">
-              <p-badge *ngIf="row.status == 0" value="Nháp" severity="info"></p-badge>
-              <p-badge *ngIf="row.status == 1" value="Đợi duyệt" severity="warning"></p-badge>
-              <p-badge *ngIf="row.status == 2" value="Từ chối" severity="danger"></p-badge>
-              <p-badge *ngIf="row.status == 3" value="Đã duyệt" severity="success"></p-badge>
+              <p-badge *ngIf="row.documentType == 0" value="All" severity="danger"></p-badge>
+              <p-badge *ngIf="row.documentType == 101" value="Mua" severity="success"></p-badge>
+              <p-badge *ngIf="row.documentType == 102" value="Mua Nội Bộ" severity="info"></p-badge>
+              <p-badge *ngIf="row.documentType == 201" value="Bán" severity="danger"></p-badge>
+              <p-badge *ngIf="row.documentType == 202" value="Bán Nội Bộ" severity="warning"></p-badge>
             </td>
             <td>
-              <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
+              <!-- <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
                 (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
               <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple type="button"
                 icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
@@ -78,12 +80,14 @@
                 class="p-button-rounded p-button-text p-button-danger"></button>
               <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
                 (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
-                class="p-button-rounded p-button-text p-button-info"></button>
+                class="p-button-rounded p-button-text p-button-info"></button> -->
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-          <div style="text-align: left">Tổng số: {{ totalCount | number }}</div>
+          <div style="text-align: left">Tổng số: {{ totalCount | number }} -- Số Lượng Tồn: {{stockQuantity|number}}</div>
+          <!-- <div style="text-align: left">Tổng số: {{ totalCount | number }}</div> -->
+
         </ng-template>
       </p-table>
     </div>

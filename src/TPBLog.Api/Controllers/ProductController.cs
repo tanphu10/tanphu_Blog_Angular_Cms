@@ -26,10 +26,9 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         [Route("paging")]
         //[Authorize(Posts.View)]
-        public async Task<ActionResult<PageResult<ProductInListDto>>> GetProductPaging(string? keyword,
-           int pageIndex = 1, int pageSize = 10)
+        public async Task<ActionResult<PageResult<ProductInListDto>>> GetProductPaging(string? keyword, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
         {
-            var result = await _unitOfWork.Products.GetAllProductPaging(keyword, pageIndex, pageSize);
+            var result = await _unitOfWork.Products.GetAllProductPaging(keyword, categoryId, pageIndex, pageSize);
             return Ok(result);
         }
         [HttpGet]

@@ -11,5 +11,6 @@ namespace TPBlog.Core.Models.content
         //Order's DocumentNo
         public string OrderNo { get; set; }
         public List<SaleItemDto> SaleItems { get; set; }
+
     }
 }

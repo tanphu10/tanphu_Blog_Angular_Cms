@@ -32,7 +32,6 @@ namespace TPBlog.Data.Repositories
             _context.Inventories.Remove(item);
             _context.SaveChanges();
         }
-
         public async Task DeleteByIdAsync(Guid id)
         {
             var item = await _context.Inventories.FindAsync(id);
@@ -57,24 +56,54 @@ namespace TPBlog.Data.Repositories
             return result;
         }
 
-        public async Task<PageResult<InventoryEntryDto>> GetAllByItemNoPagingAsync(string? keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, int pageIndex = 1, int pageSize = 10)
         {
-            var query = _context.Inventories.AsQueryable();
+
+            var project = _context.Project.Where(x => x.Id == projectId);
+            if (project == null)
+            {
+                throw new Exception("dự án không tồn tại");
+            }
+            var query = from i in _context.Inventories
+                        join p in _context.Project on i.ProjectId equals p.Id
+                        select new InventoryInListDto
+                        {
+                            Id = i.Id,
+                            DocumentNo = i.DocumentNo,
+                            DocumentType = i.DocumentType,
+                            ItemNo = i.ItemNo,
+                            Quantity = i.Quantity,
+                            Thumbnail = i.Thumbnail,
+                            FilePdf = i.FilePdf,
+                            DateCreated = i.DateCreated,
+                            DateLastModified = i.DateLastModified,
+                            ProjectId = p.Id,
+                            ProjectSlug = p.Slug,
+                            ProjectName = p.Name
+
+                        };
+
+
+            //var query = _context.Inventories.AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 query = query.Where(x => x.ItemNo.Contains(keyword));
             }
+            if (projectId != null)
+            {
+                query = query.Where(x => x.ProjectId == projectId);
 
-
+            }
             var totalRow = await query.CountAsync();
 
             query = query.OrderByDescending(x => x.DateCreated)
                .Skip((pageIndex - 1) * pageSize)
                .Take(pageSize);
 
-            return new PageResult<InventoryEntryDto>
+            return new PageResult<InventoryInListDto>
             {
-                Results = await _mapper.ProjectTo<InventoryEntryDto>(query).ToListAsync(),
+                Results = await query.ToListAsync(),
                 CurrentPage = pageIndex,
                 RowCount = totalRow,
                 PageSize = pageSize,

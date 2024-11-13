@@ -4,7 +4,7 @@ export const navItems: INavData[] = [
   {
     name: 'Trang chủ',
     url: '/dashboard',
-    iconComponent: { name: 'cil-speedometer' },
+    iconComponent: { name: 'cilChart' },
     badge: {
       color: 'info',
       text: 'NEW',
@@ -14,18 +14,51 @@ export const navItems: INavData[] = [
     },
   },
   {
-    name: 'Quản Lí Văn Phòng',
-    url: '/content',
-    iconComponent: { name: 'cil-pencil' },
+    name: 'Quản Lí Dự Án',
+    url: '/project',
+    iconComponent: { name: 'cilLayers' },
     children: [
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Dự Án',
+        url: '/project',
+        attributes: {
+          policyName: 'Permissions.Projects.View',
+        },
+      },
+      {
+        iconComponent: { name: 'cilArrowRight' },
+        name: 'Nhóm Dự Án',
+        url: '/project/groups',
+        attributes: {
+          policyName: 'Permissions.Projects.View',
+        },
+      },
+      {
+        iconComponent: { name: 'cilArrowRight' },
+        name: 'Báo Cáo Tiến Độ',
+        url: '/project/report',
+        attributes: {
+          policyName: 'Permissions.Projects.View',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Quản Lí Văn Phòng',
+    url: '/content',
+    iconComponent: { name: 'cilFolderOpen' },
+    children: [
+      {
+        iconComponent: { name: 'cilArrowRight' },
+        name: 'Loạt Bài',
         url: '/content/series',
         attributes: {
           policyName: 'Permissions.Series.View',
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Danh mục',
         url: '/content/post-categories',
         attributes: {
@@ -33,6 +66,7 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Bài viết',
         url: '/content/posts',
         attributes: {
@@ -47,6 +81,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cilMenu' },
     children: [
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Tồn Kho',
         url: '/inventory/inventories',
         attributes: {
@@ -54,6 +89,7 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Sản Phẩm',
         url: '/inventory/products',
         attributes: {
@@ -61,6 +97,7 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Danh Mục Sản Phẩm',
         url: '/inventory/product-categories',
         attributes: {
@@ -75,6 +112,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cilDollar' },
     children: [
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Thống kê tháng',
         url: '/royalty/royalty-month',
         attributes: {
@@ -82,6 +120,7 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Thống kê tác giả',
         url: '/royalty/royalty-user',
         attributes: {
@@ -89,6 +128,7 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Giao dịch',
         url: '/royalty/transactions',
         attributes: {
@@ -100,9 +140,10 @@ export const navItems: INavData[] = [
   {
     name: 'Hệ thống',
     url: '/system',
-    iconComponent: { name: 'cil-notes' },
+    iconComponent: { name: 'cilSettings' },
     children: [
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Quyền',
         url: '/system/roles',
         attributes: {
@@ -110,13 +151,36 @@ export const navItems: INavData[] = [
         },
       },
       {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Người dùng',
         url: '/system/users',
         attributes: {
           policyName: 'Permissions.Users.View',
         },
       },
+      {
+        iconComponent: { name: 'cilArrowRight' },
+        name: 'Thông Báo',
+        url: '/system/announcements',
+        attributes: {
+          policyName: 'Permissions.Announcements.View',
+        },
+      },
     ],
   },
-
+  {
+    name: 'Quản Lí Task',
+    url: '/task',
+    iconComponent: { name: 'cilDescription' },
+    children: [
+      {
+        iconComponent: { name: 'cilArrowRight' },
+        name: 'Nhiệm Vụ',
+        url: '/task',
+        attributes: {
+          policyName: 'Permissions.Roles.View',
+        },
+      },
+    ],
+  },
 ];

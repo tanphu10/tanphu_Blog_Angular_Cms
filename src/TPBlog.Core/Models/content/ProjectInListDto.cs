@@ -18,7 +18,8 @@ namespace TPBlog.Core.Models.content
         public int SortOrder { get; set; }
         public string? SeoKeywords { get; set; }
         public Guid OwnerUserId { get; set; }
-
+        public DateTimeOffset DateCreated { get; set; }
+        public DateTimeOffset? DateLastModified { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

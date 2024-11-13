@@ -50,7 +50,7 @@
         </ng-container>
     </div>
       <div class="field col-12 md:col-6">
-        <label for="catalogPdf">File PDF <span class="required">*</span></label>
+        <label for="catalogPdf">Catalog<span class="required">*</span></label>
         <input type="hidden" formControlName="catalogPdf" />
         <input (change)="onFilePdfChange($event)" type="file" class="w-full" />
       </div>
@@ -59,6 +59,11 @@
         <p-editor formControlName="content" [style]="{ height: '320px' }">
         </p-editor>
       </div> -->
+      <div class="field col-12">
+        <label for="price">Giá/DVT</label>
+        <textarea id="price" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
+          formControlName="price" [style]="{ width: '100%' }"></textarea>
+      </div>
       <div class="field col-12">
         <label for="no">DocumentNo</label>
         <textarea id="no" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"

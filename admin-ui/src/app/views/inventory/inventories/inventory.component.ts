@@ -2,20 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { MessageConstants } from 'src/app/shared/constants/message.constant';
-// import { PostDetailComponent } from './post-detail.component';
+import * as messageConstant from 'src/app/shared/constants/message.constant';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import {
-  AdminApiPostApiClient,
-  AdminApiPostCategoryApiClient,
-  PostCategoryDto,
-  PostDto,
-  PostInListDto,
-  PostInListDtoPageResult,
-} from 'src/app/api/admin-api.service.generated';
-import { PostSeriesComponent } from 'src/app/views/content/posts/post-series.component';
-import { PostReturnReasonComponent } from 'src/app/views/content/posts/post-return-reason.component';
-import { PostActivityLogsComponent } from 'src/app/views/content/posts/post-activity-logs.component';
+import * as adminApiServiceGenerated from 'src/app/api/admin-api.service.generated';
+import { InventoryEntryDto, InventoryInListDto, InventoryInListDtoPageResult, ProjectInListDto } from 'src/app/api/admin-api.service.generated';
+import { InventoryDetailComponent } from './inventory-detail.component';
+import { MessageConstants } from 'src/app/shared/constants/message.constant';
+
 
 @Component({
   selector: 'app-inventory',
@@ -30,18 +23,20 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public pageIndex: number = 1;
   public pageSize: number = 10;
   public totalCount: number;
+  public stockQuantity: number;
+
 
   //Business variables
-  public items: PostInListDto[];
-  public selectedItems: PostInListDto[] = [];
+  public items: InventoryEntryDto[];
+  public selectedItems: InventoryInListDto[] = [];
   public keyword: string = '';
 
-  public categoryId?: string = null;
-  public postCategories: any[] = [];
+  public projectId?: string = null;
+  public projectCategory: any[] = [];
 
   constructor(
-    private postCategoryApiClient: AdminApiPostCategoryApiClient,
-    private postApiClient: AdminApiPostApiClient,
+    private inventoryApiClient: adminApiServiceGenerated.AdminApiInventoryApiClient,
+    private projectApiClient: adminApiServiceGenerated.AdminApiProjectApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
     private confirmationService: ConfirmationService
@@ -53,25 +48,26 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadPostCategories();
+    this.loadProjects();
     this.loadData();
   }
 
-  loadData(selectionId = null) {
+  loadData(projectId = null) {
     this.toggleBlockUI(true);
-    this.postApiClient
-      .getPostsPaging(
+    this.inventoryApiClient
+      .getInventoryPaging(
         this.keyword,
-        this.categoryId,
+        this.projectId,
         this.pageIndex,
         this.pageSize
       )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PostInListDtoPageResult) => {
-          // console.log("check postinlistDto",response)
+        next: (response: InventoryInListDtoPageResult) => {
+          // console.log("check ",response)
           this.items = response.results;
           this.totalCount = response.rowCount;
+          this.stockQuantity=response.additionalData;
           this.toggleBlockUI(false);
         },
         error: () => {
@@ -80,12 +76,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadPostCategories() {
-    this.postCategoryApiClient
-      .getPostCategories()
-      .subscribe((response: PostCategoryDto[]) => {
+  loadProjects() {
+    this.projectApiClient
+      .getAllProjects()
+      .subscribe((response: ProjectInListDto[]) => {
         response.forEach((element) => {
-          this.postCategories.push({
+          this.projectCategory.push({
             value: element.id,
             label: element.name,
           });
@@ -93,23 +89,23 @@ export class InventoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  // showAddModal() {
-  //   const ref = this.dialogService.open(PostDetailComponent, {
-  //     header: 'Thêm mới bài viết',
-  //     width: '70%',
-  //   });
-  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-  //   ref.onClose.subscribe((data: PostCategoryDto) => {
-  //     if (data) {
-  //       this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData();
-  //     }
-  //   });
-  // }
+  showAddModal() {
+    const ref = this.dialogService.open(InventoryDetailComponent, {
+      header: 'Mua Sản Phẩm',
+      width: '70%',
+    });
+    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+    ref.onClose.subscribe((data: InventoryEntryDto) => {
+      if (data) {
+        this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    });
+  }
 
   pageChanged(event: any): void {
     this.pageIndex = event.page;
@@ -146,7 +142,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   deleteItems() {
     if (this.selectedItems.length == 0) {
-      this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+      this.alertService.showError(messageConstant.MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
     }
     var ids = [];
@@ -154,7 +150,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       ids.push(element.id);
     });
     this.confirmationService.confirm({
-      message: MessageConstants.CONFIRM_DELETE_MSG,
+      message: messageConstant.MessageConstants.CONFIRM_DELETE_MSG,
       accept: () => {
         this.deleteItemsConfirm(ids);
       },
@@ -163,9 +159,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   deleteItemsConfirm(ids: any[]) {
     this.toggleBlockUI(true);
-    this.postApiClient.deletePosts(ids).subscribe({
+    this.inventoryApiClient.deleteById(ids).subscribe({
       next: () => {
-        this.alertService.showSuccess(MessageConstants.DELETED_OK_MSG);
+        this.alertService.showSuccess(messageConstant.MessageConstants.DELETED_OK_MSG);
         this.loadData();
         this.selectedItems = [];
         this.toggleBlockUI(false);
@@ -175,98 +171,98 @@ export class InventoryComponent implements OnInit, OnDestroy {
       },
     });
   }
-  addToSeries(id: string) {
-    const ref = this.dialogService.open(PostSeriesComponent, {
-      data: {
-        id: id,
-      },
-      header: 'Thêm vào loạt bài',
-      width: '70%',
-    });
-    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-    ref.onClose.subscribe((data: PostDto) => {
-      if (data) {
-        this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.selectedItems = [];
-        this.loadData(data.id);
-      }
-    });
-  }
-  approve(id: string) {
-    this.toggleBlockUI(true);
-    this.postApiClient.approvePost(id).subscribe({
-      next: () => {
-        this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.loadData();
-        this.selectedItems = [];
-        this.toggleBlockUI(false);
-      },
-      error: () => {
-        this.toggleBlockUI(false);
-      },
-    });
-  }
+  // addToSeries(id: string) {
+  //   const ref = this.dialogService.open(PostSeriesComponent, {
+  //     data: {
+  //       id: id,
+  //     },
+  //     header: 'Thêm vào loạt bài',
+  //     width: '70%',
+  //   });
+  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+  //   ref.onClose.subscribe((data: PostDto) => {
+  //     if (data) {
+  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+  //       this.selectedItems = [];
+  //       this.loadData(data.id);
+  //     }
+  //   });
+  // }
+  // approve(id: string) {
+  //   this.toggleBlockUI(true);
+  //   this.postApiClient.approvePost(id).subscribe({
+  //     next: () => {
+  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+  //       this.loadData();
+  //       this.selectedItems = [];
+  //       this.toggleBlockUI(false);
+  //     },
+  //     error: () => {
+  //       this.toggleBlockUI(false);
+  //     },
+  //   });
+  // }
 
-  sendToApprove(id: string) {
-    this.toggleBlockUI(true);
-    this.postApiClient.sendToApprove(id).subscribe({
-      next: () => {
-        // console.log("check send approve",id)
-        this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.loadData();
-        this.selectedItems = [];
-        this.toggleBlockUI(false);
-      },
-      error: () => {
-        this.toggleBlockUI(false);
-      },
-    });
-  }
+  // sendToApprove(id: string) {
+  //   this.toggleBlockUI(true);
+  //   this.postApiClient.sendToApprove(id).subscribe({
+  //     next: () => {
+  //       // console.log("check send approve",id)
+  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+  //       this.loadData();
+  //       this.selectedItems = [];
+  //       this.toggleBlockUI(false);
+  //     },
+  //     error: () => {
+  //       this.toggleBlockUI(false);
+  //     },
+  //   });
+  // }
 
-  reject(id: string) {
-    const ref = this.dialogService.open(PostReturnReasonComponent, {
-      data: {
-        id: id,
-      },
-      header: 'Trả lại bài',
-      width: '70%',
-    });
-    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-    ref.onClose.subscribe((data: PostDto) => {
-      if (data) {
-        this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.selectedItems = [];
-        this.loadData(data.id);
-      }
-    });
-  }
+  // reject(id: string) {
+  //   const ref = this.dialogService.open(PostReturnReasonComponent, {
+  //     data: {
+  //       id: id,
+  //     },
+  //     header: 'Trả lại bài',
+  //     width: '70%',
+  //   });
+  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+  //   ref.onClose.subscribe((data: PostDto) => {
+  //     if (data) {
+  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+  //       this.selectedItems = [];
+  //       this.loadData(data.id);
+  //     }
+  //   });
+  // }
 
-  showLogs(id: string) {
-    const ref = this.dialogService.open(PostActivityLogsComponent, {
-      data: {
-        id: id,
-      },
-      header: 'Xem lịch sử',
-      width: '70%',
-    });
-    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-    ref.onClose.subscribe((data: PostDto) => {
-      if (data) {
-        this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-        this.selectedItems = [];
-        this.loadData(data.id);
-      }
-    });
-  }
+  // showLogs(id: string) {
+  //   const ref = this.dialogService.open(PostActivityLogsComponent, {
+  //     data: {
+  //       id: id,
+  //     },
+  //     header: 'Xem lịch sử',
+  //     width: '70%',
+  //   });
+  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+  //   ref.onClose.subscribe((data: PostDto) => {
+  //     if (data) {
+  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+  //       this.selectedItems = [];
+  //       this.loadData(data.id);
+  //     }
+  //   });
+  // }
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;

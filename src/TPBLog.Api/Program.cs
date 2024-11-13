@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
@@ -21,6 +21,7 @@ using TPBlog.Data.Services;
 using TPBlog.Api.Services.IServices;
 using TPBlog.Core.Repositories;
 using MediatR;
+using TPBlog.Api.SignalR;
 
 internal class Program
 {
@@ -37,6 +38,7 @@ internal class Program
         var TeduCorsPolicy = "TeduCorsPolicy";
         builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        builder.Services.AddSignalR();
         builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
         {
             builder.AllowAnyMethod()
@@ -96,7 +98,7 @@ internal class Program
         builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
         builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
 
-
+        builder.Services.AddSingleton<NotificationsHub>();
 
         builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
         builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
@@ -130,9 +132,7 @@ internal class Program
         builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-        //builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
-        //builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
+        builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
         builder.Services.AddHttpContextAccessor();
         //Default config for ASP.NET Core
@@ -193,6 +193,10 @@ internal class Program
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtTokenSettings:Key"]))
             };
         });
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -218,7 +222,9 @@ internal class Program
         });
         //}
         app.UseStaticFiles();
+
         app.UseCors(TeduCorsPolicy);
+        app.UseMiddleware<QueryStringAuthProvider>();  // Thêm middleware tùy chỉnh vào pipeline
 
         app.UseHttpsRedirection();
 
@@ -230,6 +236,7 @@ internal class Program
 
         //Seeding data
         app.MigrateDatabase();
+        app.MapHub<NotificationsHub>("/notificationsHub");
 
         app.Run();
     }

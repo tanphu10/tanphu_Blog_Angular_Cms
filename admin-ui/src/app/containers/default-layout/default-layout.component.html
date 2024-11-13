@@ -21,12 +21,15 @@
     routerLink="./"
   />
 
-  <ng-scrollbar pointerEventsMethod="scrollbar">
-    <c-sidebar-nav
+  <ng-scrollbar pointerEventsMethod="scrollbar" >
+    <c-sidebar-nav id="tanPhuSideBar"
       [navItems]="navItems"
       dropdownMode="close"
     />
   </ng-scrollbar>
+
+
+
   <c-sidebar-toggler
     *ngIf="!sidebar.narrow"
     toggle="unfoldable"

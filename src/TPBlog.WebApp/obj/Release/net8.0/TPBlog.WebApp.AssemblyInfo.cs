@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TPBlog.WebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad883d31a11fcc5dd11c4146bea393c93677b48c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c654b3e3cd043d2c9434b23fbdafba4e891306aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("TPBlog.WebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TPBlog.WebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

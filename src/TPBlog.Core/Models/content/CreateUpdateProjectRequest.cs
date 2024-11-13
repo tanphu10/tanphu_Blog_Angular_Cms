@@ -9,7 +9,7 @@ using TPBlog.Core.Domain.Content;
 
 namespace TPBlog.Core.Models.content
 {
-    public class CreateUpdateSeriesRequest
+    public class CreateUpdateProjectRequest
     {
         [MaxLength(250)]
         public required string Name { get; set; }
@@ -36,7 +36,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateSeriesRequest, Series>();
+                CreateMap<CreateUpdateProjectRequest, Project>();
             }
         }
     }

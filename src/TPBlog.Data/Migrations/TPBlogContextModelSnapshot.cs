@@ -123,6 +123,54 @@ namespace TPBlog.Data.Migrations
                     b.ToTable("AppUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcements");
+                });
+
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.AnnouncementUser", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("AnnouncementId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<bool>("HasRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "AnnouncementId");
+
+                    b.ToTable("AnnouncementUsers", (string)null);
+                });
+
             modelBuilder.Entity("TPBlog.Core.Domain.Content.InventoryEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -706,6 +754,9 @@ namespace TPBlog.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool?>("Gender")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

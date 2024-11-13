@@ -9,6 +9,8 @@ namespace TPBlog.Core.Models.content
 {
     public record SalesProductDto(string ExternalDocumentNo, int Quantity)
     {
+
+        // ExternalDocumentNo: là lấy từ documentNo của Order
         public EDocumentType DocumentType = EDocumentType.Sale;
         public string ItemNo { get; set; }
         public string? Notice { get; set; }

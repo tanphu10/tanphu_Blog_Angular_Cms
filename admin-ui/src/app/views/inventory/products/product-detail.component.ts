@@ -108,19 +108,29 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
               label: element.name,
             });
           });
-          this.toggleBlockUI(false);
-        },
+          if (this.utilService.isEmpty(this.config.data?.id) == false) {
+            // this.postApiClient
+            //   .getPostTags(this.config.data?.id)
+            //   .subscribe((res) => {
+            //     this.postTags = res;
+            //   });
+            this.loadFormDetails(this.config.data?.id);
+          } else {
+            this.toggleBlockUI(false);
+          }        },
         error: () => {
           this.toggleBlockUI(false);
         },
       });
   }
   loadFormDetails(id: string) {
+    console.log("check id",id)
     this.productApiClient
       .getProductById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: ProductDto) => {
+          console.log(response);
           this.selectedEntity = response;
           this.buildForm();
           this.toggleBlockUI(false);
@@ -227,7 +237,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
   }
   buildForm() {
-    console.log('post cate>>>', this.productCategories);
+    // console.log('post cate>>>', this.productCategories);
     this.form = this.fb.group({
       name: new FormControl(
         this.selectedEntity.name || null,
@@ -251,7 +261,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       ),
       summary: new FormControl(this.selectedEntity.summary || null),
       no: new FormControl(this.selectedEntity.no || null),
-      // content: new FormControl(this.selectedEntity.content || null),
+      price: new FormControl(this.selectedEntity.price || 0),
       image: new FormControl(this.selectedEntity.image || []),
       isActive: new FormControl(this.selectedEntity.isActive || true),
       catalogPdf: new FormControl(this.selectedEntity.catalogPdf || null),

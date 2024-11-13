@@ -69,7 +69,14 @@ namespace TPBlog.Api.Services
                     {
                         tagId = tag.Id;
                     }
-                    await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
+                    // Kiểm tra xem đã có bản ghi PostTags hay chưa
+                    var postTagExists = await _unitOfWork.BaiPost.CheckPostTagExists(id, tagId);
+
+                    if (!postTagExists)
+                    {
+                        await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
+                    }
+                    //await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
                 }
             }
         }

@@ -16,6 +16,356 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const ADMIN_API_BASE_URL = new InjectionToken<string>('ADMIN_API_BASE_URL');
 
 @Injectable()
+export class AdminApiAnnouncementApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param announId (optional) 
+     * @return Success
+     */
+    markAsRead(announId?: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/annoucement/mark-read?";
+        if (announId === null)
+            throw new Error("The parameter 'announId' cannot be null.");
+        else if (announId !== undefined)
+            url_ += "announId=" + encodeURIComponent("" + announId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMarkAsRead(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMarkAsRead(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processMarkAsRead(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return No Content
+     */
+    deleteAnnouncementById(body: number[]): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/annoucement";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteAnnouncementById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteAnnouncementById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteAnnouncementById(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createNotification(body?: CreateAnnouncementRequest | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/annoucement/add";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateNotification(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateNotification(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateNotification(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    details(id: number): Observable<AnnouncementViewModel> {
+        let url_ = this.baseUrl + "/api/admin/annoucement/detail/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDetails(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnnouncementViewModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnnouncementViewModel>;
+        }));
+    }
+
+    protected processDetails(response: HttpResponseBase): Observable<AnnouncementViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AnnouncementViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getNotificationPaging(pageIndex?: number | undefined, pageSize?: number | undefined): Observable<AnnouncementViewModelPageResult> {
+        let url_ = this.baseUrl + "/api/admin/annoucement/get-all-paging?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNotificationPaging(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNotificationPaging(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnnouncementViewModelPageResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnnouncementViewModelPageResult>;
+        }));
+    }
+
+    protected processGetNotificationPaging(response: HttpResponseBase): Observable<AnnouncementViewModelPageResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AnnouncementViewModelPageResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getTopMyAnnouncement(pageIndex?: number | undefined, pageSize?: number | undefined): Observable<AnnouncementPageResult> {
+        let url_ = this.baseUrl + "/api/admin/annoucement/get-top-announcement?";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTopMyAnnouncement(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTopMyAnnouncement(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnnouncementPageResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnnouncementPageResult>;
+        }));
+    }
+
+    protected processGetTopMyAnnouncement(response: HttpResponseBase): Observable<AnnouncementPageResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AnnouncementPageResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class AdminApiAuthApiClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -96,14 +446,17 @@ export class AdminApiInventoryApiClient {
 
     /**
      * @param keyword (optional) 
+     * @param projectId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getInventoryPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<InventoryEntryDtoPageResult> {
+    getInventoryPaging(keyword?: string | null | undefined, projectId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<InventoryInListDtoPageResult> {
         let url_ = this.baseUrl + "/api/admin/inventory/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (projectId !== undefined && projectId !== null)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -129,14 +482,14 @@ export class AdminApiInventoryApiClient {
                 try {
                     return this.processGetInventoryPaging(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryEntryDtoPageResult>;
+                    return _observableThrow(e) as any as Observable<InventoryInListDtoPageResult>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<InventoryEntryDtoPageResult>;
+                return _observableThrow(response_) as any as Observable<InventoryInListDtoPageResult>;
         }));
     }
 
-    protected processGetInventoryPaging(response: HttpResponseBase): Observable<InventoryEntryDtoPageResult> {
+    protected processGetInventoryPaging(response: HttpResponseBase): Observable<InventoryInListDtoPageResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -147,7 +500,7 @@ export class AdminApiInventoryApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = InventoryEntryDtoPageResult.fromJS(resultData200);
+            result200 = InventoryInListDtoPageResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -283,7 +636,7 @@ export class AdminApiInventoryApiClient {
     /**
      * @return Success
      */
-    getInventoryById(id: string): Observable<InventoryEntryDto[]> {
+    getInventoryById(id: string): Observable<InventoryEntryDto> {
         let url_ = this.baseUrl + "/api/admin/inventory/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -305,14 +658,14 @@ export class AdminApiInventoryApiClient {
                 try {
                     return this.processGetInventoryById(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<InventoryEntryDto[]>;
+                    return _observableThrow(e) as any as Observable<InventoryEntryDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<InventoryEntryDto[]>;
+                return _observableThrow(response_) as any as Observable<InventoryEntryDto>;
         }));
     }
 
-    protected processGetInventoryById(response: HttpResponseBase): Observable<InventoryEntryDto[]> {
+    protected processGetInventoryById(response: HttpResponseBase): Observable<InventoryEntryDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -323,65 +676,8 @@ export class AdminApiInventoryApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(InventoryEntryDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = InventoryEntryDto.fromJS(resultData200);
             return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @return No Content
-     */
-    deleteById(id: string): Observable<void> {
-        let url_ = this.baseUrl + "/api/admin/inventory/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteById(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeleteById(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processDeleteById(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -566,6 +862,57 @@ export class AdminApiInventoryApiClient {
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = CreatedSalesOrderSuccessDto.fromJS(resultData200);
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return No Content
+     */
+    deleteById(body: string[]): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/inventory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteById(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1907,14 +2254,17 @@ export class AdminApiProductApiClient {
 
     /**
      * @param keyword (optional) 
+     * @param categoryId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getProductPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<ProductInListDtoPageResult> {
+    getProductPaging(keyword?: string | null | undefined, categoryId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<ProductInListDtoPageResult> {
         let url_ = this.baseUrl + "/api/admin/products/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (categoryId !== undefined && categoryId !== null)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -5461,6 +5811,262 @@ export interface IAddPostSeriesRequest {
     sortOrder?: number;
 }
 
+export class Announcement implements IAnnouncement {
+    id?: number;
+    title!: string;
+    content?: string | undefined;
+    dateCreated?: Date;
+    userId?: string;
+    status?: boolean;
+
+    constructor(data?: IAnnouncement) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.content = _data["content"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.userId = _data["userId"];
+            this.status = _data["status"];
+        }
+    }
+
+    static fromJS(data: any): Announcement {
+        data = typeof data === 'object' ? data : {};
+        let result = new Announcement();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["userId"] = this.userId;
+        data["status"] = this.status;
+        return data;
+    }
+}
+
+export interface IAnnouncement {
+    id?: number;
+    title: string;
+    content?: string | undefined;
+    dateCreated?: Date;
+    userId?: string;
+    status?: boolean;
+}
+
+export class AnnouncementPageResult implements IAnnouncementPageResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: number | undefined;
+    results?: Announcement[] | undefined;
+
+    constructor(data?: IAnnouncementPageResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(Announcement.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AnnouncementPageResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new AnnouncementPageResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IAnnouncementPageResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: number | undefined;
+    results?: Announcement[] | undefined;
+}
+
+export class AnnouncementViewModel implements IAnnouncementViewModel {
+    id?: number;
+    title?: string | undefined;
+    content?: string | undefined;
+    dateCreated?: Date;
+    userId?: string;
+    status?: boolean;
+
+    constructor(data?: IAnnouncementViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.content = _data["content"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.userId = _data["userId"];
+            this.status = _data["status"];
+        }
+    }
+
+    static fromJS(data: any): AnnouncementViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new AnnouncementViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["userId"] = this.userId;
+        data["status"] = this.status;
+        return data;
+    }
+}
+
+export interface IAnnouncementViewModel {
+    id?: number;
+    title?: string | undefined;
+    content?: string | undefined;
+    dateCreated?: Date;
+    userId?: string;
+    status?: boolean;
+}
+
+export class AnnouncementViewModelPageResult implements IAnnouncementViewModelPageResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    additionalData?: number | undefined;
+    results?: AnnouncementViewModel[] | undefined;
+
+    constructor(data?: IAnnouncementViewModelPageResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            this.additionalData = _data["additionalData"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(AnnouncementViewModel.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AnnouncementViewModelPageResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new AnnouncementViewModelPageResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        data["additionalData"] = this.additionalData;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IAnnouncementViewModelPageResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    additionalData?: number | undefined;
+    results?: AnnouncementViewModel[] | undefined;
+}
+
 export class AuthenticatedResult implements IAuthenticatedResult {
     token?: string | undefined;
     refreshToken?: string | undefined;
@@ -5575,6 +6181,58 @@ export class ChangePasswordRequest implements IChangePasswordRequest {
 export interface IChangePasswordRequest {
     oldPassword?: string | undefined;
     newPassword?: string | undefined;
+}
+
+export class CreateAnnouncementRequest implements ICreateAnnouncementRequest {
+    id?: number;
+    title?: string | undefined;
+    content?: string | undefined;
+    userId?: string | undefined;
+    status?: boolean;
+
+    constructor(data?: ICreateAnnouncementRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.content = _data["content"];
+            this.userId = _data["userId"];
+            this.status = _data["status"];
+        }
+    }
+
+    static fromJS(data: any): CreateAnnouncementRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAnnouncementRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["content"] = this.content;
+        data["userId"] = this.userId;
+        data["status"] = this.status;
+        return data;
+    }
+}
+
+export interface ICreateAnnouncementRequest {
+    id?: number;
+    title?: string | undefined;
+    content?: string | undefined;
+    userId?: string | undefined;
+    status?: boolean;
 }
 
 export class CreateProductDto implements ICreateProductDto {
@@ -6253,17 +6911,105 @@ export interface IInventoryEntryDto {
     projectId?: string;
 }
 
-export class InventoryEntryDtoPageResult implements IInventoryEntryDtoPageResult {
+export class InventoryInListDto implements IInventoryInListDto {
+    id?: string;
+    documentType?: EDocumentType;
+    documentNo?: string | undefined;
+    itemNo?: string | undefined;
+    quantity?: number;
+    thumbnail?: string[] | undefined;
+    filePdf?: string | undefined;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
+    projectSlug?: string | undefined;
+    projectName?: string | undefined;
+    projectId?: string;
+
+    constructor(data?: IInventoryInListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.documentType = _data["documentType"];
+            this.documentNo = _data["documentNo"];
+            this.itemNo = _data["itemNo"];
+            this.quantity = _data["quantity"];
+            if (Array.isArray(_data["thumbnail"])) {
+                this.thumbnail = [] as any;
+                for (let item of _data["thumbnail"])
+                    this.thumbnail!.push(item);
+            }
+            this.filePdf = _data["filePdf"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.dateLastModified = _data["dateLastModified"] ? new Date(_data["dateLastModified"].toString()) : <any>undefined;
+            this.projectSlug = _data["projectSlug"];
+            this.projectName = _data["projectName"];
+            this.projectId = _data["projectId"];
+        }
+    }
+
+    static fromJS(data: any): InventoryInListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InventoryInListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["documentType"] = this.documentType;
+        data["documentNo"] = this.documentNo;
+        data["itemNo"] = this.itemNo;
+        data["quantity"] = this.quantity;
+        if (Array.isArray(this.thumbnail)) {
+            data["thumbnail"] = [];
+            for (let item of this.thumbnail)
+                data["thumbnail"].push(item);
+        }
+        data["filePdf"] = this.filePdf;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["dateLastModified"] = this.dateLastModified ? this.dateLastModified.toISOString() : <any>undefined;
+        data["projectSlug"] = this.projectSlug;
+        data["projectName"] = this.projectName;
+        data["projectId"] = this.projectId;
+        return data;
+    }
+}
+
+export interface IInventoryInListDto {
+    id?: string;
+    documentType?: EDocumentType;
+    documentNo?: string | undefined;
+    itemNo?: string | undefined;
+    quantity?: number;
+    thumbnail?: string[] | undefined;
+    filePdf?: string | undefined;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
+    projectSlug?: string | undefined;
+    projectName?: string | undefined;
+    projectId?: string;
+}
+
+export class InventoryInListDtoPageResult implements IInventoryInListDtoPageResult {
     currentPage?: number;
     pageCount?: number;
     pageSize?: number;
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
-    results?: InventoryEntryDto[] | undefined;
+    additionalData?: number | undefined;
+    results?: InventoryInListDto[] | undefined;
 
-    constructor(data?: IInventoryEntryDtoPageResult) {
+    constructor(data?: IInventoryInListDtoPageResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -6284,14 +7030,14 @@ export class InventoryEntryDtoPageResult implements IInventoryEntryDtoPageResult
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
-                    this.results!.push(InventoryEntryDto.fromJS(item));
+                    this.results!.push(InventoryInListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): InventoryEntryDtoPageResult {
+    static fromJS(data: any): InventoryInListDtoPageResult {
         data = typeof data === 'object' ? data : {};
-        let result = new InventoryEntryDtoPageResult();
+        let result = new InventoryInListDtoPageResult();
         result.init(data);
         return result;
     }
@@ -6314,15 +7060,15 @@ export class InventoryEntryDtoPageResult implements IInventoryEntryDtoPageResult
     }
 }
 
-export interface IInventoryEntryDtoPageResult {
+export interface IInventoryInListDtoPageResult {
     currentPage?: number;
     pageCount?: number;
     pageSize?: number;
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
-    results?: InventoryEntryDto[] | undefined;
+    additionalData?: number | undefined;
+    results?: InventoryInListDto[] | undefined;
 }
 
 export class LoginRequest implements ILoginRequest {
@@ -6540,7 +7286,7 @@ export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: PostCategoryDto[] | undefined;
 
     constructor(data?: IPostCategoryDtoPageResult) {
@@ -6601,7 +7347,7 @@ export interface IPostCategoryDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: PostCategoryDto[] | undefined;
 }
 
@@ -6844,7 +7590,7 @@ export class PostInListDtoPageResult implements IPostInListDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: PostInListDto[] | undefined;
 
     constructor(data?: IPostInListDtoPageResult) {
@@ -6905,7 +7651,7 @@ export interface IPostInListDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: PostInListDto[] | undefined;
 }
 
@@ -7055,7 +7801,7 @@ export class ProductCategoryDtoPageResult implements IProductCategoryDtoPageResu
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProductCategoryDto[] | undefined;
 
     constructor(data?: IProductCategoryDtoPageResult) {
@@ -7116,7 +7862,7 @@ export interface IProductCategoryDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProductCategoryDto[] | undefined;
 }
 
@@ -7331,7 +8077,7 @@ export class ProductInListDtoPageResult implements IProductInListDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProductInListDto[] | undefined;
 
     constructor(data?: IProductInListDtoPageResult) {
@@ -7392,7 +8138,7 @@ export interface IProductInListDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProductInListDto[] | undefined;
 }
 
@@ -7412,6 +8158,8 @@ export class ProjectDto implements IProjectDto {
     sortOrder?: number;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
     seoDescription?: string | undefined;
     thumbnail?: string | undefined;
     content?: string | undefined;
@@ -7435,6 +8183,8 @@ export class ProjectDto implements IProjectDto {
             this.sortOrder = _data["sortOrder"];
             this.seoKeywords = _data["seoKeywords"];
             this.ownerUserId = _data["ownerUserId"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.dateLastModified = _data["dateLastModified"] ? new Date(_data["dateLastModified"].toString()) : <any>undefined;
             this.seoDescription = _data["seoDescription"];
             this.thumbnail = _data["thumbnail"];
             this.content = _data["content"];
@@ -7458,6 +8208,8 @@ export class ProjectDto implements IProjectDto {
         data["sortOrder"] = this.sortOrder;
         data["seoKeywords"] = this.seoKeywords;
         data["ownerUserId"] = this.ownerUserId;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["dateLastModified"] = this.dateLastModified ? this.dateLastModified.toISOString() : <any>undefined;
         data["seoDescription"] = this.seoDescription;
         data["thumbnail"] = this.thumbnail;
         data["content"] = this.content;
@@ -7474,6 +8226,8 @@ export interface IProjectDto {
     sortOrder?: number;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
     seoDescription?: string | undefined;
     thumbnail?: string | undefined;
     content?: string | undefined;
@@ -7488,6 +8242,8 @@ export class ProjectInListDto implements IProjectInListDto {
     sortOrder?: number;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
 
     constructor(data?: IProjectInListDto) {
         if (data) {
@@ -7508,6 +8264,8 @@ export class ProjectInListDto implements IProjectInListDto {
             this.sortOrder = _data["sortOrder"];
             this.seoKeywords = _data["seoKeywords"];
             this.ownerUserId = _data["ownerUserId"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.dateLastModified = _data["dateLastModified"] ? new Date(_data["dateLastModified"].toString()) : <any>undefined;
         }
     }
 
@@ -7528,6 +8286,8 @@ export class ProjectInListDto implements IProjectInListDto {
         data["sortOrder"] = this.sortOrder;
         data["seoKeywords"] = this.seoKeywords;
         data["ownerUserId"] = this.ownerUserId;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["dateLastModified"] = this.dateLastModified ? this.dateLastModified.toISOString() : <any>undefined;
         return data;
     }
 }
@@ -7541,6 +8301,8 @@ export interface IProjectInListDto {
     sortOrder?: number;
     seoKeywords?: string | undefined;
     ownerUserId?: string;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
 }
 
 export class ProjectInListDtoPageResult implements IProjectInListDtoPageResult {
@@ -7550,7 +8312,7 @@ export class ProjectInListDtoPageResult implements IProjectInListDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProjectInListDto[] | undefined;
 
     constructor(data?: IProjectInListDtoPageResult) {
@@ -7611,7 +8373,7 @@ export interface IProjectInListDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: ProjectInListDto[] | undefined;
 }
 
@@ -7814,7 +8576,7 @@ export class RoleDtoPageResult implements IRoleDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: RoleDto[] | undefined;
 
     constructor(data?: IRoleDtoPageResult) {
@@ -7875,7 +8637,7 @@ export interface IRoleDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: RoleDto[] | undefined;
 }
 
@@ -8302,7 +9064,7 @@ export class SeriesInListDtoPageResult implements ISeriesInListDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: SeriesInListDto[] | undefined;
 
     constructor(data?: ISeriesInListDtoPageResult) {
@@ -8363,7 +9125,7 @@ export interface ISeriesInListDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: SeriesInListDto[] | undefined;
 }
 
@@ -8558,7 +9320,7 @@ export class TransactionDtoPageResult implements ITransactionDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: TransactionDto[] | undefined;
 
     constructor(data?: ITransactionDtoPageResult) {
@@ -8619,7 +9381,7 @@ export interface ITransactionDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: TransactionDto[] | undefined;
 }
 
@@ -8878,7 +9640,7 @@ export class UserDtoPageResult implements IUserDtoPageResult {
     rowCount?: number;
     readonly firstRowOnPage?: number;
     readonly lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: UserDto[] | undefined;
 
     constructor(data?: IUserDtoPageResult) {
@@ -8939,7 +9701,7 @@ export interface IUserDtoPageResult {
     rowCount?: number;
     firstRowOnPage?: number;
     lastRowOnPage?: number;
-    additionalData?: string | undefined;
+    additionalData?: number | undefined;
     results?: UserDto[] | undefined;
 }
 

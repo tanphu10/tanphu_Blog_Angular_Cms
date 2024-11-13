@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IProductRepository:IRepository<Product, Guid>
+    public interface IProductRepository : IRepository<Product, Guid>
     {
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<Product> GetProductAsync(Guid id);
@@ -14,7 +14,7 @@ namespace TPBlog.Core.Repositories
         Task CreateProductAsync(Product product);
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(Guid id);
-        Task<PageResult<ProductInListDto>> GetAllProductPaging(string? keyword, int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<ProductInListDto>> GetAllProductPaging(string? keyword,Guid? categoryId, int pageIndex = 1, int pageSize = 10);
 
     }
 

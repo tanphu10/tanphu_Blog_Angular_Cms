@@ -96,6 +96,10 @@ namespace TPBlog.Data.Repositories
             }
             return _context.Posts.AnyAsync(x => x.Slug == slug);
         }
+        public Task<bool> CheckPostTagExists(Guid id, Guid tagId)
+        {
+            return _context.PostTags.AnyAsync(x => x.TagId == tagId && x.PostId == id);
+        }
         public async Task Approve(Guid id, Guid currentUserId)
         {
             var post = await _context.Posts.FindAsync(id);
@@ -185,7 +189,9 @@ namespace TPBlog.Data.Repositories
                 UserId = currentUserId,
                 PostId = post.Id,
                 UserName = user.UserName,
-                Note = $"{user.UserName} gửi bài chờ duyệt"
+                Note = $"{user.UserName} gửi bài chờ duyệt",
+                DateCreated = DateTimeOffset.Now,
+                DateLastModified = DateTimeOffset.Now
             });
             post.Status = PostStatus.WaitingForApproval;
             _context.Posts.Update(post);

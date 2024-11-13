@@ -5,8 +5,9 @@
       <div class="col-4">
         <button appPermission appPolicy="Permissons.Products.Add" pButton type="button" label="Thêm" icon="fa fa-plus"
           (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
-        <button appPermission appPolicy="Permissons.Products.Delete" pButton type="button" label="Xóa" icon="fa fa-trash"
-          class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"></button>
+        <button appPermission appPolicy="Permissons.Products.Delete" pButton type="button" label="Xóa"
+          icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0"
+          (click)="deleteItems()"></button>
         <button appPermission appPolicy="Permissons.Products.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
           class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
           (click)="showEditModal()"></button>
@@ -41,12 +42,12 @@
             <th>Giá/ĐVT</th>
             <th>Ngày tạo</th>
             <th>PDF</th>
-            <th style="width: 150px">Xuất bản</th>
+            <th style="width: 150px">Kích Hoạt</th>
             <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
-          <tr [pSelectableRow]="row" >
+          <tr [pSelectableRow]="row">
             <td style="width: 10px">
               <span class="ui-column-title"></span>
               <p-tableCheckbox [value]="row"></p-tableCheckbox>
@@ -55,14 +56,12 @@
             <td>{{ row.proCategoryName }}</td>
             <td>{{ row.price }}</td>
             <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-            <td >
+            <td>
               <app-pdf-link [pdfPath]="row.catalogPdf"></app-pdf-link>
             </td>
             <td style="width: 150px">
-              <p-badge *ngIf="row.status == 0" value="Nháp" severity="info"></p-badge>
-              <p-badge *ngIf="row.status == 1" value="Đợi duyệt" severity="warning"></p-badge>
-              <p-badge *ngIf="row.status == 2" value="Từ chối" severity="danger"></p-badge>
-              <p-badge *ngIf="row.status == 3" value="Đã duyệt" severity="success"></p-badge>
+              <p-badge *ngIf="row.isActive == 0" value="khóa" severity="danger"></p-badge>
+              <p-badge *ngIf="row.isActive == 1" value="kích hoạt" severity="success"></p-badge>
             </td>
             <td>
               <!-- <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"

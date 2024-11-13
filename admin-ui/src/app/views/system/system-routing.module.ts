@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {UserComponent} from './users/user.component'
 import { AuthGuard } from 'src/app/shared/auth.guard';
 import {RoleComponent} from './roles/role.component';
+import {AnnouncementComponent} from './announcements/announcement.component';
+
 
 const routes: Routes = [
  
@@ -26,6 +28,15 @@ const routes: Routes = [
     data: {
       title: 'roles',
       requiredPolicy:'Permissions.Roles.View',
+    },
+    canActivate:[AuthGuard],
+  },
+  {
+    path: 'announcements',
+    component:AnnouncementComponent,
+    data: {
+      title: 'announcements',
+      requiredPolicy:'Permissions.Announcements.View',
     },
     canActivate:[AuthGuard],
   },

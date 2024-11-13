@@ -38,4 +38,8 @@ export class DefaultLayoutComponent  implements OnInit{
     }
     this.navItems = navItems;
   }
+  // Hàm để toggle dropdown khi nhấn vào mục cha
+  toggleDropdown(item) {
+    item.active = !item.active; // Đổi trạng thái mở/đóng
+  }
 }

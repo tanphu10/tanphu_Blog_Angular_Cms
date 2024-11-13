@@ -154,3 +154,5 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Release\net8.0\refint\TPBlog.Api.
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Release\net8.0\TPBlog.Api.pdb
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Release\net8.0\TPBlog.Api.genruntimeconfig.cache
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Release\net8.0\ref\TPBlog.Api.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Release\net8.0\Scrutor.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Release\net8.0\Scrutor.AspNetCore.dll

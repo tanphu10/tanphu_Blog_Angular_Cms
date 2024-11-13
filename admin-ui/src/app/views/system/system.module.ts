@@ -25,6 +25,8 @@ import { UserDetailComponent } from './users/user-detail.component';
 import { BadgeModule } from 'primeng/badge';
 import { PickListModule } from 'primeng/picklist';
 import { ImageModule } from 'primeng/image';
+import { AnnouncementComponent } from './announcements/announcement.component';
+import { AnnouncementDetailComponent } from './announcements/announcement-detail.component';
 
 @NgModule({
   imports: [
@@ -54,7 +56,9 @@ import { ImageModule } from 'primeng/image';
     ChangeEmailComponent,
     RoleAssignComponent,
     SetPasswordComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    AnnouncementComponent,
+    AnnouncementDetailComponent,
   ],
 })
 export class SystemModule {}

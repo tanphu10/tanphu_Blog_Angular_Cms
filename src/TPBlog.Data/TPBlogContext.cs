@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Domain.Royalty;
@@ -26,6 +27,8 @@ namespace TPBlog.Data
         public DbSet<InventoryEntry> Inventories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<AnnouncementUser> AnnouncementUsers { get; set; }
         //  đây là phần ghi đè 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +41,8 @@ namespace TPBlog.Data
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.RoleId, x.UserId });
 
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
+            builder.Entity<AnnouncementUser>().ToTable("AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
+
         }
         //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{

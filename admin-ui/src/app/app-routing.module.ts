@@ -42,6 +42,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/inventory/inventory.module').then((m) => m.InventoryModule),
       },
+      {
+        path: 'project',
+        loadChildren: () =>
+          import('./views/project/project.module').then((m) => m.ProjectModule),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

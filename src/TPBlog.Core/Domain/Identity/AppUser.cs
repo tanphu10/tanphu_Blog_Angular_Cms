@@ -22,6 +22,7 @@ namespace TPBlog.Core.Domain.Identity
         public DateTime? Dob { get; set; }
         [MaxLength(500)]
         public string? Avatar { get; set; }
+        public bool? Gender { get; set; }
         public DateTime? VipStartDate { get; set; }
         public DateTime? VipExpireDate { get; set; }
         public DateTime? LastLoginDate { get; set; }

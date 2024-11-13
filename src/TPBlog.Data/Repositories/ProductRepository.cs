@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using Azure.Core;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
 using TPBlog.Data.SeedWorks;
-using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Data.Repositories
 {
@@ -65,7 +62,7 @@ namespace TPBlog.Data.Repositories
         }
 
 
-        public async Task<PageResult<ProductInListDto>> GetAllProductPaging(string? keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<ProductInListDto>> GetAllProductPaging(string? keyword, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             //var query = _context.Products.AsNoTracking();
 
@@ -74,7 +71,10 @@ namespace TPBlog.Data.Repositories
             {
                 query = query.Where(x => x.Name.Contains(keyword));
             }
-
+            if (categoryId != null)
+            {
+                query = query.Where(x => x.ProCategoryId == categoryId);
+            }
             var totalRow = await query.CountAsync();
 
             query = query.OrderByDescending(x => x.DateCreated)
@@ -91,7 +91,7 @@ namespace TPBlog.Data.Repositories
         }
 
         public async Task<Product> GetProductAsync(Guid id)
-       => await _context.Products.FirstOrDefaultAsync();
+       => await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<IEnumerable<Product>> GetProductByNoAsync(string productNo)
               => await _context.Products.Where(x => x.No == productNo).ToListAsync();
@@ -108,18 +108,19 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Không tồn tại Item");
             }
-            if (await IsSlugAlreadyExisted(product.Slug))
+            if (await IsSlugAlreadyExisted(product.Slug, product.Id))
             {
                 throw new Exception("đã tồn tại slug");
             }
-            if (item.ProCategoryId != product.ProCategoryId)
+            var entity = _mapper.Map(product, item);
+            if (entity.ProCategoryId != product.ProCategoryId)
             {
                 var category = await _context.ProductCategories.Where(x => x.Id == product.ProCategoryId).FirstOrDefaultAsync();
-                item.ProCategoryName = category.Name;
-                item.ProCategorySlug = category.Slug;
-                item.DateLastModified = DateTimeOffset.Now;
+                entity.ProCategoryName = category.Name;
+                entity.ProCategorySlug = category.Slug;
+                entity.DateLastModified = DateTimeOffset.Now;
             }
-            _context.Products.Update(item);
+            _context.Products.Update(entity);
             _context.SaveChanges();
             //return item;
         }

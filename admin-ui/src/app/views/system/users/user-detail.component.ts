@@ -6,6 +6,8 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { formatDate } from '@angular/common';
 import { AdminApiRoleApiClient, AdminApiUserApiClient, RoleDto, UserDto } from 'src/app/api/admin-api.service.generated';
+import { UploadService } from 'src/app/shared/services/upload.service';
+import { environment } from 'src/environments/environment';
 @Component({
   templateUrl: 'user-detail.component.html',
 })
@@ -32,7 +34,9 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     private utilService: UtilityService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private uploadService: UploadService
+
   ) { }
   ngOnDestroy(): void {
     if (this.ref) {
@@ -110,20 +114,17 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   onFileChange(event) {
-    const reader = new FileReader();
-
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.form.patchValue({
-          avatarFileName: file.name,
-          avatarFileContent: reader.result,
-        });
-
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-      };
+       if (event.target.files && event.target.files.length) {
+      this.uploadService.uploadImage('avatars', event.target.files).subscribe({
+        next: (response: any) => {
+          console.log(response)
+          this.form.controls['avatar'].setValue(response.path);
+          this.avatarImage = environment.API_URL + response.path;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
     }
   }
   saveChange() {
@@ -149,13 +150,15 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           },
         });
     } else {
+      console.log("update user 1", this.form.value)
+
       this.userService
         .updateUser(this.config.data?.id, this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
+            console.log("update user")
             this.toggleBlockUI(false);
-
             this.ref.close(this.form.value);
           },
           error: () => {
@@ -212,10 +215,13 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       dob: new FormControl(
         this.selectedEntity.dob ? formatDate(this.selectedEntity.dob, 'yyyy-MM-dd', 'en') : null
       ),
-      avatarFile: new FormControl(null),
+      // avatarFile: new FormControl(null),
       avatar: new FormControl(this.selectedEntity.avatar || null),
       isActive: new FormControl(this.selectedEntity.isActive || true),
       royaltyAmountPerPost: new FormControl(this.selectedEntity.royaltyAmountPerPost || 0, Validators.required)
     });
+    if (this.selectedEntity.avatar) {
+      this.avatarImage = environment.API_URL + this.selectedEntity.avatar;
+    }
   }
 }

@@ -116,6 +116,17 @@ namespace TPBlog.Core.SeedWorks.Contants
             [Description("Xóa danh mục sản phẩm")]
             public const string Delete = "Permissions.ProductCategories.Delete";
         }
+        public static class Announcements
+        {
+            [Description("Xem thông báo")]
+            public const string View = "Permissions.Announcements.View";
+            [Description("Tạo thông báo")]
+            public const string Create = "Permissions.Announcements.Create";
+            [Description("Sửa thông báo")]
+            public const string Edit = "Permissions.Announcements.Edit";
+            [Description("Xóa thông báo")]
+            public const string Delete = "Permissions.Announcements.Delete";
+        }
         public static class Royalty
         {
             [Description("Xem nhuận bút")]

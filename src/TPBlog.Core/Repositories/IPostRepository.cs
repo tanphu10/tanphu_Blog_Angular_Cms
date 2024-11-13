@@ -9,6 +9,7 @@ namespace TPBlog.Core.Repositories
     {
         Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, int pageIndex = 1, int pageSize = 10);
         Task<bool> IsSlugAlreadyExisted(string slug, Guid? currentId = null);
+        Task<bool> CheckPostTagExists(Guid id, Guid tagId);
         Task<List<SeriesInListDto>> GetAllSeries(Guid postId);
         Task Approve(Guid id, Guid currentUserId);
         Task SendToApprove(Guid id, Guid currentUserId);

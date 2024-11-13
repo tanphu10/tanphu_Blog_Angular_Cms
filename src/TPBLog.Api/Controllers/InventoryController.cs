@@ -34,11 +34,11 @@ namespace TPBlog.Api.Controllers
 
         [HttpGet]
         [Route("paging")]
-        [Authorize(Posts.View)]
-        public async Task<ActionResult<PageResult<InventoryEntryDto>>> GetInventoryPaging(string? keyword,
+        [Authorize(Inventories.View)]
+        public async Task<ActionResult<PageResult<InventoryInListDto>>> GetInventoryPaging(string? keyword, Guid? projectId,
          int pageIndex, int pageSize = 10)
         {
-            var result = await _unitOfWork.Inventories.GetAllByItemNoPagingAsync(keyword, pageIndex, pageSize);
+            var result = await _unitOfWork.Inventories.GetAllByItemNoPagingAsync(keyword,projectId, pageIndex, pageSize);
             return Ok(result);
         }
         [Route("items/{itemNo}", Name = "GetAllByItemNo")]
@@ -61,9 +61,9 @@ namespace TPBlog.Api.Controllers
 
 
         [Route("{id}", Name = "GetAllById")]
-        [ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(IEnumerable<InventoryEntryDto>), (int)HttpStatusCode.OK)]
         [HttpGet]
-        public async Task<ActionResult<InventoryEntryDto>> GetInventoryById([Required] Guid id)
+        public async Task<ActionResult<InventoryEntryDto>> GetInventoryById(Guid id)
         {
             var result = await _unitOfWork.Inventories.GetByIdAsync(id);
             return Ok(result);
@@ -95,11 +95,20 @@ namespace TPBlog.Api.Controllers
             var result = new CreatedSalesOrderSuccessDto(documentNo);
             return Ok(result);
         }
-        [HttpDelete("{id}", Name = "DeleteById")]
+        [HttpDelete(Name = "DeleteById")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> DeleteById([Required] Guid id)
+        public async Task<IActionResult> DeleteById([Required] Guid[] ids)
         {
-            await _unitOfWork.Inventories.DeleteByIdAsync(id);
+            foreach (var id in ids)
+            {
+                var item = await _unitOfWork.Inventories.GetByIdAsync(id);
+                var product = _mapper.Map<InventoryEntry>(item);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                _unitOfWork.Inventories.Remove(product);
+            }
             return NoContent();
         }
         [Route("document-no/{documentNo}", Name = "DeleteByDocumentNo")]

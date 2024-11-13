@@ -19,6 +19,8 @@ namespace TPBlog.Data.SeedWorks
         IInventoryRepository Inventories { get; }
         IProductRepository Products { get; }
         IProCategoryRepository ProCategories { get; }
+        IAnnouncementRepository Announcements { get; }
+        IAnnouncementUserRepository AnnouncementUsers { get; }
         Task<int> CompleteAsync();
     }
 }

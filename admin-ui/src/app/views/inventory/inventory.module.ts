@@ -28,6 +28,7 @@ import {ProductComponent} from './products/product.component';
 import {ProductCategoryComponent} from './product-categories/product-category.component';
 import { ProductCategoryDetailComponent } from './product-categories/product-category-detail.component';
 import { ProductDetailComponent } from './products/product-detail.component';
+import { InventoryDetailComponent } from './inventories/inventory-detail.component';
 
 
 
@@ -65,6 +66,7 @@ import { ProductDetailComponent } from './products/product-detail.component';
     ProductDetailComponent,
     AppLinkComponent,
 
+    InventoryDetailComponent
     // PostCategoryComponent,
     // PostCategoryDetailComponent,
     // SeriesComponent,

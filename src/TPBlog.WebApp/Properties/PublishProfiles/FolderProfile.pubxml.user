@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Published\TPBlogWebApp</_PublishTargetUrl>
-    <History>True|2024-11-02T04:34:23.6731648Z||;False|2024-11-02T11:24:29.8431338+07:00||;</History>
+    <History>True|2024-11-06T08:30:21.8180340Z||;True|2024-11-06T11:48:41.0615743+07:00||;True|2024-11-02T11:34:23.6731648+07:00||;False|2024-11-02T11:24:29.8431338+07:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

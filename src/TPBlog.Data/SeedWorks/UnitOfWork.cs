@@ -28,6 +28,8 @@ namespace TPBlog.Data.SeedWorks
             Inventories = new InventoryRepository(context, mapper);
             Products = new ProductRepository(context, mapper);
             ProCategories = new ProCategoryRepository(context, mapper);
+            Announcements = new AnnouncementRepository(context, mapper);
+            AnnouncementUsers = new AnnouncementUserRepository(context);
         }
         public IPostRepository BaiPost { get; private set; }
         public IPostCategoryRepository PostCategories { get; private set; }
@@ -42,6 +44,8 @@ namespace TPBlog.Data.SeedWorks
         public IProductRepository Products { get; private set; }
 
         public IProCategoryRepository ProCategories { get; private set; }
+        public IAnnouncementRepository Announcements { get; private set; }
+        public IAnnouncementUserRepository AnnouncementUsers { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

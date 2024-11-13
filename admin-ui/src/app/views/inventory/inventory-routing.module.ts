@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-// import { ProductComponent } from './inventories/product.component';
-// import { PostCategoryComponent } from './post-categories/post-category.component';
-// import { AuthGuard } from 'src/app/shared/auth.guard';
-import { AuthGuard } from 'src/app/shared/auth.guard';
+import * as authGuard from 'src/app/shared/auth.guard';
 import { InventoryComponent } from './inventories/inventory.component';
 import { ProductComponent } from './products/product.component';
 import { ProductCategoryComponent } from './product-categories/product-category.component';
@@ -20,18 +17,18 @@ const routes: Routes = [
     component: InventoryComponent,
     data: {
       title: 'Tồn Kho',
-      requiredPolicy: 'Permissions.Posts.View',
+      requiredPolicy: 'Permissions.Inventories.View',
     },
-    canActivate: [AuthGuard],
+    canActivate: [authGuard.AuthGuard],
   },
   {
     path: 'products',
     component: ProductComponent,
     data: {
       title: 'Sản Phẩm',
-      requiredPolicy: 'Permissions.Posts.View',
+      requiredPolicy: 'Permissions.Products.View',
     },
-    canActivate: [AuthGuard],
+    canActivate: [authGuard.AuthGuard],
   },
   {
     path: 'product-categories',
@@ -40,7 +37,7 @@ const routes: Routes = [
       title: 'Danh Mục Sản Phẩm',
       requiredPolicy: 'Permissions.ProductCategories.View',
     },
-    canActivate: [AuthGuard],
+    canActivate: [authGuard.AuthGuard],
   },
 ];
 

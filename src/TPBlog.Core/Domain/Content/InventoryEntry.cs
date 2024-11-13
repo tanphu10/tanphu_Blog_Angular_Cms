@@ -15,15 +15,17 @@ namespace TPBlog.Core.Domain.Content
     {
         public InventoryEntry()
         {
-            DocumentType = EDocumentType.Purchase;
-            DocumentNo = Guid.NewGuid().ToString();
-            ExternalDocumentNo = Guid.NewGuid().ToString();
+            //DocumentType = EDocumentType.Purchase;
+            //DocumentNo = Guid.NewGuid().ToString();
+            //ExternalDocumentNo = Guid.NewGuid().ToString();
         }
         public EDocumentType DocumentType { get; set; }
-        public string DocumentNo { get; set; } = Guid.NewGuid().ToString();
+        public string DocumentNo { get; set; } 
+            //= Guid.NewGuid().ToString();
         public string ItemNo { get; set; }
         public int Quantity { get; set; }
-        public string ExternalDocumentNo { get; set; } = Guid.NewGuid().ToString();
+        public string ExternalDocumentNo { get; set; } 
+            //= Guid.NewGuid().ToString();
         public string Notice { get; set; }
         public string[]? Thumbnail { get; set; }
         public string? FilePdf { get; set; }

@@ -17,7 +17,7 @@ namespace TPBlog.Core.Repositories
         Task<int> GetStockQuantity(string itemNo);
 
         Task<List<InventoryEntryDto>> GetAllByItemNoAsync(string itemNo);
-        Task<PageResult<InventoryEntryDto>> GetAllByItemNoPagingAsync(string? keyword,int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword,Guid? projectId,int pageIndex = 1, int pageSize = 10);
         Task<InventoryEntryDto> GetByIdAsync(Guid id);
         Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model);
         Task<InventoryEntryDto> SalesItemAsync(string itemNo, SalesProductDto model);

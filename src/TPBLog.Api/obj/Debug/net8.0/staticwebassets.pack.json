@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
+    {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
       "PackagePath": "staticwebassets\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg"
     },
@@ -31,6 +39,18 @@
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\products\\112024\\JPEG_example_flower.jpg",
       "PackagePath": "staticwebassets\\media\\images\\products\\112024\\JPEG_example_flower.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\products\\112024\\Screenshot 2024-10-11 114829.png",
+      "PackagePath": "staticwebassets\\media\\images\\products\\112024\\Screenshot 2024-10-11 114829.png"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\products\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\products\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\products\\112024\\pexels-willianjusten-24604754.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\products\\112024\\pexels-willianjusten-24604754.jpg"
     },
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\PhanTanPhu_Cv_20241102221219.pdf",
@@ -71,6 +91,46 @@
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\01. KHUNG TEN Model (1)_20241105203118.pdf",
       "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\01. KHUNG TEN Model (1)_20241105203118.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105204248.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105204248.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105205103.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105205103.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105205955.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105205955.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210155.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210155.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210649.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210649.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210908.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241105210908.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241106100823.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\20220822 DAY BE TU HOAI_20241106100823.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106101310.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106101310.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106103107.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106103107.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106105841.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\products\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 06-13_20241106105841.pdf"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TPBlog.Api.Microsoft.AspNetCore.StaticWebAssets.props",

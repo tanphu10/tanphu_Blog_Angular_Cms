@@ -32,7 +32,7 @@ namespace TPBlog.Data.Repositories
 
         public async Task<PageResult<ProjectInListDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10)
         {
-            var query = _context.Series.AsQueryable();
+            var query = _context.Project.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 query = query.Where(x => x.Name.Contains(keyword));

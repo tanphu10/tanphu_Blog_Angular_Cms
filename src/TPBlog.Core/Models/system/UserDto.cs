@@ -33,6 +33,7 @@ namespace TPBlog.Core.Models.system
             public AutoMapperProfiles()
             {
                 CreateMap<AppUser, UserDto>();
+
             }
         }
     }
