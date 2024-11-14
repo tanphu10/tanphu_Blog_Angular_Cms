@@ -120,9 +120,8 @@ coreui-free-angular-admin-template
 └── package.json
 ```
 
-
-I will update to become blow
-coreui-free-angular-admin-template
+```
+I will update to become blow  coreui-free-angular-admin-template
 ├── src/                         # project root
 │   ├── app/                     # main app directory
 |   │   ├── containers/          # layout containers
@@ -146,6 +145,7 @@ coreui-free-angular-admin-template
 ├── angular.json
 ├── README.md
 └── package.json
+```
 
 
 ## Documentation
