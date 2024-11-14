@@ -120,6 +120,34 @@ coreui-free-angular-admin-template
 └── package.json
 ```
 
+
+I will update to become blow
+coreui-free-angular-admin-template
+├── src/                         # project root
+│   ├── app/                     # main app directory
+|   │   ├── containers/          # layout containers
+|   |   │   └── default-layout/  # layout containers
+|   |   |       └── _nav.js      # sidebar navigation config
+|   │   ├── icons/               # icons set for the app
+|   │   ├── views/               # application views
+|   |   │   ├── admin/           # admin module and components
+|   |   |   │   ├── admin.module.ts           # admin module file
+|   |   |   │   └── admin-dashboard/          # admin dashboard component
+|   |   │   │       └── admin-dashboard.component.ts
+|   |   │   ├── user/            # user module and components
+|   |   │   │   ├── user.module.ts            # user module file
+|   |   │   │   └── user-dashboard/           # user dashboard component
+|   |   │   │       └── user-dashboard.component.ts
+|   │   └── components/          # components for demo only
+│   ├── assets/                  # images, icons, etc.
+│   ├── scss/                    # scss styles
+│   └── index.html               # html template
+│
+├── angular.json
+├── README.md
+└── package.json
+
+
 ## Documentation
 
 The documentation for the CoreUI Admin Template is hosted at our website [CoreUI for Angular](https://coreui.io/angular/)
