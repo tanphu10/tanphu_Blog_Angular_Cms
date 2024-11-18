@@ -1,0 +1,183 @@
+<!--<c-header class="mb-4 d-print-none" position="sticky">-->
+<ng-container>
+  <c-container [fluid]="true">
+    <button toggle="visible" cHeaderToggler [cSidebarToggle]="sidebarId" class="ps-1">
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+    <c-header-nav class="d-none d-lg-flex me-auto">
+      <c-nav-item>
+        <a cNavLink routerLink="/dashboard" routerLinkActive="active">
+          Trang Chủ
+        </a>
+      </c-nav-item>
+      <c-nav-item>
+        <a cNavLink routerLink="/system/users" routerLinkActive="active">Người dùng</a>
+      </c-nav-item>
+      <c-nav-item>
+        <a cNavLink routerLink="/content" routerLinkActive="active">Quản Lí VP</a>
+      </c-nav-item>
+    </c-header-nav>
+
+
+    <c-header-nav class="d-none d-lg-flex" style="margin-right: 20px;">
+      <!-- Thông báo -->
+      <c-nav-item>
+        <ng-container *ngTemplateOutlet="notificationDropdown"></ng-container>
+      </c-nav-item>
+
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <svg cIcon name="cilTask" size="lg"></svg>
+        </a>
+      </c-nav-item>
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
+        </a>
+      </c-nav-item>
+    </c-header-nav>
+    <c-header-nav class="ms-3">
+      <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+    </c-header-nav>
+
+  </c-container>
+  <c-header-divider></c-header-divider>
+  <c-container [fluid]="true">
+    <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
+  </c-container>
+</ng-container>
+<!--</c-header>-->
+<ng-template #notificationDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button cButton color="" [caret]="false" cDropdownToggle class="p-2">
+      <svg cIcon name="cilBell" size="lg"></svg>
+      <c-badge *ngIf="announcements && announcements.length>0" class="start-30 translate-middle" style="top: -5px;
+    border-radius: 15px;" color="success">
+        {{announcements.length}} </c-badge>
+    </button>
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Thông Báo</h6>
+      </li>
+      <li *ngFor="let item of announcements">
+        <a (click)="markAsRead(item.id)" style="cursor: pointer;">
+          <span class="image">
+            <!-- <img [src]="item" height="30" alt="{{ item.message }}" /> -->
+          </span>
+          <span>
+            <span>{{ item.content }}</span>
+            <span class="time">{{ item.dateCreated | date: 'short' }}</span>
+          </span>
+          <!-- <span class="message">
+            {{ item.Content }}
+          </span> -->
+        </a>
+      </li>
+      <li *ngIf="announcements && announcements.length > 0">
+        <div class="text-center">
+          <a (click)="loadAnnouncements()">
+            <span>Xem tất cả thông báo</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </div>
+      </li>
+
+
+      <hr style="margin-top: 10px;margin-bottom: 0px; ">
+      <li *ngIf="!announcements || announcements.length === 0">
+        <div class="text-center">
+          <p><span style="font-size: 13px ">Không có thông báo mới</span></p>
+        </div>
+      </li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+
+
+
+<ng-template #userDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
+      <c-avatar cTextColor="primary" shape="circle" size="md" [src]="environment.API_URL + user.avatar" status="success"
+        style="border-radius: 50%; width: 50px; height: 50px;"></c-avatar>
+    </button>
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+      </li>
+
+      <li class="d-lg-none">
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilBell"></svg>
+          <span style="font-size: 16px;">Thông Báo</span>
+          <c-badge *ngIf="announcements && announcements.length>0" class="ms-2 float-end" color="success">
+            {{announcements.length}}
+          </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilTask"></svg>
+          Tasks
+          <c-badge class="ms-2 float-end" color="danger">
+            42
+          </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name='cilCommentSquare'></svg>
+          Comments
+          <c-badge class="ms-auto" color="warning">
+            42
+          </c-badge>
+        </a>
+      </li>
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
+      </li>
+      <li></li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          Profile
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilSettings"></svg>
+          Settings
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilCreditCard"></svg>
+          Payments
+          <c-badge class="ms-2 float-end" color="secondary">
+            42
+          </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilFile"></svg>
+          Projects
+          <c-badge class="ms-2 float-end" color="primary">
+            42
+          </c-badge>
+        </a>
+      </li>
+      <li>
+        <hr cDropdownDivider />
+      </li>
+      <li>
+        <a routerLink="./" (click)="logout()" cDropdownItem>
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Đăng Xuất
+        </a>
+      </li>
+      <li></li>
+    </ul>
+  </c-dropdown>
+</ng-template>
