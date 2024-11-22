@@ -135,5 +135,10 @@ namespace TPBlog.Core.SeedWorks.Contants
             public const string Pay = "Permissions.Royalty.Pay";
 
         }
+        public static class Admin
+        {
+            [Description("Vào Trang Admin")]
+            public const string View = "Permissions.Admin.View";
+        }
     }
 }

@@ -41,7 +41,7 @@ export class SignalRService {
       this.connection
         .start()
         .then(() => {
-          console.log('SignalR connected');
+          // console.log('SignalR connected');
           this.connectionExists = true;
           this.connectionEstablished.emit(true);
           // this.connectionExists = true;
@@ -111,7 +111,7 @@ export class SignalRService {
   private registerOnServerEvents(): void {
     if (this.connection) {
       this.connection.on('addAnnouncement', (announcement: any) => {
-        console.log('Received announcement:', announcement);
+        // console.log('Received announcement:', announcement);
         this.announcementReceived.emit(announcement);
       });
     } else {
@@ -124,7 +124,7 @@ export class SignalRService {
       this.connection
         .stop()
         .then(() => {
-          console.log('SignalR connection stopped');
+          // console.log('SignalR connection stopped');
           this.connectionExists = false;
         })
         .catch((error) => {

@@ -81,12 +81,12 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    console.log("sss")
+    // console.log("sss")
     //Init form
     this.buildForm();
     //Load data to form
     var projects = this.projectApiClient.getAllProjects();
-    console.log("projects",projects)
+    // console.log("projects",projects)
 
     // var tags = this.productApiClient.getAllTags();
     this.toggleBlockUI(true);
@@ -124,13 +124,13 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
       });
   }
   loadFormDetails(id: string) {
-    console.log('check id', id);
+    // console.log('check id', id);
     this.inventoryApiClient
       .getInventoryById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: InventoryEntryDto) => {
-          console.log(response);
+          // console.log(response);
           this.selectedEntity = response;
           this.buildForm();
           this.toggleBlockUI(false);
@@ -195,7 +195,7 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
   private saveData() {
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id)) {
-      console.log('check data->>>', this.form.value);
+      // console.log('check data->>>', this.form.value);
       this.inventoryApiClient
         .purchaseOrder(this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))

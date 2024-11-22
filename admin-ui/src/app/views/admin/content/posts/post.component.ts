@@ -16,9 +16,6 @@ import {
 import { PostSeriesComponent } from './post-series.component';
 import { PostReturnReasonComponent } from './post-return-reason.component';
 import { PostActivityLogsComponent } from './post-activity-logs.component';
-// import { PostSeriesComponent } from 'src/app/views/content/posts/post-series.component';
-// import { PostReturnReasonComponent } from 'src/app/views/content/posts/post-return-reason.component';
-// import { PostActivityLogsComponent } from 'src/app/views/content/posts/post-activity-logs.component';
 
 @Component({
   selector: 'app-post',

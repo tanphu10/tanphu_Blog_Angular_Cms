@@ -1,0 +1,146 @@
+// - css phần tab card
+::ng-deep .p-tabview a {
+  background-color: #f0f0f0; /* Ví dụ: thay đổi nền */
+  color: #35a22c !important;
+  text-decoration: none !important;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+// ::ng-deep .
+::ng-deep .navbar-nav a {
+  color: #f5af19;
+  position: relative; /* Để dùng ::after */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px; /* Độ dày của sọc */
+    width: 0; /* Bắt đầu từ 0 */
+    background-color: green;
+    transition: width 0.3s ease-in-out; /* Hiệu ứng từ trái sang phải */
+  }
+  &:hover {
+    color: #f5af19;
+  }
+
+  &:hover::after {
+    background-color: green;
+    width: 100%; /* Mở rộng đầy đủ chiều rộng của link */
+  }
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  border-color: #35a22c;
+}
+
+// -- button search
+.card .buttonSearch {
+  border-radius: 5px;
+  border: 1px solid #f12711;
+  background: linear-gradient(to left, #f12711, #f5af19);
+  background-clip: text;
+  color: transparent;
+  &:hover {
+    color: white;
+    background: #f12711;
+    background: -webkit-linear-gradient(to left, #283c86, #f5af19);
+    background: linear-gradient(to right, #23074d, #cc5333) 1;
+    // border: none;
+    border-color: white;
+  }
+}
+.card .inputkeyword {
+  padding: 11px;
+  border: 2px solid;
+  border-image: linear-gradient(to right, #23074d, #cc5333) 1;
+}
+// - css phần  card
+
+.tab_item:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #ff003b;
+  transition: all 0.35s;
+}
+
+.tab_item:hover {
+  color: #fff;
+}
+.tab_item:hover {
+  &:after {
+    left: 120%;
+    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+@media (min-width: 767px) {
+  .card .tab-content .tab-panel {
+    // border: 3px solid black;
+    border: 3px solid;
+    border-image: linear-gradient(to right, #1f4037, #99f2c8) 1;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    .tab_notice {
+      margin: 20px;
+    }
+  }
+}
+@media screen and (max-width: 586px) {
+  .card .tab-content .tab-panel {
+    // border: 1px solid black;
+
+    border: 3px solid;
+    border-image: linear-gradient(to right, #1f4037, #99f2c8) 1;
+    margin-bottom: 10px;
+  }
+  // .card .tab-content .tab-panel .tab_notice {
+  //   display: none;
+  // }
+}
+.card .tab-content .tab_item img {
+  width: 100%;
+  // border-radius: 15px 15px 0 0;
+}
+.card .tab-content .tab_item {
+  /* border-radius: 15px; */
+  // margin: 20px 0;
+  transition: all 0.5s;
+}
+.card .tab-content .tab_item .text {
+  padding: 20px 20px 30px;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  // border-radius: 0 0 15px 15px;
+  text-align: center;
+  transition: all 0.4s;
+}
+.card .tab-content .tab_item:hover .text {
+  border-bottom: 1px solid #e5591d;
+  // border-top: none;
+  // border-left: none;
+  // border-right: none;
+}
+.card .tab-content .tab_item h3 {
+  font-size: 20px;
+  font-weight: 400;
+  transition: all 0.4s;
+  cursor: pointer;
+  &:hover {
+    color: #f5af19;
+  }
+}
+.card .tab-content .tab_item:hover h3 {
+  color: #ee6809;
+}
+// .card .tab-content .tab_item p {
+//   cursor: pointer;
+//   &:hover {
+//     color: #f5af19;
+//   }
+// }

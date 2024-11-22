@@ -46,7 +46,7 @@ const adminRoutes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '/login' },
+  // { path: '/admin/**', redirectTo: '/login' },
 ];
 
 @NgModule({

@@ -1,0 +1,29 @@
+// .card h1 {
+//   padding: 0;
+//   position: relative;
+//   display: block;
+//   color: var(--brand-sub-color);
+//   font-family: "Fahkwang", sans-serif;
+//   font-size: 35px;
+//   line-height: 40px;
+//   text-transform: uppercase;
+//   font-weight: 400;
+// }
+
+.sub_header {
+  position: relative;
+  z-index: 10;
+  margin-top: -64px;
+  height: 200px;
+  // background: #f12711;
+  // background: -webkit-linear-gradient(to left, #c40808, #8be30f5b);
+  // background: linear-gradient(to left, #f12711, #051f6f);
+  background: linear-gradient(to left, #c94b4b, #4b134f);
+  h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: wheat;
+  }
+}

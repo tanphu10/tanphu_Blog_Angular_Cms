@@ -117,12 +117,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
        if (event.target.files && event.target.files.length) {
       this.uploadService.uploadImage('avatars', event.target.files).subscribe({
         next: (response: any) => {
-          console.log(response)
+          // console.log(response)
           this.form.controls['avatar'].setValue(response.path);
           this.avatarImage = environment.API_URL + response.path;
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
         },
       });
     }
@@ -150,14 +150,14 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      console.log("update user 1", this.form.value)
+      // console.log("update user 1", this.form.value)
 
       this.userService
         .updateUser(this.config.data?.id, this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: () => {
-            console.log("update user")
+            // console.log("update user")
             this.toggleBlockUI(false);
             this.ref.close(this.form.value);
           },

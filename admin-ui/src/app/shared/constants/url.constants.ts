@@ -4,9 +4,9 @@ export class UrlConstants {
   public static ACCESS_DENIED = '/auth/403';
 
   // -- phần này dành cho website
-  public static LOGIN_WEB = '/web/user/login';
-  public static HOME_WEB = '/web/dashboard';
-  public static ACCESS_DENIED_WEB = '/web/auth/403';
+  public static LOGIN_WEB = '/user/login';
+  public static HOME_WEB = '/';
+  public static ACCESS_DENIED_WEB = '/auth/403';
 }
 
 // export class UrlWebConstants{

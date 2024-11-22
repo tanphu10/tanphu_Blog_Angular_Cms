@@ -118,13 +118,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       });
   }
   loadFormDetails(id: string) {
-    console.log("check id",id)
+    // console.log("check id",id)
     this.productApiClient
       .getProductById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: ProductDto) => {
-          console.log(response);
+          // console.log(response);
           this.selectedEntity = response;
           this.buildForm();
           this.toggleBlockUI(false);
@@ -177,7 +177,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.catalogPdf = environment.API_URL + response.path;
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
         },
       });
     }
@@ -190,7 +190,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private saveData() {
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id)) {
-      console.log('check data->>>', this.form.value);
+      // console.log('check data->>>', this.form.value);
       this.productApiClient
         .createProduct(this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))

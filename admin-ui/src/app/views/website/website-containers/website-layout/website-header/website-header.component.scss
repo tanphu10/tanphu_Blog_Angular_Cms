@@ -1,0 +1,126 @@
+// #_buttonSearch {
+//   border: 1px solid ;
+//   border-image: linear-gradient(to right, #FFEEEE, #DDEFBB) 1;
+//   background: linear-gradient(to left, #3CA55C, #B5AC49);
+//   background-clip: text;
+//   color: transparent;
+//   &:hover {
+//     color: white;
+//     background: #f12711;
+//     background: -webkit-linear-gradient(to left, #f12711, #f5af19);
+//     background: linear-gradient(to left, #f12711, #f5af19);
+//   }
+// }
+#_buttonSearch {
+  border: 0; /* Xóa border mặc định */
+  position: relative;
+  // background: linear-gradient(to left, #ffa02d, #b5ac49);
+  background: white;
+  color: transparent;
+  border-radius: 8px; /* Áp dụng border-radius */
+  padding: 0px 15px;
+  z-index: 0;
+  background-clip: text;
+  color: transparent;
+
+  /* Tạo viền gradient */
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    padding: 0px 5px;
+    z-index: -1;
+    background-clip: text;
+    border: 1px solid #ffeeee;
+  }
+
+  &:hover {
+    color: white;
+    background: #f12711;
+    background: -webkit-linear-gradient(to left, #f12711, #f5af19);
+    background: linear-gradient(to left, #f12711, #f5af19);
+  }
+}
+
+#_buttonLogin {
+  border-radius: 5px;
+  border: 1px solid #d60c0c;
+  background: linear-gradient(to left, #c6c907, #e71809);
+  background-clip: text;
+  color: #e11111;
+  &:hover {
+    color: white;
+    background: #f12711;
+    background: -webkit-linear-gradient(to left, #830580, #088b7b);
+    background: linear-gradient(to left, #087d2f, #a60e13);
+    border-color: white;
+  }
+}
+
+/* Ensure the dropdown has a circular appearance */
+.circle-dropdown .p-dropdown-label {
+  border-radius: 50%;
+}
+
+/* Styling for the city items */
+.city-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.city-avatar {
+  margin-right: 10px;
+}
+
+/* Optionally, make the avatar image a fixed size */
+.p-avatar {
+  width: 30px;
+  height: 30px;
+}
+
+.transparent-navbar {
+  background-color: transparent !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dark-navbar {
+  background: linear-gradient(to left, #087d2f, #a60e13);
+  transition: background-color 0.3s ease-in-out;
+
+  .nav-link {
+    color: linear-gradient(to left, #f12711, #f5af19);
+    position: relative; /* Để dùng ::after */
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px; /* Độ dày của sọc */
+      width: 0; /* Bắt đầu từ 0 */
+      background-color: green;
+      transition: width 0.3s ease-in-out; /* Hiệu ứng từ trái sang phải */
+    }
+
+    &:hover::after {
+      width: 100%; /* Mở rộng đầy đủ chiều rộng của link */
+    }
+  }
+}
+.dropdown-toggle::after {
+  display: inline-block;
+  vertical-align: none;
+  content: "";
+  border: none !important;
+}
+.navbar-scrolled {
+  background-color: rgba(52, 58, 64, 0.9) !important; /* Hiệu ứng mờ */
+}
+
+.transparent-navbar {
+  color: black; /* Màu chữ cho menu khi navbar trong suốt */
+}

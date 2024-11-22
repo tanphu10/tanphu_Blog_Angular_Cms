@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   CommonModule,
   HashLocationStrategy,
@@ -35,7 +35,9 @@ import { environment } from '../../../environments/environment';
 import {
   ADMIN_API_BASE_URL,
   AdminApiAuthApiClient,
+  AdminApiPostCategoryApiClient,
   AdminApiUserApiClient,
+  AdminApiWebsitePostApiClient,
 } from '../../api/admin-api.service.generated';
 import { AuthGuard } from '../../shared/auth.guard';
 import { AlertService } from '../../shared/services/alert.service';
@@ -48,13 +50,18 @@ import { TokenInterceptor } from '../../shared/interceptors/token.interceptor';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SignalRService } from '../../shared/services/signalr-service';
 import { WebsiteComponent } from './website.component';
-import { WebSiteLayoutComponent } from './containers/website-layout';
+import { WebSiteLayoutComponent } from './website-containers/website-layout';
+import { ToastModule } from 'primeng/toast';
+import { BlockUIModule } from 'primeng/blockui';
+import { LandingComponent } from './website-landingpages/website-landing.component';
 
 @NgModule({
   declarations: [WebsiteComponent],
   imports: [
     CommonModule,
     WebsiteRoutingModule,
+    WebSiteLayoutComponent,
+    LandingComponent,
     AvatarModule,
     BreadcrumbModule,
     FooterModule,
@@ -79,8 +86,9 @@ import { WebSiteLayoutComponent } from './containers/website-layout';
     HttpClientModule,
     ConfirmDialogModule,
     DynamicDialogModule,
-    WebSiteLayoutComponent,
     BadgeModule,
+    ToastModule,
+    BlockUIModule,
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },
@@ -111,12 +119,9 @@ import { WebSiteLayoutComponent } from './containers/website-layout';
     AdminApiUserApiClient,
     UploadService,
     SignalRService,
+    AdminApiWebsitePostApiClient ,
+    AdminApiPostCategoryApiClient
   ],
-  exports: [
-    WebsiteComponent,
-    WebSiteLayoutComponent, // Export WebSiteLayoutComponent nếu bạn muốn sử dụng ở nơi khác
-  ],
-
   bootstrap: [WebsiteComponent],
 })
 export class WebsiteModule {}

@@ -35,7 +35,7 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpPut]
-        //[Authorize(PostCategories.Edit)]
+        [Authorize(PostCategories.Edit)]
         public async Task<IActionResult> UpdatePostCategory(Guid id, [FromBody] CreateUpdatePostCategoryRequest request)
         {
             var post = await _unitOfWork.PostCategories.GetByIdAsync(id);

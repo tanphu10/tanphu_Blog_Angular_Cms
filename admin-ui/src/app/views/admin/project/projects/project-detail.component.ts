@@ -90,13 +90,13 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
   }
   loadFormDetails(id: string) {
-    console.log("check id",id)
+    // console.log("check id",id)
     this.projectApiClient
       .getProjectById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: ProjectDto) => {
-          console.log(response);
+          // console.log(response);
           this.selectedEntity = response;
           this.buildForm();
           this.toggleBlockUI(false);
@@ -116,7 +116,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           this.thumbnailImage = environment.API_URL + response.path;
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
         },
       });
     
@@ -155,7 +155,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   private saveData() {
     this.toggleBlockUI(true);
     if (this.utilService.isEmpty(this.config.data?.id)) {
-      console.log('check data->>>', this.form.value);
+      // console.log('check data->>>', this.form.value);
       this.projectApiClient
         .createProject(this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -196,7 +196,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
   }
   buildForm() {
-    console.log('project>>>');
+    // console.log('project>>>');
     this.form = this.fb.group({
       name: new FormControl(
         this.selectedEntity.name || null,

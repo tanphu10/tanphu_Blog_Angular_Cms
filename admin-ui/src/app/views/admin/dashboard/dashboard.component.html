@@ -12,61 +12,23 @@
         </button>
         <form [formGroup]="trafficRadioGroup">
           <c-button-group class="float-end me-3" role="group">
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Day"
-            />
-            <label
-              (click)="setTrafficPeriod('Day')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-              >Day</label
-            >
+            <input class="btn-check" formControlName="trafficRadio" type="radio" value="Day" />
+            <label (click)="setTrafficPeriod('Day')" cButton cFormCheckLabel color="secondary"
+              variant="outline">Day</label>
 
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Month"
-            />
-            <label
-              (click)="setTrafficPeriod('Month')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-              >Month</label
-            >
+            <input class="btn-check" formControlName="trafficRadio" type="radio" value="Month" />
+            <label (click)="setTrafficPeriod('Month')" cButton cFormCheckLabel color="secondary"
+              variant="outline">Month</label>
 
-            <input
-              class="btn-check"
-              formControlName="trafficRadio"
-              type="radio"
-              value="Year"
-            />
-            <label
-              (click)="setTrafficPeriod('Year')"
-              cButton
-              cFormCheckLabel
-              color="secondary"
-              variant="outline"
-              >Year</label
-            >
+            <input class="btn-check" formControlName="trafficRadio" type="radio" value="Year" />
+            <label (click)="setTrafficPeriod('Year')" cButton cFormCheckLabel color="secondary"
+              variant="outline">Year</label>
           </c-button-group>
         </form>
       </c-col>
     </c-row>
-    <c-chart
-      [data]="mainChart.data"
-      [height]="300"
-      [ngStyle]="{ 'marginTop.px': 40 }"
-      [options]="mainChart.options"
-      [type]="mainChart.type"
-    >
+    <c-chart [data]="mainChart.data" [height]="300" [ngStyle]="{ 'marginTop.px': 40 }" [options]="mainChart.options"
+      [type]="mainChart.type">
       Main chart
     </c-chart>
   </c-card-body>
@@ -122,17 +84,13 @@
           <c-col md="6" xl="6" xs="12">
             <c-row>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-info py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-info py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">New Clients</div>
                   <div class="fs-5 fw-semibold">9,123</div>
                 </div>
               </c-col>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-danger py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">
                     Recurring Clients
                   </div>
@@ -242,9 +200,7 @@
                 <span>New clients</span>
                 &nbsp;&nbsp;
                 <sup>
-                  <span class="badge badge-pill badge-sm bg-danger"
-                    >&nbsp;</span
-                  >
+                  <span class="badge badge-pill badge-sm bg-danger">&nbsp;</span>
                 </sup>
                 <span>Recurring clients</span>
               </small>
@@ -254,17 +210,13 @@
           <c-col md="6" xl="6" xs="12">
             <c-row>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-warning py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">Page views</div>
                   <div class="fs-5 fw-semibold">78,623</div>
                 </div>
               </c-col>
               <c-col sm="6">
-                <div
-                  class="border-start border-start-4 border-start-success py-1 px-3 mb-3"
-                >
+                <div class="border-start border-start-4 border-start-success py-1 px-3 mb-3">
                   <div class="text-medium-emphasis small">Organic</div>
                   <div class="fs-5 fw-semibold">49,123</div>
                 </div>
@@ -355,13 +307,7 @@
               </div>
             </div>
             <div class="divider d-flex justify-content-center">
-              <button
-                cButton
-                class="text-muted btn-link"
-                color="transparent"
-                size="sm"
-                type="button"
-              >
+              <button cButton class="text-muted btn-link" color="transparent" size="sm" type="button">
                 <svg cIcon name="cil-options"></svg>
               </button>
             </div>
@@ -393,7 +339,7 @@
             <tr *ngFor="let user of items; index as i">
               <td class="text-center">
                 <!-- <div *ngFor="let item of items"> -->
-                  <c-avatar size="md" [src]="environment.API_URL + user.avatar"></c-avatar>
+                <c-avatar size="md" [src]="environment.API_URL + user.avatar"></c-avatar>
                 <!-- </div> -->
               </td>
               <td>
@@ -431,7 +377,7 @@
               </td>
               <td class=" text-center">
                 {{user.phoneNumber}}
-                <svg cIcon name="cibCc{{ user.balance }}" size="xl"></svg>
+                <svg cIcon name="cibCcVisa" size="xl"></svg>
               </td>
               <td>
                 <div class="small text-medium-emphasis">Last login</div>

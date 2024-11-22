@@ -3,17 +3,24 @@ import { navItems } from './_nav';
 import { Router } from '@angular/router';
 import { UrlConstants } from '../../../../shared/constants/url.constants';
 import { TokenStorageService } from '../../../../shared/services/token-storage.service';
+import { IconSetService } from '@coreui/icons-angular';
+import { iconSubset } from 'src/app/icons/icon-subset';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
 })
-export class DefaultLayoutComponent  implements OnInit{
-
+export class DefaultLayoutComponent implements OnInit {
   public navItems = [];
 
-  constructor(private tokenService :TokenStorageService,private router: Router) {}
+  constructor(
+    private tokenService: TokenStorageService,
+    private router: Router,
+    private iconSetService: IconSetService
+  ) {
+    iconSetService.icons = { ...iconSubset };
+  }
   ngOnInit(): void {
     var user = this.tokenService.getUser();
     if (user == null) this.router.navigate([UrlConstants.LOGIN]);

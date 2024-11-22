@@ -147,7 +147,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
           this.thumbnailImage = environment.API_URL + response.path;
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
         },
       });
     }
@@ -160,7 +160,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
           this.filePdf = environment.API_URL + response.path;
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
         },
       });
     }

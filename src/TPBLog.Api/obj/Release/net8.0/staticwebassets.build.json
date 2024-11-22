@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UFU6Khgvf2i20Uln8jVg5eH+ytTE04YXw2qwzA3/p3I=",
+  "Hash": "hb/l6f6su6/NCNCpopPBnoW19KAwPkzu26+SpQnThpM=",
   "Source": "TPBlog.Api",
   "BasePath": "_content/TPBlog.Api",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\media\\images\\posts\\112024\\119878.jpg"
+    },
+    {
+      "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "SourceId": "TPBlog.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\",
+      "BasePath": "_content/TPBlog.Api",
+      "RelativePath": "media/images/posts/112024/pexels-robert-stokoe-105922-733148.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\images\\posts\\112024\\pexels-robert-stokoe-105922-733148.jpg"
     },
     {
       "Identity": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\pexels-souvenirpixels-417074.jpg",

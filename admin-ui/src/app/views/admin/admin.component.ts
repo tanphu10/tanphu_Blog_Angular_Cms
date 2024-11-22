@@ -18,12 +18,7 @@ import { iconSubset } from 'src/app/icons/icon-subset';
 export class AdminComponent implements OnInit {
   title = 'core cms blog admin ui';
 
-  constructor(
-    private router: Router,
-    private titleService: Title,
-    private iconSetService: IconSetService
-  ) {
-    titleService.setTitle(this.title);
+  constructor(private router: Router, private iconSetService: IconSetService) {
     iconSetService.icons = { ...iconSubset };
   }
   ngOnInit(): void {

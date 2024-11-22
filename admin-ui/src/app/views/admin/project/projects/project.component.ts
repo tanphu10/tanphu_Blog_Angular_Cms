@@ -123,7 +123,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
     }
-    console.log("check item",this.selectedItems[0]);
+    // console.log("check item",this.selectedItems[0]);
     var id = this.selectedItems[0].id;
     const ref = this.dialogService.open(ProjectDetailComponent, {
       data: {

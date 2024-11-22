@@ -92,10 +92,11 @@ import {
   cilUserFollow,
   cilUserUnfollow,
   cibC,
-
+  cilAccountLogout,
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilAccountLogout,
   cilDescription,
   cibC,
   cilMediaRecord,
@@ -188,7 +189,7 @@ export const iconSubset = {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilUserUnfollow
+  cilUserUnfollow,
 };
 
 export enum IconSubset {

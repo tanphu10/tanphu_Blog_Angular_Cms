@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.api\\services\\royaltyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|solutionrelative:src\\tpblog.api\\services\\royaltyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}|src\\TPBlog.WebApp\\TPBlog.WebApp.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.webapp\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{151E3E1A-2F0B-41EE-B4F2-ABA4E626FE41}|src\\TPBlog.WebApp\\TPBlog.WebApp.csproj|solutionrelative:src\\tpblog.webapp\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.api\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|solutionrelative:src\\tpblog.api\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,15 +47,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RoyaltyService.cs",
-              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Services\\RoyaltyService.cs",
-              "RelativeDocumentMoniker": "src\\TPBLog.Api\\Services\\RoyaltyService.cs",
-              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Services\\RoyaltyService.cs",
-              "RelativeToolTip": "src\\TPBLog.Api\\Services\\RoyaltyService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAAB/AAAA",
+              "Title": "PostController.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\Controllers\\PostController.cs",
+              "RelativeDocumentMoniker": "src\\TPBlog.WebApp\\Controllers\\PostController.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.WebApp\\Controllers\\PostController.cs",
+              "RelativeToolTip": "src\\TPBlog.WebApp\\Controllers\\PostController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAABlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T09:02:05.524Z",
+              "WhenOpened": "2024-11-21T08:05:09.373Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PostController.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\PostController.cs",
+              "RelativeDocumentMoniker": "src\\TPBLog.Api\\Controllers\\PostController.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\PostController.cs",
+              "RelativeToolTip": "src\\TPBLog.Api\\Controllers\\PostController.cs",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAUwGgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-21T08:02:56.006Z"
             }
           ]
         }

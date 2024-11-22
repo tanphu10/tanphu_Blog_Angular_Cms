@@ -1,11 +1,6 @@
-import {
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  Input,
-  NgZone,
-} from '@angular/core';
+import { Component, Input, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { HeaderComponent, NavComponent } from '@coreui/angular';
+import { HeaderComponent } from '@coreui/angular';
 import { Subject, takeUntil } from 'rxjs';
 import {
   AdminApiAnnouncementApiClient,
@@ -20,10 +15,10 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-default-header',
-  // templateUrl: './default-header.component.html',
-  templateUrl: './header.component.html',
+  templateUrl: './default-header.component.html',
+  // templateUrl: './header.component.html',
 })
-export class DefaultHeaderComponent extends NavComponent {
+export class DefaultHeaderComponent extends HeaderComponent {
   @Input() sidebarId: string = 'sidebar';
 
   private unsubscribe$ = new Subject<void>(); // This will be used to trigger the unsubscription
@@ -97,7 +92,7 @@ export class DefaultHeaderComponent extends NavComponent {
     this._signalRService.connectionEstablished
       .pipe(takeUntil(this.unsubscribe$)) // Automatically unsubscribes when the component is destroyed
       .subscribe(() => {
-        console.log('_signalRService');
+        // console.log('_signalRService');
         this.canSendMessage = true;
       });
 
@@ -106,19 +101,19 @@ export class DefaultHeaderComponent extends NavComponent {
       // .pipe(takeUntil(this.unsubscribe$))
       .subscribe((response: AnnouncementViewModel) => {
         this._ngZone.run(() => {
-          console.log('check data', this.announcements);
+          // console.log('check data', this.announcements);
           // Format date and push the announcement
           // announcement.dateCreated = moment(announcement.dateCreated).fromNow(); // Sử dụng moment để chuyển đổi ngày
           // this.announcements.push(announcement);
           this.announcements.push(response);
-          console.log('check res  ', response);
+          // console.log('check res  ', response);
         });
       });
   }
   getAvatar() {
     this.user = this.tokenService.getUser();
-    console.log(this.environment);
-    console.log(this.user);
+    // console.log(this.environment);
+    // console.log(this.user);
   }
   markAsRead(id: number) {
     this.announcementService.markAsRead(id).subscribe({
@@ -126,7 +121,7 @@ export class DefaultHeaderComponent extends NavComponent {
         this.loadAnnouncements();
       },
       error: (err) => {
-        console.log(err);
+        // console.log(err);
       },
     });
   }
@@ -143,7 +138,7 @@ export class DefaultHeaderComponent extends NavComponent {
           // console.log('check listUnRead', response);
         },
         error: (e) => {
-          console.log(e);
+          // console.log(e);
           // this.toggleBlockUI(false);
         },
       });

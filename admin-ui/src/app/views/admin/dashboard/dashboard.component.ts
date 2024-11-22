@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import { Subject, takeUntil } from 'rxjs';
@@ -9,10 +9,11 @@ import {
 } from 'src/app/api/admin-api.service.generated';
 import { environment } from 'src/environments/environment';
 
-
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
+  // standalone: true,
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DashboardComponent implements OnInit {
   private ngUnsubscribe = new Subject<void>();
@@ -20,7 +21,7 @@ export class DashboardComponent implements OnInit {
   public pageIndex: number = 1;
   public pageSize: number = 10;
   public totalCount: number;
-  public environment=environment;
+  public environment = environment;
 
   //Business variables
   public items: UserDto[];

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module'; 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
@@ -14,13 +14,13 @@ import { WebsiteModule } from './website/website.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, // Bắt buộc để sử dụng các module UI với hiệu ứng
-    ToastModule, // Sử dụng để hiển thị thông báo (như p-toast)
-    ConfirmDialogModule, // Sử dụng cho hộp thoại xác nhận
+    BrowserAnimationsModule,
+    ToastModule,
+    ConfirmDialogModule,
     WebsiteModule,
-    AdminModule, // Import module con vào đây
+    AdminModule,
   ],
   providers: [MessageService],
-  bootstrap: [AppComponent], // Thành phần khởi động ứng dụng
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
