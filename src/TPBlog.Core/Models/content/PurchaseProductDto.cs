@@ -17,5 +17,7 @@ namespace TPBlog.Core.Models.content
         public string? Notice { get; set; }
         public string? FilePdf { get; set; }
         public Guid ProjectId { get; set; }
+        public Guid InvtCategoryId { get; set; }
+        public string Slug { get; set; }
     }
 }

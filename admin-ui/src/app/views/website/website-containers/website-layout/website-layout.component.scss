@@ -6,7 +6,6 @@
   background-color: #f8f9fa;
 }
 
-
 :host {
   ng-scrollbar {
     --scrollbar-thumb-color: var(--cui-border-color, #12b128);
@@ -18,7 +17,22 @@
   // }
 }
 
-:host ::ng-deep .sidebar-nav .nav-group-items .nav-link .nav-icon  {
+:host ::ng-deep .sidebar-nav .nav-group-items .nav-link .nav-icon {
   // padding-left:40px !important;
   padding: 0 10px 0 40px !important;
 }
+
+// .wrapper {
+//   overflow-x: hidden; /* Ẩn cuộn ngang */
+// }
+
+// body {
+//   margin: 0;
+//   padding: 0;
+//   overflow-x: hidden; /* Đảm bảo không có cuộn ngang trên toàn bộ trang */
+//   box-sizing: border-box; /* Đảm bảo mọi phần tử đều tính toán đúng kích thước */
+// }
+
+// .c-container {
+//   max-width: 100%; /* Đảm bảo container không vượt quá kích thước màn hình */
+// }

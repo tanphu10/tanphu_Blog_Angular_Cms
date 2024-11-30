@@ -35,8 +35,11 @@ import { environment } from '../../../environments/environment';
 import {
   ADMIN_API_BASE_URL,
   AdminApiAuthApiClient,
+  AdminApiInventoryCategoryApiClient,
   AdminApiPostCategoryApiClient,
+  AdminApiProjectApiClient,
   AdminApiUserApiClient,
+  AdminApiWebsiteInventoryApiClient,
   AdminApiWebsitePostApiClient,
 } from '../../api/admin-api.service.generated';
 import { AuthGuard } from '../../shared/auth.guard';
@@ -119,8 +122,11 @@ import { LandingComponent } from './website-landingpages/website-landing.compone
     AdminApiUserApiClient,
     UploadService,
     SignalRService,
-    AdminApiWebsitePostApiClient ,
-    AdminApiPostCategoryApiClient
+    AdminApiWebsitePostApiClient,
+    AdminApiPostCategoryApiClient,
+    AdminApiInventoryCategoryApiClient,
+    AdminApiWebsiteInventoryApiClient,
+    AdminApiProjectApiClient,
   ],
   bootstrap: [WebsiteComponent],
 })

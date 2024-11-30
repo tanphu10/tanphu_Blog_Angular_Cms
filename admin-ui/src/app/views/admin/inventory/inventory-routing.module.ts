@@ -9,11 +9,11 @@ import { ProductCategoryComponent } from './product-categories/product-category.
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'inventories',
+    redirectTo: 'stock/:slug',
     pathMatch: 'full',
   },
   {
-    path: 'inventories',
+    path: 'stocks/:slug',
     component: InventoryComponent,
     data: {
       title: 'Tồn Kho',
@@ -45,4 +45,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InventoryRoutingModule{}
+export class InventoryRoutingModule {}

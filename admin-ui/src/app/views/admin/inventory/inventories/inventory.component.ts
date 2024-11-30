@@ -5,14 +5,23 @@ import { Subject, takeUntil } from 'rxjs';
 import * as messageConstant from 'src/app/shared/constants/message.constant';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import * as adminApiServiceGenerated from 'src/app/api/admin-api.service.generated';
-import { InventoryEntryDto, InventoryInListDto, InventoryInListDtoPageResult, ProjectInListDto } from 'src/app/api/admin-api.service.generated';
+import {
+  AdminApiInventoryCategoryApiClient,
+  InventoryCategoryDto,
+  InventoryEntryDto,
+  InventoryInListDto,
+  InventoryInListDtoPageResult,
+  ProjectInListDto,
+} from 'src/app/api/admin-api.service.generated';
 import { InventoryDetailComponent } from './inventory-detail.component';
 import { MessageConstants } from 'src/app/shared/constants/message.constant';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
+  styleUrls: ['./inventory.component.scss'],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
   //System variables
@@ -25,21 +34,30 @@ export class InventoryComponent implements OnInit, OnDestroy {
   public totalCount: number;
   public stockQuantity: number;
 
+  public invtCategories: any[] = [];
+  public categorySlug?: string | undefined;
+  public invtItems: InventoryInListDto[] | [];
 
   //Business variables
-  public items: InventoryEntryDto[];
+  public items: InventoryInListDto[];
   public selectedItems: InventoryInListDto[] = [];
   public keyword: string = '';
 
   public projectId?: string = null;
   public projectCategory: any[] = [];
+  activeIndex: number = 3;
+  public environment = environment;
+  slug: string | null = null;
 
   constructor(
     private inventoryApiClient: adminApiServiceGenerated.AdminApiInventoryApiClient,
+    private invtCategoryApiClient: AdminApiInventoryCategoryApiClient,
     private projectApiClient: adminApiServiceGenerated.AdminApiProjectApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnDestroy(): void {
@@ -48,10 +66,42 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      this.slug = params.get('slug');
+      console.log('Slug:', this.slug);
+      // Xử lý logic tùy theo giá trị của slug
+    });
     this.loadProjects();
     this.loadData();
+    this.loadInvtCategories();
   }
+  loadInvtCategories() {
+    this.invtCategoryApiClient
+      .getInventoryCategories()
+      .subscribe((response: InventoryCategoryDto[]) => {
+        response.forEach((element) => {
+          this.invtCategories.push({
+            value: element.id,
+            label: element.name,
+            slug: element.slug,
+          });
+        });
+      });
+  }
+  onTabChange(event: any): void {
+    // Khi tab được thay đổi, cập nhật URL
+    console.log('activeIndex', this.activeIndex);
 
+    // -- NHƯ VẬY TRÊN BE PHẢI  LÀM RIÊNG RA THÊM 1.API/ NHẬP KHO 2.XUẤT KHO 3. KIỂM KÊ KHO 4. CẤP VẬT TƯ
+    console.log('invtCategories', this.invtCategories[this.activeIndex]);
+
+    const slug = this.invtCategories[this.activeIndex]?.slug;
+    if (slug) {
+      this.router.navigate(['/stock', slug]);
+      this.categorySlug = slug;
+      this.loadData();
+    }
+  }
   loadData(projectId = null) {
     this.toggleBlockUI(true);
     this.inventoryApiClient
@@ -67,7 +117,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
           // console.log("check ",response)
           this.items = response.results;
           this.totalCount = response.rowCount;
-          this.stockQuantity=response.additionalData;
+          this.stockQuantity = response.additionalData;
           this.toggleBlockUI(false);
         },
         error: () => {
@@ -142,7 +192,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   deleteItems() {
     if (this.selectedItems.length == 0) {
-      this.alertService.showError(messageConstant.MessageConstants.NOT_CHOOSE_ANY_RECORD);
+      this.alertService.showError(
+        messageConstant.MessageConstants.NOT_CHOOSE_ANY_RECORD
+      );
       return;
     }
     var ids = [];
@@ -161,7 +213,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     this.inventoryApiClient.deleteById(ids).subscribe({
       next: () => {
-        this.alertService.showSuccess(messageConstant.MessageConstants.DELETED_OK_MSG);
+        this.alertService.showSuccess(
+          messageConstant.MessageConstants.DELETED_OK_MSG
+        );
         this.loadData();
         this.selectedItems = [];
         this.toggleBlockUI(false);

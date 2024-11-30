@@ -14,6 +14,10 @@ namespace TPBlog.Data
         public TPBlogContext(DbContextOptions options) : base(options)
         {
         }
+
+        //Quản lí bài viết và dự án
+        public DbSet<Project> Project { get; set; }
+        public DbSet<PostInProject> PostInProject { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
@@ -22,13 +26,27 @@ namespace TPBlog.Data
         public DbSet<Series> Series { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<PostInSeries> PostInSeries { get; set; }
-        public DbSet<Project> Project { get; set; }
-        public DbSet<PostInProject> PostInProject { get; set; }
-        public DbSet<InventoryEntry> Inventories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
+  
+
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<AnnouncementUser> AnnouncementUsers { get; set; }
+
+
+        //-- Quản lí sản phẩm và tồn kho
+        public DbSet<InventoryEntry> Inventories { get; set; }
+        public DbSet<InventoryCategory> InventoryCategories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+       
+
+        //- Quản lí Task
+        public DbSet<TbTask> Tasks { get; set; }
+        public DbSet<TaskComment> TaskComments { get; set; }
+        public DbSet<TaskAttachment> TaskAttachments { get; set; }
+        public DbSet<TaskTag> TaskTags { get; set; }
+        public DbSet<TaskHistory> TaskHistories { get; set; }
+
+
         //  đây là phần ghi đè 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,10 +1,10 @@
-<website-sub-header-post style="margin-bottom: 500px;" />
+<website-sub-header [headerText]="'Danh Mục'" style="margin-bottom: 500px;" />
 
 <p-panel #pnl [style]="{ 'margin': '20px' }">
 
     <div class="card">
         <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true" (onChange)="onTabChange($event)">
-            <div class="col" style="display: flex ; justify-content: end;">
+            <div class="formSearch">
                 <div class="row">
                     <div class="col">
                         <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
@@ -23,21 +23,25 @@
                         <a *ngIf="post.filePdf" [href]="environment.API_URL+'/' + post.filePdf" target="_blank"
                             rel="noopener noreferrer">
                             <div class="tab_item col-12 col-md-6 col-xl-4 w-100">
-                                <img src="../../../../assets/img/news/picity1.jpg" alt="">
+                                <img [src]="environment.API_URL + '/' + post.thumbnail" alt="">
                                 <div class="text">
                                     <h3>{{post.name}}</h3>
-                                    <p>{{post.filePdf}}</p>
+                                    <!-- <p>{{post.filePdf}}</p> -->
                                 </div>
                             </div>
                         </a>
                         <div class="tab_notice">
-                            <h4>Thực Hiện: </h4>
-                            <h5>Ghi Chú: </h5>
-                            <p>Mô Tả: <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus suscipit
-                                    quibusdam dolores ipsam omnis magnam, nisi quo esse ratione aperiam libero ullam
-                                    corrupti quasi, fugiat maxime sequi. Expedita, dolores facere.</span>
-                            </p>
-                            <p>Ngày duyệt: 20/11/2024 </p>
+                            <p>-Thực Hiện: <span>{{post.authorUserName}}</span> </p>
+                            <p>-Tình Trạng:
+                                <!-- {{post.status}} -->
+                                <p-tag *ngIf="post.status == 3" severity="success" value="duyệt" />
+                                <p-tag *ngIf="post.status == 2" value="từ chối" severity="danger" />
+
+                                <p-tag *ngIf="post.status == 1" value="đang trình" severity="warning" />
+
+                                <p-tag *ngIf="post.status == 0" value="phát thảo" severity="info" />
+                            <p>-Mô Tả: <span>{{post.description}}</span> </p>
+                            <p>-Ngày phát hành: <span>{{post.dateCreated}}</span> </p>
                         </div>
                     </div>
                     <hr>

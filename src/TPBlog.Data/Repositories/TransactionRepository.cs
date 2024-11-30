@@ -5,6 +5,7 @@ using TPBlog.Core.Models;
 using TPBlog.Core.Repositories;
 using TPBlog.Data.SeedWorks;
 using TPBlog.Core.Domain.Royalty;
+using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
@@ -21,7 +22,9 @@ namespace TPBlog.Data.Repositories
             var query = _context.Transactions.AsQueryable();
             if (!string.IsNullOrWhiteSpace(userName))
             {
-                query = query.Where(x => x.ToUserName.Contains(userName));
+
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(userName);
+                query = query.Where(x => x.ToUserName.Contains(normalizedKeyword));
             }
             if (fromMonth > 0 && fromYear > 0)
             {

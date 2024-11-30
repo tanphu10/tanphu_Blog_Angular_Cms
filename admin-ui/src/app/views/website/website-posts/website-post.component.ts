@@ -15,11 +15,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { CommonModule } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { TabService } from 'src/app/shared/services/tab.service';
-import { WebsiteSubHeaderPost } from './website-sub-header/website-sub-header.component';
+import { WebsiteSubHeader } from '../website-containers/website-layout/website-sub-header/website-sub-header.component';
 import { BlockUIModule } from 'primeng/blockui';
 import { PaginatorModule } from 'primeng/paginator';
 import { PanelModule } from 'primeng/panel';
 import { WebsiteFooterComponent } from '../website-containers/website-layout/website-footer/website-footer.component';
+import { BadgeModule } from 'primeng/badge';
+import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-post',
   templateUrl: 'website-post.component.html',
@@ -32,11 +34,13 @@ import { WebsiteFooterComponent } from '../website-containers/website-layout/web
     ButtonModule,
     TabViewModule,
     CommonModule,
-    WebsiteSubHeaderPost,
+    WebsiteSubHeader,
     BlockUIModule,
     PaginatorModule,
     PanelModule,
     WebsiteFooterComponent,
+    // BadgeModule,
+    TagModule
   ],
 })
 export class PostComponent implements OnInit {

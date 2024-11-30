@@ -26,6 +26,10 @@ namespace TPBlog.Core.Models.content
         public string ProjectSlug { get; set; }
         public string ProjectName { get; set; }
         public Guid ProjectId { get; set; }
+        public string InvtCategorySlug { get; set; }
+        public string InvtCategoryName { get; set; }
+        public Guid InvtCategoryId { get; set; }
+
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

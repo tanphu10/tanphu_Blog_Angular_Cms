@@ -12,4 +12,7 @@ namespace TPBlog.Core.Repositories
         Task<PostCategoryDto> GetBySlug(string Slug);
 
     }
+        
+        
+       
 }

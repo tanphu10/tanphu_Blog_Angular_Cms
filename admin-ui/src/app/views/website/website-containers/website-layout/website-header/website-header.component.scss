@@ -1,16 +1,3 @@
-// #_buttonSearch {
-//   border: 1px solid ;
-//   border-image: linear-gradient(to right, #FFEEEE, #DDEFBB) 1;
-//   background: linear-gradient(to left, #3CA55C, #B5AC49);
-//   background-clip: text;
-//   color: transparent;
-//   &:hover {
-//     color: white;
-//     background: #f12711;
-//     background: -webkit-linear-gradient(to left, #f12711, #f5af19);
-//     background: linear-gradient(to left, #f12711, #f5af19);
-//   }
-// }
 #_buttonSearch {
   border: 0; /* Xóa border mặc định */
   position: relative;
@@ -89,6 +76,7 @@
 }
 
 .dark-navbar {
+  // .effect {
   background: linear-gradient(to left, #087d2f, #a60e13);
   transition: background-color 0.3s ease-in-out;
 
@@ -110,6 +98,7 @@
       width: 100%; /* Mở rộng đầy đủ chiều rộng của link */
     }
   }
+  // }
 }
 .dropdown-toggle::after {
   display: inline-block;
@@ -123,4 +112,125 @@
 
 .transparent-navbar {
   color: black; /* Màu chữ cho menu khi navbar trong suốt */
+}
+
+@media (max-width: 1200px) {
+  .userIo {
+    position: fixed; /* Đảm bảo luôn cố định khi thu nhỏ màn hình */
+    top: 10px; /* Khoảng cách từ trên */
+    right: 10px;
+    z-index: 1050; /* Đặt trên các thành phần khác */
+  }
+}
+@media (max-width: 992px) {
+  ::ng-deep .navbar-collapse {
+    background: linear-gradient(to left, #6be585, #dd3e54);
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+  }
+}
+.notify {
+  width: 35px; /* Đường kính hình tròn */
+  height: 35px;
+  border-radius: 50%; /* Làm tròn góc để tạo hình tròn */
+  background-color: rgba(0, 0, 0, 0.1); /* Màu mờ (đen nhạt) */
+  border: 1px solid rgba(0, 0, 0, 0.3); /* Đường viền mờ */
+  position: relative; /* Tạo gốc định vị cho phần tử con */
+  &:hover {
+    background-color: rgba(145, 125, 89, 0.414); /* Màu mờ (đen nhạt) */
+  }
+  .notifyItem {
+    display: block !important;
+    top: 50%;
+    left: 50%;
+    margin: 10px;
+    justify-content: center;
+  }
+  .nav-link {
+    color: none;
+    position: relative; /* Để dùng ::after */
+    &::after {
+      content: "";
+      background-color: none;
+    }
+  }
+}
+.notificateDropdown {
+  left: -7px;
+  top: -5px;
+  button {
+    margin-left: 3px;
+    height: 25px !important;
+    .start-30 {
+      top: -25px;
+      right: -25px;
+      border-radius: 15px;
+    }
+  }
+  ul {
+    width: 300px !important;
+    margin-top: 19px !important;
+    li {
+      .announceItems {
+        height: 70px !important;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        margin-left: 0;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        &:hover {
+          // padding: 5px;
+          border-radius: 10px;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        .itemNotify {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          .itemContent {
+            margin-top: 10px;
+            white-space: nowrap; /* Không cho phép xuống dòng */
+            overflow: hidden; /* Ẩn nội dung tràn */
+            text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung tràn */
+            width: 200px; /* Đặt chiều rộng tối đa cho phần nội dung (tùy chỉnh theo ý bạn) */
+            /* Căn các phần tử con từ trái */
+            text-align: left; /* Căn chữ từ trái */
+            .content {
+              font-size: 14px;
+              // position: relative;
+              // right: ;
+            }
+            .time {
+              display: flex;
+              font-size: 10px;
+              color: blue;
+            }
+          }
+          .dot_button {
+            position: absolute;
+            right: 5px;
+            button {
+              background-color: #0083b0;
+              width: 5px;
+              margin-bottom: 10px;
+              height: 5px !important;
+              padding: 5px;
+              border-radius: 50%;
+              border: 0.5px solid rgb(24, 31, 229);
+              &:hover {
+                background-color: #0c3cdbfe;
+              }
+            }
+          }
+        }
+      }
+      .text-center{
+        button{
+          border: none;
+        }
+      }
+    }
+  }
 }

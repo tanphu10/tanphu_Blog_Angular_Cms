@@ -15,6 +15,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import { UrlConstants } from 'src/app/shared/constants/url.constants';
 import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TabService } from 'src/app/shared/services/tab.service';
 @Component({
   selector: 'app-web-login',
   templateUrl: './login-web.component.html',
@@ -30,7 +31,8 @@ export class LoginWebComponent implements OnDestroy {
     private authApiClient: AdminApiAuthApiClient,
     private alertService: AlertService,
     private router: Router,
-    private tokenSerivce: TokenStorageService
+    private tokenSerivce: TokenStorageService,
+    private tabService: TabService
   ) {
     this.loginForm = this.fb.group({
       userName: new FormControl('', Validators.required),
@@ -53,12 +55,14 @@ export class LoginWebComponent implements OnDestroy {
       .login(request)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (res: AuthenticatedResult) => { 
+        next: (res: AuthenticatedResult) => {
           // console.log("check trả về res",res)
           //Save token and refresh token to localstorage
           this.tokenSerivce.saveToken(res.token);
           this.tokenSerivce.saveRefreshToken(res.refreshToken);
           this.tokenSerivce.saveUser(res);
+
+          this.tabService.setUserImage(this.tokenSerivce.getUser()?.avatar);
           //Redirect to dashboard
           this.router.navigate([UrlConstants.HOME_WEB]);
           // console.log('check web', res);

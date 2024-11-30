@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using TPBlog.Core.Domain.Content;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
@@ -48,6 +49,69 @@ namespace TPBlog.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<PageResult<InventoryInListDto>> GetAllByCategoryPagingAsync(string? keyword, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10)
+        {
+            var project = _context.Project.Where(x => x.Id == projectId);
+            if (project == null)
+            {
+                throw new Exception("dự án không tồn tại");
+            }
+            var category = _context.InventoryCategories.Where(x => x.Id == categoryId);
+            if (category == null)
+            {
+                throw new Exception("danh mục không tồn tại");
+            }
+            var query = from i in _context.Inventories
+                        join p in _context.Project on i.ProjectId equals p.Id
+                        join ic in _context.InventoryCategories on i.InvtCategoryId equals ic.Id
+                        select new InventoryInListDto
+                        {
+                            Id = i.Id,
+                            DocumentNo = i.DocumentNo,
+                            DocumentType = i.DocumentType,
+                            ItemNo = i.ItemNo,
+                            Quantity = i.Quantity,
+                            Thumbnail = i.Thumbnail,
+                            FilePdf = i.FilePdf,
+                            DateCreated = i.DateCreated,
+                            DateLastModified = i.DateLastModified,
+                            ProjectId = p.Id,
+                            ProjectSlug = p.Slug,
+                            ProjectName = p.Name,
+                            InvtCategoryId = ic.Id,
+                            InvtCategoryName = ic.Name,
+                            InvtCategorySlug = ic.Slug
+
+                        };
+
+
+            //var query = _context.Inventories.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.ItemNo.Contains(normalizedKeyword));
+            }
+            if (projectId != null)
+            {
+                query = query.Where(x => x.ProjectId == projectId);
+
+            }
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize);
+
+            return new PageResult<InventoryInListDto>
+            {
+                Results = await query.ToListAsync(),
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize,
+            };
+        }
+
         public async Task<List<InventoryEntryDto>> GetAllByItemNoAsync(string itemNo)
         {
             var entities = await _context.Inventories.Where(x => x.ItemNo == itemNo)
@@ -56,16 +120,22 @@ namespace TPBlog.Data.Repositories
             return result;
         }
 
-        public async Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, string? categorySlug, int pageIndex = 1, int pageSize = 10)
         {
 
             var project = _context.Project.Where(x => x.Id == projectId);
             if (project == null)
             {
-                throw new Exception("dự án không tồn tại");
+                throw new Exception("Project don't exist");
+            }
+            var category = _context.InventoryCategories.Where(x => x.Slug == categorySlug);
+            if (project == null)
+            {
+                throw new Exception("Category don't exist");
             }
             var query = from i in _context.Inventories
                         join p in _context.Project on i.ProjectId equals p.Id
+                        where i.InvtCategorySlug== categorySlug
                         select new InventoryInListDto
                         {
                             Id = i.Id,
@@ -88,7 +158,10 @@ namespace TPBlog.Data.Repositories
 
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.ItemNo.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.ItemNo.Contains(normalizedKeyword)
+                        );
+                //query = query.Where(x => x.ItemNo.Contains(keyword));
             }
             if (projectId != null)
             {
@@ -117,6 +190,13 @@ namespace TPBlog.Data.Repositories
             return result;
         }
 
+        public async Task<InventoryEntryDto> GetBySlug(string slug)
+        {
+            var post = await _context.Inventories.FirstOrDefaultAsync(x => x.Slug == slug);
+            if (post == null) throw new Exception($"cannot find post with slug:{slug}");
+            return _mapper.Map<InventoryEntryDto>(post);
+        }
+
         public async Task<int> GetStockQuantity(string itemNo)
         {
             var query = _context.Inventories.AsQueryable();
@@ -124,9 +204,28 @@ namespace TPBlog.Data.Repositories
             var result = query.Where(x => x.ItemNo == itemNo).Sum(x => x.Quantity);
             return result;
         }
-
+        public Task<bool> IsSlugAlreadyExisted(string slug, Guid? currentId = null)
+        {
+            if (currentId.HasValue)
+            {
+                return _context.Inventories.AnyAsync(x => x.Slug == slug && x.Id != currentId.Value);
+            }
+            return _context.Inventories.AnyAsync(x => x.Slug == slug);
+        }
         public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model)
         {
+            if (await IsSlugAlreadyExisted(model.Slug))
+            {
+                throw new Exception("đã tồn tại slug");
+
+            }
+
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
+            //var post= await _context.in
             var itemToAdd = new InventoryEntry()
             {
                 Id = Guid.NewGuid(),
@@ -135,7 +234,11 @@ namespace TPBlog.Data.Repositories
                 DocumentType = model.DocumentType,
                 Notice = model.Notice,
                 ProjectId = model.ProjectId,
-                FilePdf = model.FilePdf
+                FilePdf = model.FilePdf,
+                InvtCategorySlug = category.Slug,
+                InvtCategoryName = category.Name,
+                InvtCategoryId = category.Id,
+                Slug = model.Slug
             };
             await _context.Inventories.AddAsync(itemToAdd);
             _context.SaveChanges();
@@ -145,6 +248,16 @@ namespace TPBlog.Data.Repositories
 
         public async Task<InventoryEntryDto> SalesItemAsync(string itemNo, SalesProductDto model)
         {
+            if (await IsSlugAlreadyExisted(model.Slug))
+            {
+                throw new Exception("đã tồn tại slug");
+
+            }
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
 
             var itemToAdd = new InventoryEntry()
             {
@@ -155,7 +268,11 @@ namespace TPBlog.Data.Repositories
                 DocumentType = model.DocumentType,
                 Notice = model.Notice,
                 ProjectId = model.ProjectId,
-                FilePdf = model.FilePdf
+                FilePdf = model.FilePdf,
+                InvtCategorySlug = category.Slug,
+                InvtCategoryName = category.Name,
+                InvtCategoryId = category.Id,
+                Slug = model.Slug,
             };
 
             await _context.Inventories.AddAsync(itemToAdd);
@@ -166,6 +283,16 @@ namespace TPBlog.Data.Repositories
 
         public async Task<string> SalesOrderAsync(SalesOrderDto model)
         {
+            if (await IsSlugAlreadyExisted(model.Slug))
+            {
+                throw new Exception("đã tồn tại slug");
+
+            }
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
             var documentNo = Guid.NewGuid().ToString();
             foreach (var saleItem in model.SaleItems)
             {
@@ -177,6 +304,10 @@ namespace TPBlog.Data.Repositories
                     ExternalDocumentNo = model.OrderNo,
                     Quantity = saleItem.Quantity * -1,
                     DocumentType = saleItem.DocumentType,
+                    InvtCategorySlug = category.Slug,
+                    InvtCategoryName = category.Name,
+                    InvtCategoryId = category.Id,
+                    Slug = model.Slug
                 };
                 await _context.Inventories.AddAsync(itemToAdd);
             }

@@ -17,6 +17,8 @@ namespace TPBlog.Data.SeedWorks
         ITagRepository Tags { get; }
         IUserRepository Users { get; }
         IInventoryRepository Inventories { get; }
+        IInventoryCategoryRepository InventoryCategories { get; }
+
         IProductRepository Products { get; }
         IProCategoryRepository ProCategories { get; }
         IAnnouncementRepository Announcements { get; }

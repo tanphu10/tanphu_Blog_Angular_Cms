@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TPBlog.Core.Domain.Content
 {
-    [Table("PostTags")]
-    [PrimaryKey(nameof(PostId), nameof(TagId))]
-    public class PostTag
+    [Table("TaskTags")]
+    [PrimaryKey(nameof(TaskId), nameof(TagId))]
+    public class TaskTag
     {
-        public Guid PostId { set; get; }
+        public Guid TaskId { set; get; }
         public Guid TagId { set; get; }
     }
 }

@@ -94,6 +94,17 @@ namespace TPBlog.Core.SeedWorks.Contants
             [Description("Xóa Tồn Kho")]
             public const string Delete = "Permissions.Inventories.Delete";
         }
+        public static class InventoryCategories
+        {
+            [Description("Xem danh mục tồn kho")]
+            public const string View = "Permissions.InventoryCategories.View";
+            [Description("Tạo danh mục tồn kho")]
+            public const string Create = "Permissions.InventoryCategories.Create";
+            [Description("Sửa danh mục tồn kho")]
+            public const string Edit = "Permissions.InventoryCategories.Edit";
+            [Description("Xóa danh mục tồn kho")]
+            public const string Delete = "Permissions.InventoryCategories.Delete";
+        }
         public static class Products
         {
             [Description("Xem sản phẩm")]

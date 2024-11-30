@@ -981,6 +981,353 @@ export class AdminApiInventoryApiClient {
 }
 
 @Injectable()
+export class AdminApiInventoryCategoryApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createInventoryCategory(body?: CreateUpdateInvtCategoryRequest | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateInventoryCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateInventoryCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreateInventoryCategory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    updateInvnetoryCategory(id?: string | undefined, body?: CreateUpdateInvtCategoryRequest | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateInvnetoryCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateInvnetoryCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processUpdateInvnetoryCategory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param ids (optional) 
+     * @return Success
+     */
+    deleteInventoryCategory(ids?: string[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteInventoryCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteInventoryCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeleteInventoryCategory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getInventoryCategories(): Observable<InventoryCategoryDto[]> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInventoryCategories(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInventoryCategories(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<InventoryCategoryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<InventoryCategoryDto[]>;
+        }));
+    }
+
+    protected processGetInventoryCategories(response: HttpResponseBase): Observable<InventoryCategoryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(InventoryCategoryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getInventoryCategoryById(id: string): Observable<InventoryCategoryDto> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInventoryCategoryById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInventoryCategoryById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<InventoryCategoryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<InventoryCategoryDto>;
+        }));
+    }
+
+    protected processGetInventoryCategoryById(response: HttpResponseBase): Observable<InventoryCategoryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = InventoryCategoryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getInventoryCategoriesPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPageResult> {
+        let url_ = this.baseUrl + "/api/admin/inventorycategory/paging?";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInventoryCategoriesPaging(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInventoryCategoriesPaging(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostCategoryDtoPageResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostCategoryDtoPageResult>;
+        }));
+    }
+
+    protected processGetInventoryCategoriesPaging(response: HttpResponseBase): Observable<PostCategoryDtoPageResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostCategoryDtoPageResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class AdminApiMediaApiClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -5724,6 +6071,195 @@ export class AdminApiUserApiClient {
 }
 
 @Injectable()
+export class AdminApiWebsiteInventoryApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    /**
+     * @return Success
+     */
+    getInventoryWebsiteBySlug(slug: string | null): Observable<InventoryEntryDto> {
+        let url_ = this.baseUrl + "/api/website/inventory/detail/{slug}";
+        if (slug === undefined || slug === null)
+            throw new Error("The parameter 'slug' must be defined.");
+        url_ = url_.replace("{slug}", encodeURIComponent("" + slug));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInventoryWebsiteBySlug(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInventoryWebsiteBySlug(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<InventoryEntryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<InventoryEntryDto>;
+        }));
+    }
+
+    protected processGetInventoryWebsiteBySlug(response: HttpResponseBase): Observable<InventoryEntryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = InventoryEntryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllWebsiteInventory(): Observable<InventoryInListDto> {
+        let url_ = this.baseUrl + "/api/website/inventory/getall";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWebsiteInventory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWebsiteInventory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<InventoryInListDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<InventoryInListDto>;
+        }));
+    }
+
+    protected processGetAllWebsiteInventory(response: HttpResponseBase): Observable<InventoryInListDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = InventoryInListDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param categorySlug (optional) 
+     * @param projectId (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getIntentoryWebsitePaging(keyword?: string | null | undefined, categorySlug?: string | null | undefined, projectId?: string | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<InventoryInListDtoPageResult> {
+        let url_ = this.baseUrl + "/api/website/inventory/paging?";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (categorySlug !== undefined && categorySlug !== null)
+            url_ += "categorySlug=" + encodeURIComponent("" + categorySlug) + "&";
+        if (projectId === null)
+            throw new Error("The parameter 'projectId' cannot be null.");
+        else if (projectId !== undefined)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "pageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetIntentoryWebsitePaging(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetIntentoryWebsitePaging(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<InventoryInListDtoPageResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<InventoryInListDtoPageResult>;
+        }));
+    }
+
+    protected processGetIntentoryWebsitePaging(response: HttpResponseBase): Observable<InventoryInListDtoPageResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = InventoryInListDtoPageResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class AdminApiWebsitePostApiClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -6503,6 +7039,74 @@ export interface ICreateProductDto {
     no: string;
 }
 
+export class CreateUpdateInvtCategoryRequest implements ICreateUpdateInvtCategoryRequest {
+    name?: string | undefined;
+    slug?: string | undefined;
+    parentId?: string | undefined;
+    isActive?: boolean;
+    dateCreated?: Date;
+    dateModified?: Date | undefined;
+    seoKeywords?: string | undefined;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+
+    constructor(data?: ICreateUpdateInvtCategoryRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.parentId = _data["parentId"];
+            this.isActive = _data["isActive"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.dateModified = _data["dateModified"] ? new Date(_data["dateModified"].toString()) : <any>undefined;
+            this.seoKeywords = _data["seoKeywords"];
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+        }
+    }
+
+    static fromJS(data: any): CreateUpdateInvtCategoryRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateUpdateInvtCategoryRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["parentId"] = this.parentId;
+        data["isActive"] = this.isActive;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["dateModified"] = this.dateModified ? this.dateModified.toISOString() : <any>undefined;
+        data["seoKeywords"] = this.seoKeywords;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        return data;
+    }
+}
+
+export interface ICreateUpdateInvtCategoryRequest {
+    name?: string | undefined;
+    slug?: string | undefined;
+    parentId?: string | undefined;
+    isActive?: boolean;
+    dateCreated?: Date;
+    dateModified?: Date | undefined;
+    seoKeywords?: string | undefined;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+}
+
 export class CreateUpdatePostCategoryRequest implements ICreateUpdatePostCategoryRequest {
     name?: string | undefined;
     slug?: string | undefined;
@@ -7015,6 +7619,74 @@ export enum EDocumentType {
     _202 = 202,
 }
 
+export class InventoryCategoryDto implements IInventoryCategoryDto {
+    id?: string;
+    name?: string | undefined;
+    slug?: string | undefined;
+    parentId?: string | undefined;
+    isActive?: boolean;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+
+    constructor(data?: IInventoryCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.parentId = _data["parentId"];
+            this.isActive = _data["isActive"];
+            this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
+            this.dateLastModified = _data["dateLastModified"] ? new Date(_data["dateLastModified"].toString()) : <any>undefined;
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+        }
+    }
+
+    static fromJS(data: any): InventoryCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new InventoryCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["parentId"] = this.parentId;
+        data["isActive"] = this.isActive;
+        data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
+        data["dateLastModified"] = this.dateLastModified ? this.dateLastModified.toISOString() : <any>undefined;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        return data;
+    }
+}
+
+export interface IInventoryCategoryDto {
+    id?: string;
+    name?: string | undefined;
+    slug?: string | undefined;
+    parentId?: string | undefined;
+    isActive?: boolean;
+    dateCreated?: Date;
+    dateLastModified?: Date | undefined;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+}
+
 export class InventoryEntryDto implements IInventoryEntryDto {
     id?: string;
     documentType?: EDocumentType;
@@ -7108,6 +7780,9 @@ export class InventoryInListDto implements IInventoryInListDto {
     projectSlug?: string | undefined;
     projectName?: string | undefined;
     projectId?: string;
+    invtCategorySlug?: string | undefined;
+    invtCategoryName?: string | undefined;
+    invtCategoryId?: string;
 
     constructor(data?: IInventoryInListDto) {
         if (data) {
@@ -7136,6 +7811,9 @@ export class InventoryInListDto implements IInventoryInListDto {
             this.projectSlug = _data["projectSlug"];
             this.projectName = _data["projectName"];
             this.projectId = _data["projectId"];
+            this.invtCategorySlug = _data["invtCategorySlug"];
+            this.invtCategoryName = _data["invtCategoryName"];
+            this.invtCategoryId = _data["invtCategoryId"];
         }
     }
 
@@ -7164,6 +7842,9 @@ export class InventoryInListDto implements IInventoryInListDto {
         data["projectSlug"] = this.projectSlug;
         data["projectName"] = this.projectName;
         data["projectId"] = this.projectId;
+        data["invtCategorySlug"] = this.invtCategorySlug;
+        data["invtCategoryName"] = this.invtCategoryName;
+        data["invtCategoryId"] = this.invtCategoryId;
         return data;
     }
 }
@@ -7181,6 +7862,9 @@ export interface IInventoryInListDto {
     projectSlug?: string | undefined;
     projectName?: string | undefined;
     projectId?: string;
+    invtCategorySlug?: string | undefined;
+    invtCategoryName?: string | undefined;
+    invtCategoryId?: string;
 }
 
 export class InventoryInListDtoPageResult implements IInventoryInListDtoPageResult {
@@ -8570,6 +9254,8 @@ export class PurchaseProductDto implements IPurchaseProductDto {
     notice?: string | undefined;
     filePdf?: string | undefined;
     projectId?: string;
+    invtCategoryId?: string;
+    slug?: string | undefined;
 
     constructor(data?: IPurchaseProductDto) {
         if (data) {
@@ -8590,6 +9276,8 @@ export class PurchaseProductDto implements IPurchaseProductDto {
             this.notice = _data["notice"];
             this.filePdf = _data["filePdf"];
             this.projectId = _data["projectId"];
+            this.invtCategoryId = _data["invtCategoryId"];
+            this.slug = _data["slug"];
         }
     }
 
@@ -8610,6 +9298,8 @@ export class PurchaseProductDto implements IPurchaseProductDto {
         data["notice"] = this.notice;
         data["filePdf"] = this.filePdf;
         data["projectId"] = this.projectId;
+        data["invtCategoryId"] = this.invtCategoryId;
+        data["slug"] = this.slug;
         return data;
     }
 }
@@ -8623,6 +9313,8 @@ export interface IPurchaseProductDto {
     notice?: string | undefined;
     filePdf?: string | undefined;
     projectId?: string;
+    invtCategoryId?: string;
+    slug?: string | undefined;
 }
 
 export class ReturnBackRequest implements IReturnBackRequest {
@@ -8998,6 +9690,8 @@ export interface ISaleItemDto {
 }
 
 export class SalesOrderDto implements ISalesOrderDto {
+    invtCategoryId?: string;
+    slug?: string | undefined;
     orderNo?: string | undefined;
     saleItems?: SaleItemDto[] | undefined;
 
@@ -9012,6 +9706,8 @@ export class SalesOrderDto implements ISalesOrderDto {
 
     init(_data?: any) {
         if (_data) {
+            this.invtCategoryId = _data["invtCategoryId"];
+            this.slug = _data["slug"];
             this.orderNo = _data["orderNo"];
             if (Array.isArray(_data["saleItems"])) {
                 this.saleItems = [] as any;
@@ -9030,6 +9726,8 @@ export class SalesOrderDto implements ISalesOrderDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["invtCategoryId"] = this.invtCategoryId;
+        data["slug"] = this.slug;
         data["orderNo"] = this.orderNo;
         if (Array.isArray(this.saleItems)) {
             data["saleItems"] = [];
@@ -9041,6 +9739,8 @@ export class SalesOrderDto implements ISalesOrderDto {
 }
 
 export interface ISalesOrderDto {
+    invtCategoryId?: string;
+    slug?: string | undefined;
     orderNo?: string | undefined;
     saleItems?: SaleItemDto[] | undefined;
 }
@@ -9052,6 +9752,8 @@ export class SalesProductDto implements ISalesProductDto {
     notice?: string | undefined;
     filePdf?: string | undefined;
     projectId?: string;
+    invtCategoryId?: string;
+    slug?: string | undefined;
 
     constructor(data?: ISalesProductDto) {
         if (data) {
@@ -9070,6 +9772,8 @@ export class SalesProductDto implements ISalesProductDto {
             this.notice = _data["notice"];
             this.filePdf = _data["filePdf"];
             this.projectId = _data["projectId"];
+            this.invtCategoryId = _data["invtCategoryId"];
+            this.slug = _data["slug"];
         }
     }
 
@@ -9088,6 +9792,8 @@ export class SalesProductDto implements ISalesProductDto {
         data["notice"] = this.notice;
         data["filePdf"] = this.filePdf;
         data["projectId"] = this.projectId;
+        data["invtCategoryId"] = this.invtCategoryId;
+        data["slug"] = this.slug;
         return data;
     }
 }
@@ -9099,6 +9805,8 @@ export interface ISalesProductDto {
     notice?: string | undefined;
     filePdf?: string | undefined;
     projectId?: string;
+    invtCategoryId?: string;
+    slug?: string | undefined;
 }
 
 export class SeriesDto implements ISeriesDto {

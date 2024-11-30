@@ -1,0 +1,148 @@
+//categoryItems
+
+.categoryItems {
+  display: flex;
+  justify-items: center;
+  justify-content: space-between;
+  .formSearch {
+    margin-left: 20px;
+    display: flex;
+    justify-content: end;
+    .buttonSearch {
+      border-radius: 5px;
+      border: 1px solid #f12711;
+      background: linear-gradient(to left, #f12711, #f5af19);
+      background-clip: text;
+      color: transparent;
+      &:hover {
+        color: white;
+        background: #f12711;
+        background: -webkit-linear-gradient(to left, #283c86, #f5af19);
+        background: linear-gradient(to right, #23074d, #cc5333) 1;
+        // border: none;
+        border-color: white;
+      }
+    }
+    .inputkeyword {
+      padding: 11px;
+      border: 2px solid;
+      border-image: linear-gradient(to right, #23074d, #cc5333) 1;
+    }
+  }
+}
+
+// - css phần tab card
+::ng-deep .p-tabview {
+  a {
+    background-color: #f0f0f0; /* Ví dụ: thay đổi nền */
+    color: #35a22c !important;
+    text-decoration: none !important;
+    margin-right: 0px !important;
+    border-radius: 0 ;
+    border-right: 1px solid #fffcfc !important;
+    height: 30px;
+  }
+  .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    border-color: #35a22c;
+    background-color: #fffcfc;
+
+  }
+}
+
+@media (min-width: 600px) {
+  .card {
+    .tab-content {
+      .tab-panel {
+        margin-bottom: 10px;
+        display: flex;
+        .tab_notice {
+          margin: 10px 10px 0 20px;
+        }
+      }
+      .tab_item {
+        img {
+          width: 300px;
+          height: 200px;
+          // border-radius: 15px 15px 0 0;
+        }
+        .text {
+          width: 300px;
+          // height: 0px;
+        }
+        &:hover {
+          border-right: 1px solid #e5591d;
+          color: #e5591d;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 586px) {
+  .card {
+    .tab-content .tab_item {
+      h3 {
+        font-size: 20px;
+        font-weight: 400;
+        transition: all 0.4s;
+        cursor: pointer;
+        text-decoration: none !important;
+        &:hover {
+          color: #e5591d;
+        }
+      }
+      img {
+        width: 100%;
+        &:hover .text {
+          border-bottom: 1px solid #e5591d;
+          color: #e5591d;
+        }
+      }
+    }
+    .formSearch {
+      display: none;
+    }
+  }
+}
+// @media screen and (max-width: 900px) {
+//   .card .tab-content .tab-panel {
+//     // border: 1px solid black;
+//     border: 3px solid;
+//     border-image: linear-gradient(to right, #1f4037, #99f2c8) 1;
+//     margin-bottom: 10px;
+//   }
+//   // .card .tab-content .tab-panel .tab_notice {
+//   //   display: none;
+//   // }
+// }
+.card .tab-content {
+  .tab-panel {
+    border: 3px solid;
+    border-image: linear-gradient(to right, #1f4037, #99f2c8) 1;
+    margin-bottom: 10px;
+  }
+  .tab_item {
+    transition: all 0.5s;
+    .text {
+      padding: 10px;
+      border: 1px solid transparent;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      text-align: center;
+      transition: all 0.4s;
+    }
+    h3 {
+      font-size: 20px;
+      font-weight: 400;
+      transition: all 0.4s;
+      cursor: pointer;
+      &:hover {
+        color: #f5af19;
+      }
+    }
+  }
+  &:hover .text {
+    border-bottom: 1px solid #e5591d;
+  }
+  &:hover h3 {
+    color: #ee6809;
+  }
+}

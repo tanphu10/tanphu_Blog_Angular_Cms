@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TPBlog.Core.Domain.Content;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
@@ -35,7 +36,9 @@ namespace TPBlog.Data.Repositories
             var query = _context.ProductCategories.AsQueryable();
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
             }
             var totalRow = await query.CountAsync();
             query = query.OrderByDescending(x => x.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);

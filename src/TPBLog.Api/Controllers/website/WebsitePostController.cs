@@ -57,10 +57,10 @@ namespace TPBlog.Api.Controllers.website
         {
             var userId = User.GetUserId();
             var category = await _unitOfWork.PostCategories.GetBySlug(categorySlug);
-            if (category == null)
-            {
-                return NotFound("không tìm thấy category");
-            }
+            //if (category == null)
+            //{
+            //    return NotFound("không tìm thấy category");
+            //}
             var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, pageIndex, pageSize);
             return Ok(result);
         }

@@ -8,15 +8,12 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UtilityService } from '../../../../shared/services/utility.service';
-import * as adminApiServiceGenerated from '../../../../api/admin-api.service.generated';
 import { UploadService } from '../../../../shared/services/upload.service';
 import { environment } from '../../../../../environments/environment';
 import {
   AdminApiInventoryApiClient,
   AdminApiProjectApiClient,
   InventoryEntryDto,
-  InventoryInListDto,
-  ProjectDto,
   ProjectInListDto,
 } from '../../../../api/admin-api.service.generated';
 interface AutoCompleteCompleteEvent {

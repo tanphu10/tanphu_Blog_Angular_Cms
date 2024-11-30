@@ -29,6 +29,12 @@ import { ProductCategoryDetailComponent } from './product-categories/product-cat
 import { ProductDetailComponent } from './products/product-detail.component';
 import { InventoryDetailComponent } from './inventories/inventory-detail.component';
 import { CmsSharedModule } from '../../../shared/modules/cms-shared.module';
+import { CardModule } from '@coreui/angular';
+import { DividerModule } from 'primeng/divider';
+import { TabViewModule } from 'primeng/tabview';
+import { TagModule } from 'primeng/tag';
+import { WebsiteFooterComponent } from '../../website/website-containers/website-layout/website-footer/website-footer.component';
+import { WebsiteSubHeader } from '../../website/website-containers/website-layout/website-sub-header/website-sub-header.component';
 
 
 
@@ -56,7 +62,20 @@ import { CmsSharedModule } from '../../../shared/modules/cms-shared.module';
     InputNumberModule,
     ImageModule,
     AutoCompleteModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    DividerModule,
+    CardModule,
+    ButtonModule,
+    TabViewModule,
+    CommonModule,
+    WebsiteSubHeader,
+    BlockUIModule,
+    PaginatorModule,
+    PanelModule,
+    WebsiteFooterComponent,
+    TagModule,
+    DropdownModule,
+
   ],
   declarations: [
     InventoryComponent,

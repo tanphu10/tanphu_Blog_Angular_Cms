@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.Domain.Content;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
@@ -69,7 +70,9 @@ namespace TPBlog.Data.Repositories
             var query = _context.Products.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
             }
             if (categoryId != null)
             {

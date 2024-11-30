@@ -5,8 +5,36 @@
       "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\IMG_20191125_204029-01.jpeg"
     },
     {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\asp.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\asp.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\asp2.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\asp2.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\equipment.JPG",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\equipment.JPG"
+    },
+    {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg",
       "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\picity1.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\picity1.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\picity2.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\picity2.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\rivana.JPG",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\rivana.JPG"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\avatars\\112024\\xd3.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\avatars\\112024\\xd3.jpg"
     },
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\032024\\IMG_20191125_204029-01.jpeg",
@@ -25,12 +53,28 @@
       "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\119878.jpg"
     },
     {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\asp.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\asp.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\cauthap.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\cauthap.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\pexels-robert-stokoe-105922-733148.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\pexels-robert-stokoe-105922-733148.jpg"
+    },
+    {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\pexels-souvenirpixels-417074.jpg",
       "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\pexels-souvenirpixels-417074.jpg"
     },
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\pexels-willianjusten-24604754.jpg",
       "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\pexels-willianjusten-24604754.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\rivana2.JPG",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\rivana2.JPG"
     },
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\112024\\sai-gon-2.jpg",

@@ -5,6 +5,7 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Repositories;
 using TPBlog.Data.SeedWorks;
+using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
@@ -35,7 +36,9 @@ namespace TPBlog.Data.Repositories
             var query = _context.Series.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
             }
 
             var totalRow = await query.CountAsync();

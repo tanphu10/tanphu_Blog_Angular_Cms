@@ -46,6 +46,7 @@ import { SignalRService } from 'src/app/shared/services/signalr-service';
 import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
 import { environment } from 'src/environments/environment';
 import { TabService } from 'src/app/shared/services/tab.service';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'website-header',
   templateUrl: './website-header.component.html',
@@ -73,11 +74,11 @@ import { TabService } from 'src/app/shared/services/tab.service';
     CollapseModule,
     NavbarModule,
     IconModule,
+    FormsModule,
   ],
   providers: [IconSetService],
 })
 export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
-
   activeIndex: number = 0; // Chỉ số tab mặc định
 
   private unsubscribe$ = new Subject<void>(); // This will be used to trigger the unsubscription
@@ -85,18 +86,6 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
   public postCategories: any[] = [];
   public projectCategories: any[] = [];
 
-  // Your existing constructor and methods...
-
-  ngOnInit(): void {
-    this.subscribeToEvents();
-    this.loadAnnouncements();
-    this.getAvatar();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
   public announcements: AnnouncementViewModel[];
   public canSendMessage: Boolean;
 
@@ -104,16 +93,34 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
   public pageIndex: number = 1;
   public pageSize: number = 10;
   public totalCount: number;
+  keyword: string = ''; // Biến liên kết với input
 
-  public user: UserModel;
+  userImage: string | null = null;
   public environment = environment;
 
-  currentTheme: string = 'light'; // Mặc định là theme sáng
+  // currentTheme: string = 'light'; // Mặc định là theme sáng
   isScrolled = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 0;
+  }
+
+  // Your existing constructor and methods...
+
+  ngOnInit(): void {
+    this.subscribeToEvents();
+    this.loadAnnouncements();
+    // this.getAvatar();
+    this.tabService.userImage$.subscribe((imageUrl) => {
+      this.userImage = imageUrl; // Cập nhật hình ảnh từ service
+    });
+    // console.log(this.userImage);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
   constructor(
     private tokenService: TokenStorageService,
@@ -133,14 +140,47 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
     this.loadPostCategories();
     this.loadProjectCategories();
   }
-  navigateToDetail(name: string, slug: string) {
+
+  calculateTimeDifference(dateCreated: string): string {
+    const createdDate = new Date(dateCreated);
+    const now = new Date();
+    const differenceInMs = now.getTime() - createdDate.getTime();
+    const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+    const differenceInHours = Math.floor(differenceInMinutes / 60);
+    const differenceInDays = Math.floor(differenceInHours / 24);
+    const differenceInWeeks = Math.floor(differenceInDays / 7);
+    const differenceInYears = Math.floor(differenceInDays / 365);
+    if (differenceInYears > 0) {
+      return `${differenceInYears} y`;
+    } else if (differenceInWeeks > 0) {
+      return `${differenceInWeeks} w`;
+    } else if (differenceInDays > 0) {
+      return `${differenceInDays} d`;
+    } else if (differenceInHours > 0) {
+      return `${differenceInHours} h`;
+    } else if (differenceInMinutes > 0) {
+      return `${differenceInMinutes} m`;
+    } else {
+      return `m`;
+    }
+  }
+  navigateToDetail(name: string, slugOrKeyword?: string) {
     // const index =0;
-    const index = this.postCategories.findIndex((cat) => cat?.slug === slug);
-    if (index !== -1) {
-      // console.log('index', index);
-      this.activeIndex = index;
-      this.tabService.setActiveIndex(index); // Cập nhật activeIndex trong service
-      this.router.navigate([`/${name}`, slug]);
+    if (slugOrKeyword) {
+      const index = this.postCategories.findIndex(
+        (cat) => cat?.slug === slugOrKeyword
+      );
+      if (index !== -1) {
+        this.activeIndex = index;
+        this.tabService.setActiveIndex(index); // Cập nhật activeIndex trong service
+        this.router.navigate([`/${name}`, slugOrKeyword]);
+      } else {
+        // console.log("check searh",slugOrKeyword);
+        this.router.navigate([`/${name}`, slugOrKeyword]);
+      }
+    } else {
+      // console.log('profile');
+      this.router.navigate([`/${name}`]);
     }
   }
   loadPostCategories() {
@@ -169,7 +209,7 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
         });
       });
   }
-  goToAdmin(): void {
+  navigateToAdmin(): void {
     const user = this.tokenService.getUser();
     var permissions = JSON.parse(user.permissions);
 
@@ -185,7 +225,7 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
     // Ví dụ: dựa trên token trong localStorage
     return !!localStorage.getItem('auth-user');
   }
-  logout() {
+  logOut() {
     this.tokenService.signOut();
     this.router.navigate([UrlConstants.HOME_WEB]);
     this.isLoggedIn = this.checkLoginStatus();
@@ -210,9 +250,7 @@ export class WebsiteHeaderComponent extends HeaderComponent implements OnInit {
         });
       });
   }
-  getAvatar() {
-    this.user = this.tokenService.getUser();
-  }
+
   markAsRead(id: number) {
     this.announcementService.markAsRead(id).subscribe({
       next: () => {

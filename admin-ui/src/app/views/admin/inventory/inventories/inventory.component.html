@@ -1,16 +1,39 @@
-<div class="animated fadeIn">
+<!-- <div class="animated fadeIn">
   <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
-    <p-header> Quản lý Tồn kho </p-header>
+      <div class="card">
+        <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true" (onChange)="onTabChange($event)">
+          <hr>
+          <p-tabPanel *ngFor="let tab of invtCategories" [header]="tab.label" (onChange)="loadData()"
+            style="height: 30px;">
+            <div *ngFor=" let post of invtItems" class="tab-content">
+              <div class="tab-panel" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <a *ngIf="post.filePdf" [href]="environment.API_URL+'/' + post.filePdf" target="_blank"
+                  rel="noopener noreferrer">
+                  <div class="tab_item col-12 col-md-6 col-xl-4 w-100">
+                    <img [src]="environment.API_URL + '/' + post.thumbnail" alt="">
+                    <div class="text">
+                      <h3>{{post.invtCategoryName}}</h3>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <hr>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+
+
+      
+
     <div class="row">
       <div class="col-4">
-        <button appPermission appPolicy="Permissons.Products.Add" pButton type="button" label="Mua Hàng" icon="fa fa-plus"
-          (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
+        <button appPermission appPolicy="Permissons.Products.Add" pButton type="button" label="Mua Hàng"
+          icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
         <button appPermission appPolicy="Permissons.Products.Delete" pButton type="button" label="Xóa"
           icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0"
           (click)="deleteItems()"></button>
-        <!-- <button appPermission appPolicy="Permissons.Products.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
-          class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
-          (click)="showEditModal()"></button> -->
+
       </div>
       <div class="col-8">
         <div class="row">
@@ -67,26 +90,12 @@
               <p-badge *ngIf="row.documentType == 202" value="Bán Nội Bộ" severity="warning"></p-badge>
             </td>
             <td>
-              <!-- <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
-                (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple type="button"
-                icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
-                class="p-button-rounded p-button-text p-button-success"></button>
-              <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward" pTooltip="Gửi duyệt" tooltipPosition="top"
-                (click)="sendToApprove(row.id)" appPermission appPolicy="Permissons.Posts.Edit"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại" tooltipPosition="top"
-                (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
-                (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
-                class="p-button-rounded p-button-text p-button-info"></button> -->
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-          <div style="text-align: left">Tổng số: {{ totalCount | number }} -- Số Lượng Tồn: {{stockQuantity|number}}</div>
-          <!-- <div style="text-align: left">Tổng số: {{ totalCount | number }}</div> -->
+          <div style="text-align: left">Tổng số: {{ totalCount | number }} -- Số Lượng Tồn: {{stockQuantity|number}}
+          </div>
 
         </ng-template>
       </p-table>
@@ -101,4 +110,104 @@
         strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
     </p-blockUI>
   </p-panel>
-</div>
+</div> -->
+
+
+<p-panel #pnl>
+  <p-header>
+    <div class="categoryItems">
+      <!-- <div class="col"> -->
+      <div class="button" style="margin-right: 20px;">
+        <button appPermission appPolicy="Permissons.Products.Add" pButton type="button" label="Nhập Kho"
+          icon="fa fa-plus" (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
+        <button appPermission appPolicy="Permissons.Products.Delete" pButton type="button" label="Xóa"
+          icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0"
+          (click)="deleteItems()"></button>
+
+      </div>
+      <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%' }"
+        placeholder="Chọn Dự Án" [showClear]="true" [(ngModel)]="projectId">
+      </p-dropdown>
+      <!-- </div> -->
+      <div class="formSearch">
+        <div class="row">
+          <div class="col">
+            <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
+              [(ngModel)]="keyword" placeholder="Nhập tìm kiếm..." type="text">
+          </div>
+          <div class="col">
+            <button type="button" class="buttonSearch" pButton (click)="loadData()">Tìm Kiếm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-header>
+
+
+  <div class="card">
+    <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true" (onChange)="onTabChange($event)">
+      <p-tabPanel *ngFor="let tab of invtCategories" [header]="tab.label" style="height: 30px;">
+        <div class="row ">
+          <p-table #dt [value]="items" selectionMode="multiple" dataKey="id" [(selection)]="selectedItems"
+            [metaKeySelection]="true" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 10px">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>Tên Dự Án</th>
+                <th>ItemNo</th>
+                <th>Số Lượng</th>
+                <th>Ngày tạo</th>
+                <th>PDF</th>
+                <th style="width: 150px">Loại</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row>
+              <tr [pSelectableRow]="row">
+                <td style="width: 10px">
+                  <span class="ui-column-title"></span>
+                  <p-tableCheckbox [value]="row"></p-tableCheckbox>
+                </td>
+                <td>{{ row.projectName }}</td>
+                <td>{{ row.itemNo }}</td>
+                <td>{{ row.quantity }}</td>
+                <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
+                <td>
+                  <app-pdf-link [pdfPath]="row.catalogPdf"></app-pdf-link>
+                </td>
+                <td style="width: 150px">
+                  <p-badge *ngIf="row.documentType == 0" value="All" severity="danger"></p-badge>
+                  <p-badge *ngIf="row.documentType == 101" value="Mua" severity="success"></p-badge>
+                  <p-badge *ngIf="row.documentType == 102" value="Mua Nội Bộ" severity="info"></p-badge>
+                  <p-badge *ngIf="row.documentType == 201" value="Bán" severity="danger"></p-badge>
+                  <p-badge *ngIf="row.documentType == 202" value="Bán Nội Bộ" severity="warning"></p-badge>
+                </td>
+                <td>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+              <div style="text-align: left">Tổng số: {{ totalCount | number }} -- Số Lượng Tồn:
+                {{stockQuantity|number}}
+              </div>
+
+            </ng-template>
+          </p-table>
+        </div>
+        <hr>
+        <!-- </div> -->
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator>
+  <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+    <p-progressSpinner [style]="{width: '100px', height: '100px', position:'absolute',top:'25%',left:'50%'}"
+      strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+  </p-blockUI>
+</p-panel>
+
+
+<website-footer />

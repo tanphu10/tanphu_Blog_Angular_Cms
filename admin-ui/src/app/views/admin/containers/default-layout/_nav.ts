@@ -83,7 +83,7 @@ export const navItems: INavData[] = [
       {
         iconComponent: { name: 'cilArrowRight' },
         name: 'Tồn Kho',
-        url: '/inventory/inventories',
+        url: '/inventory/stocks/:slug',
         attributes: {
           policyName: 'Permissions.Inventories.View',
         },

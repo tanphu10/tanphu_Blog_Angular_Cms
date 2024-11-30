@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models.system;
@@ -47,8 +48,10 @@ namespace TPBlog.Data.Repositories
             var query = _context.Posts.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
-            }
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
+            };
             if (categoryId.HasValue)
             {
                 query = query.Where(x => x.CategoryId == categoryId.Value);
@@ -301,7 +304,8 @@ namespace TPBlog.Data.Repositories
             var query = _context.Posts.Where(x => x.AuthorUserId == userId).AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var lowerKeyword = keyword.Trim().ToLower();
+                query = query.Where(x => x.Name.ToLower().Contains(lowerKeyword));
             }
 
 

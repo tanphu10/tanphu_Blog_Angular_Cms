@@ -52,12 +52,21 @@ namespace TPBlog.Api.Services
 
         public async Task<InventoryEntryDto> PurchaseItemAsync(string itemNo, PurchaseProductDto model)
         {
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
             var itemToAdd = new InventoryEntry()
             {
                 Id = Guid.NewGuid(),
                 ItemNo = itemNo,
                 Quantity = model.Quantity,
                 DocumentType = model.DocumentType,
+                InvtCategorySlug = category.Slug,
+                InvtCategoryName = category.Name,
+                InvtCategoryId = category.Id,
+                Slug=model.Slug
             };
             await _context.Inventories.AddAsync(itemToAdd);
             var result = _mapper.Map<InventoryEntryDto>(itemToAdd);
@@ -67,6 +76,11 @@ namespace TPBlog.Api.Services
 
         public async Task<InventoryEntryDto> SalesItemAsync(string itemNo, SalesProductDto model)
         {
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
 
             var itemToAdd = new InventoryEntry()
             {
@@ -75,6 +89,11 @@ namespace TPBlog.Api.Services
                 ExternalDocumentNo = model.ExternalDocumentNo,
                 Quantity = model.Quantity,
                 DocumentType = model.DocumentType,
+                InvtCategorySlug = category.Slug,
+                InvtCategoryName = category.Name,
+                InvtCategoryId = category.Id,
+                Slug = model.Slug
+
             };
 
             await _context.Inventories.AddAsync(itemToAdd);
@@ -84,6 +103,11 @@ namespace TPBlog.Api.Services
 
         public async Task<string> SalesOrderAsync(SalesOrderDto model)
         {
+            var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
+            if (category == null)
+            {
+                throw new Exception("không tồn tại InventoryCategory");
+            }
             var documentNo = Guid.NewGuid().ToString();
             foreach (var saleItem in model.SaleItems)
             {
@@ -95,6 +119,10 @@ namespace TPBlog.Api.Services
                     ExternalDocumentNo = model.OrderNo,
                     Quantity = saleItem.Quantity * -1,
                     DocumentType = saleItem.DocumentType,
+                    InvtCategorySlug = category.Slug,
+                    InvtCategoryName = category.Name,
+                    InvtCategoryId = category.Id,
+                    Slug = model.Slug
                 };
                 await _context.Inventories.AddAsync(itemToAdd);
             }

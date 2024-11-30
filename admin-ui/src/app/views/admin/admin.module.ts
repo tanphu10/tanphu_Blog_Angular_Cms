@@ -67,7 +67,7 @@ import { AdminComponent } from './admin.component';
 import { SignalRService } from '../../shared/services/signalr-service';
 import { ToastModule } from 'primeng/toast';
 import { NavbarModule } from '@coreui/angular';
-
+// import { CustomSidebarNavComponent } from './containers/default-layout/custom-sidebar/custom-sidebar-nav.component';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultLayoutComponent,
@@ -75,7 +75,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AdminComponent, ...APP_CONTAINERS],
+  declarations: [ AdminComponent, ...APP_CONTAINERS],
   imports: [
     CommonModule,
     AdminRoutingModule,

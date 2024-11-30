@@ -51,36 +51,36 @@ namespace TPBlog.Data
             }
 
 
-            if (!context.Inventories.Any())
-            {
-                var entity = new List<InventoryEntry>
-                {
-                    new()
-                    {
-                        Quantity=10,
-                        DocumentNo=Guid.NewGuid().ToString(),
-                        ItemNo="Lotus",
-                        ExternalDocumentNo=Guid.NewGuid().ToString(),
-                        DocumentType=EDocumentType.Purchase,
-                        Notice="Ghi Chú Tồn Kho 1"
+            //if (!context.Inventories.Any())
+            //{
+            //    var entity = new List<InventoryEntry>
+            //    {
+            //        new()
+            //        {
+            //            Quantity=10,
+            //            DocumentNo=Guid.NewGuid().ToString(),
+            //            ItemNo="Lotus",
+            //            ExternalDocumentNo=Guid.NewGuid().ToString(),
+            //            DocumentType=EDocumentType.Purchase,
+            //            Notice="Ghi Chú Tồn Kho 1"
+                        
+            //        },
+            //         new()
+            //        {
+            //            Quantity=10,
+            //            DocumentNo=Guid.NewGuid().ToString(),
+            //            ItemNo="Cadillac",
+            //            ExternalDocumentNo=Guid.NewGuid().ToString(),
+            //            DocumentType=EDocumentType.Purchase,
+            //            Notice="Ghi Chú Tồn Kho 2",
 
-                    },
-                     new()
-                    {
-                        Quantity=10,
-                        DocumentNo=Guid.NewGuid().ToString(),
-                        ItemNo="Cadillac",
-                        ExternalDocumentNo=Guid.NewGuid().ToString(),
-                        DocumentType=EDocumentType.Purchase,
-                        Notice="Ghi Chú Tồn Kho 2",
 
+            //        },
+            //    };
+            //    await context.Inventories.AddRangeAsync(entity);
+            //    await context.SaveChangesAsync();
 
-                    },
-                };
-                await context.Inventories.AddRangeAsync(entity);
-                await context.SaveChangesAsync();
-
-            }
+            //}
         }
     }
 }

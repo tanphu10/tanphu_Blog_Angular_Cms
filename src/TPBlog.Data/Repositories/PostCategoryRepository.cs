@@ -10,6 +10,7 @@ using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
 using TPBlog.Core.Repositories;
 using AutoMapper;
+using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
@@ -24,9 +25,11 @@ namespace TPBlog.Data.Repositories
         public async Task<PageResult<PostCategoryDto>> GetPagingPostCategoryAsync(string? keyword, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.PostCategories.AsQueryable();
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
             }
             var totalRow = await query.CountAsync();
             query = query.OrderByDescending(x => x.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);

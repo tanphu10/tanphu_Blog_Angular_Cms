@@ -35,10 +35,10 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         [Route("paging")]
         [Authorize(Inventories.View)]
-        public async Task<ActionResult<PageResult<InventoryInListDto>>> GetInventoryPaging(string? keyword, Guid? projectId,
+        public async Task<ActionResult<PageResult<InventoryInListDto>>> GetInventoryPaging(string? keyword, Guid? projectId,string? categorySlug,
          int pageIndex, int pageSize = 10)
         {
-            var result = await _unitOfWork.Inventories.GetAllByItemNoPagingAsync(keyword,projectId, pageIndex, pageSize);
+            var result = await _unitOfWork.Inventories.GetAllByItemNoPagingAsync(keyword,projectId, categorySlug, pageIndex, pageSize);
             return Ok(result);
         }
         [Route("items/{itemNo}", Name = "GetAllByItemNo")]
