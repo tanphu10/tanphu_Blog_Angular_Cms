@@ -447,16 +447,19 @@ export class AdminApiInventoryApiClient {
     /**
      * @param keyword (optional) 
      * @param projectId (optional) 
+     * @param categorySlug (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getInventoryPaging(keyword?: string | null | undefined, projectId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<InventoryInListDtoPageResult> {
+    getInventoryPaging(keyword?: string | null | undefined, projectId?: string | null | undefined, categorySlug?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<InventoryInListDtoPageResult> {
         let url_ = this.baseUrl + "/api/admin/inventory/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
         if (projectId !== undefined && projectId !== null)
             url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
+        if (categorySlug !== undefined && categorySlug !== null)
+            url_ += "categorySlug=" + encodeURIComponent("" + categorySlug) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -1786,16 +1789,19 @@ export class AdminApiPostApiClient {
     /**
      * @param keyword (optional) 
      * @param categoryId (optional) 
+     * @param projectId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getPostsPaging(keyword?: string | null | undefined, categoryId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPageResult> {
+    getPostsPaging(keyword?: string | null | undefined, categoryId?: string | null | undefined, projectId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPageResult> {
         let url_ = this.baseUrl + "/api/admin/post/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
         if (categoryId !== undefined && categoryId !== null)
             url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
+        if (projectId !== undefined && projectId !== null)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -6378,16 +6384,19 @@ export class AdminApiWebsitePostApiClient {
     /**
      * @param keyword (optional) 
      * @param categorySlug (optional) 
+     * @param projectSlug (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getPostWebsitePaging(keyword?: string | null | undefined, categorySlug?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPageResult> {
+    getPostWebsitePaging(keyword?: string | null | undefined, categorySlug?: string | null | undefined, projectSlug?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPageResult> {
         let url_ = this.baseUrl + "/api/website/post/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
         if (categorySlug !== undefined && categorySlug !== null)
             url_ += "categorySlug=" + encodeURIComponent("" + categorySlug) + "&";
+        if (projectSlug !== undefined && projectSlug !== null)
+            url_ += "projectSlug=" + encodeURIComponent("" + projectSlug) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -6538,6 +6547,7 @@ export class Announcement implements IAnnouncement {
     dateCreated?: Date;
     userId?: string;
     status?: boolean;
+    projectSlug?: string | undefined;
 
     constructor(data?: IAnnouncement) {
         if (data) {
@@ -6556,6 +6566,7 @@ export class Announcement implements IAnnouncement {
             this.dateCreated = _data["dateCreated"] ? new Date(_data["dateCreated"].toString()) : <any>undefined;
             this.userId = _data["userId"];
             this.status = _data["status"];
+            this.projectSlug = _data["projectSlug"];
         }
     }
 
@@ -6574,6 +6585,7 @@ export class Announcement implements IAnnouncement {
         data["dateCreated"] = this.dateCreated ? this.dateCreated.toISOString() : <any>undefined;
         data["userId"] = this.userId;
         data["status"] = this.status;
+        data["projectSlug"] = this.projectSlug;
         return data;
     }
 }
@@ -6585,6 +6597,7 @@ export interface IAnnouncement {
     dateCreated?: Date;
     userId?: string;
     status?: boolean;
+    projectSlug?: string | undefined;
 }
 
 export class AnnouncementPageResult implements IAnnouncementPageResult {
@@ -7186,6 +7199,7 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
     source?: string | undefined;
     tags?: string[] | undefined;
     seoDescription?: string | undefined;
+    projectId?: string;
 
     constructor(data?: ICreateUpdatePostRequest) {
         if (data) {
@@ -7212,6 +7226,7 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
                     this.tags!.push(item);
             }
             this.seoDescription = _data["seoDescription"];
+            this.projectId = _data["projectId"];
         }
     }
 
@@ -7238,6 +7253,7 @@ export class CreateUpdatePostRequest implements ICreateUpdatePostRequest {
                 data["tags"].push(item);
         }
         data["seoDescription"] = this.seoDescription;
+        data["projectId"] = this.projectId;
         return data;
     }
 }
@@ -7253,6 +7269,7 @@ export interface ICreateUpdatePostRequest {
     source?: string | undefined;
     tags?: string[] | undefined;
     seoDescription?: string | undefined;
+    projectId?: string;
 }
 
 export class CreateUpdateProductCategoryRequest implements ICreateUpdateProductCategoryRequest {
@@ -8089,6 +8106,7 @@ export class PostCategoryDto implements IPostCategoryDto {
     dateLastModified?: Date | undefined;
     seoDescription?: string | undefined;
     sortOrder?: number;
+    projectSlug?: string | undefined;
 
     constructor(data?: IPostCategoryDto) {
         if (data) {
@@ -8110,6 +8128,7 @@ export class PostCategoryDto implements IPostCategoryDto {
             this.dateLastModified = _data["dateLastModified"] ? new Date(_data["dateLastModified"].toString()) : <any>undefined;
             this.seoDescription = _data["seoDescription"];
             this.sortOrder = _data["sortOrder"];
+            this.projectSlug = _data["projectSlug"];
         }
     }
 
@@ -8131,6 +8150,7 @@ export class PostCategoryDto implements IPostCategoryDto {
         data["dateLastModified"] = this.dateLastModified ? this.dateLastModified.toISOString() : <any>undefined;
         data["seoDescription"] = this.seoDescription;
         data["sortOrder"] = this.sortOrder;
+        data["projectSlug"] = this.projectSlug;
         return data;
     }
 }
@@ -8145,6 +8165,7 @@ export interface IPostCategoryDto {
     dateLastModified?: Date | undefined;
     seoDescription?: string | undefined;
     sortOrder?: number;
+    projectSlug?: string | undefined;
 }
 
 export class PostCategoryDtoPageResult implements IPostCategoryDtoPageResult {
@@ -8237,6 +8258,8 @@ export class PostDto implements IPostDto {
     royaltyAmount?: number;
     paidDate?: Date | undefined;
     idOffer?: number;
+    projectSlug?: string | undefined;
+    projectId?: string | undefined;
     categoryId?: string;
     content?: string | undefined;
     authorUserId?: string | undefined;
@@ -8273,6 +8296,8 @@ export class PostDto implements IPostDto {
             this.royaltyAmount = _data["royaltyAmount"];
             this.paidDate = _data["paidDate"] ? new Date(_data["paidDate"].toString()) : <any>undefined;
             this.idOffer = _data["idOffer"];
+            this.projectSlug = _data["projectSlug"];
+            this.projectId = _data["projectId"];
             this.categoryId = _data["categoryId"];
             this.content = _data["content"];
             this.authorUserId = _data["authorUserId"];
@@ -8309,6 +8334,8 @@ export class PostDto implements IPostDto {
         data["royaltyAmount"] = this.royaltyAmount;
         data["paidDate"] = this.paidDate ? this.paidDate.toISOString() : <any>undefined;
         data["idOffer"] = this.idOffer;
+        data["projectSlug"] = this.projectSlug;
+        data["projectId"] = this.projectId;
         data["categoryId"] = this.categoryId;
         data["content"] = this.content;
         data["authorUserId"] = this.authorUserId;
@@ -8338,6 +8365,8 @@ export interface IPostDto {
     royaltyAmount?: number;
     paidDate?: Date | undefined;
     idOffer?: number;
+    projectSlug?: string | undefined;
+    projectId?: string | undefined;
     categoryId?: string;
     content?: string | undefined;
     authorUserId?: string | undefined;
@@ -8366,6 +8395,8 @@ export class PostInListDto implements IPostInListDto {
     royaltyAmount?: number;
     paidDate?: Date | undefined;
     idOffer?: number;
+    projectSlug?: string | undefined;
+    projectId?: string | undefined;
 
     constructor(data?: IPostInListDto) {
         if (data) {
@@ -8396,6 +8427,8 @@ export class PostInListDto implements IPostInListDto {
             this.royaltyAmount = _data["royaltyAmount"];
             this.paidDate = _data["paidDate"] ? new Date(_data["paidDate"].toString()) : <any>undefined;
             this.idOffer = _data["idOffer"];
+            this.projectSlug = _data["projectSlug"];
+            this.projectId = _data["projectId"];
         }
     }
 
@@ -8426,6 +8459,8 @@ export class PostInListDto implements IPostInListDto {
         data["royaltyAmount"] = this.royaltyAmount;
         data["paidDate"] = this.paidDate ? this.paidDate.toISOString() : <any>undefined;
         data["idOffer"] = this.idOffer;
+        data["projectSlug"] = this.projectSlug;
+        data["projectId"] = this.projectId;
         return data;
     }
 }
@@ -8449,6 +8484,8 @@ export interface IPostInListDto {
     royaltyAmount?: number;
     paidDate?: Date | undefined;
     idOffer?: number;
+    projectSlug?: string | undefined;
+    projectId?: string | undefined;
 }
 
 export class PostInListDtoPageResult implements IPostInListDtoPageResult {

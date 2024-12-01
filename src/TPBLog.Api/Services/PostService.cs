@@ -100,6 +100,12 @@ namespace TPBlog.Api.Services
             post.AuthorName = user.GetFullName();
             post.AuthorUserName = user.UserName;
             post.DateCreated = DateTimeOffset.Now;
+            var project = await _unitOfWork.Projects.GetByIdAsync(request.ProjectId);
+            if (project == null)
+            {
+                throw new Exception("không tồn tại dự án");
+            }
+            post.ProjectSlug = project.Slug;
             _unitOfWork.BaiPost.Add(post);
             //Process tag 
             if (request.Tags != null && request.Tags.Length > 0)
@@ -112,7 +118,7 @@ namespace TPBlog.Api.Services
                     if (tag == null)
                     {
                         tagId = Guid.NewGuid();
-                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
+                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug, ProjectSlug = project.Slug });
 
                     }
                     else
@@ -126,7 +132,7 @@ namespace TPBlog.Api.Services
 
         public async Task<List<PostInListDto>> GetAllPostAsync()
         {
-            var entity =  _context.Posts.AsQueryable();
+            var entity = _context.Posts.AsQueryable();
             return await _mapper.ProjectTo<PostInListDto>(entity).ToListAsync();
 
         }

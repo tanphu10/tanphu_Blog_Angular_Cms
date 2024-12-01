@@ -33,5 +33,8 @@ namespace TPBlog.Core.Domain.Content
 
         //public virtual ICollection<AnnouncementUser>? AnnouncementUsers { get; set; }
 
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
     }
 }

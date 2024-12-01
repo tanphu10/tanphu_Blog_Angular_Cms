@@ -10,6 +10,7 @@ using static TPBlog.Core.SeedWorks.Contants.Permissions;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Api.Extensions;
 using TPBlog.Api.Services;
+using TPBlog.Api.Services.IServices;
 
 namespace TPBlog.Api.Controllers
 {
@@ -23,13 +24,16 @@ namespace TPBlog.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IPostService _postService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IPermissionService _permissionService;
 
-        public PostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IPostService postService)
+
+        public PostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IPostService postService, IPermissionService permissionService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _postService = postService;
+            _permissionService = permissionService;
         }
         [HttpPost]
         [Authorize(Posts.Create)]
@@ -96,12 +100,15 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         [Route("paging")]
         [Authorize(Posts.View)]
-        public async Task<ActionResult<PageResult<PostInListDto>>> GetPostsPaging(string? keyword, Guid? categoryId,
-           int pageIndex=1, int pageSize = 10)
+        public async Task<ActionResult<PageResult<PostInListDto>>> GetPostsPaging(string? keyword, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10)
         {
             var userId = User.GetUserId();
-            var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, categoryId, pageIndex, pageSize);
-            return Ok(result);
+            var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
+
+            var query = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, categoryId,projectId, pageIndex, pageSize);
+            var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
+            query.Results = allowedProjects.ToList();
+            return Ok(query);
         }
         [HttpGet("approve/{id}")]
         [Authorize(Posts.Approve)]

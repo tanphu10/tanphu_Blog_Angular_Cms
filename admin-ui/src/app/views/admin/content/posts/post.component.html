@@ -1,6 +1,13 @@
 <div class="animated fadeIn">
   <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
-    <p-header> Quản lý bài viết </p-header>
+    <p-header style="display: flex; justify-content: space-between;align-items: center; ">
+      <h5>Quản lý bài viết</h5>
+      <div>
+        <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%' }"
+          placeholder="Chọn Dự Án" [showClear]="true" [(ngModel)]="projectId">
+        </p-dropdown>
+      </div>
+    </p-header>
     <div class="row">
       <div class="col-4">
         <button appPermission appPolicy="Permissons.Posts.Add" pButton type="button" label="Thêm" icon="fa fa-plus"
@@ -46,7 +53,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
-          <tr [pSelectableRow]="row" >
+          <tr [pSelectableRow]="row">
             <td style="width: 10px">
               <span class="ui-column-title"></span>
               <p-tableCheckbox [value]="row"></p-tableCheckbox>
@@ -55,7 +62,7 @@
             <td>{{ row.categoryName }}</td>
             <!-- <td>{{ row.viewCount | number }}</td> -->
             <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-            <td >
+            <td>
               <app-pdf-link [pdfPath]="row.filePdf"></app-pdf-link>
             </td>
             <td style="width: 150px">
@@ -67,14 +74,14 @@
             <td>
               <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
                 (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple type="button"
-                icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
+              <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple
+                type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
                 class="p-button-rounded p-button-text p-button-success"></button>
-              <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward" pTooltip="Gửi duyệt" tooltipPosition="top"
-                (click)="sendToApprove(row.id)" appPermission appPolicy="Permissons.Posts.Edit"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại" tooltipPosition="top"
-                (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
+              <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward"
+                pTooltip="Gửi duyệt" tooltipPosition="top" (click)="sendToApprove(row.id)" appPermission
+                appPolicy="Permissons.Posts.Edit" class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại"
+                tooltipPosition="top" (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
                 class="p-button-rounded p-button-text p-button-danger"></button>
               <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
                 (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"

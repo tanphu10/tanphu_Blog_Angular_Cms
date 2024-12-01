@@ -52,6 +52,7 @@ export class PostComponent implements OnInit {
   public postCategories: any[] = [];
   public postItems: PostInListDto[];
   public categorySlug?: string = null;
+  public projectSlug?: string = null;
 
   //Paging variables
   public pageIndex: number = 1;
@@ -141,6 +142,7 @@ export class PostComponent implements OnInit {
       .getPostWebsitePaging(
         this.keyword,
         this.categorySlug,
+        this.projectSlug,
         this.pageIndex,
         this.pageSize
       )

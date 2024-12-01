@@ -2,10 +2,24 @@
   <p-panel #pnlDetail header="Thông tin" [toggleable]="true" [collapsed]="false">
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
+        <label for="projectId" class="block">Chọn Dự Án</label>
+        <p-dropdown id="projectId" [options]="projectCategory" formControlName="projectId" [showClear]="true"
+          placeholder="Chọn Dự Án" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
         <label for="title" class="block">Document Type <span class="required">*</span></label>
         <input id="title" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="itemNo"
           (keyup)="generateSlug()" [style]="{ width: '100%' }" />
         <app-validation-message [entityForm]="form" fieldName="itemNo" [validationMessages]="validationMessages">
+        </app-validation-message>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="slug">Slug<span class="required">*</span></label>
+        <input id="slug" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="slug"
+          [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="slug" [validationMessages]="validationMessages">
         </app-validation-message>
       </div>
       <div class="field col-12 md:col-6">
@@ -15,27 +29,18 @@
         <app-validation-message [entityForm]="form" fieldName="notice" [validationMessages]="validationMessages">
         </app-validation-message>
       </div>
-      
-     
 
-      <div class="field col-12 md:col-6">
-        <label for="projectId" class="block">Danh Mục</label>
-        <p-dropdown id="projectId" [options]="projectCategories" formControlName="projectId" [showClear]="true"
-          placeholder="Chọn Dự Án" autoWidth="false" [style]="{ width: '100%' }">
-        </p-dropdown>
-      </div>
-           
       <div class="field col-12 md:col-6">
         <label for="thumbnailFileContent">Hình ảnh <span class="required">*</span></label>
         <input type="hidden" formControlName="thumbnail" />
         <input (change)="onFileChange($event)" type="file" class="w-full" multiple />
-    </div>
-    <div *ngIf="thumbnailImages && thumbnailImages.length" class="field col-12 md:col-6">
+      </div>
+      <div *ngIf="thumbnailImages && thumbnailImages.length" class="field col-12 md:col-6">
         <ng-container *ngFor="let image of thumbnailImages">
-            <p-image [src]="thumbnailImages" [preview]="true" [alt]="selectedEntity?.itemNo || 'Image'" width="250">
-            </p-image>
+          <p-image [src]="thumbnailImages" [preview]="true" [alt]="selectedEntity?.itemNo || 'Image'" width="250">
+          </p-image>
         </ng-container>
-    </div>
+      </div>
       <div class="field col-12 md:col-6">
         <label for="catalogPdf">Catalog<span class="required">*</span></label>
         <input type="hidden" formControlName="filePdf" />
@@ -48,8 +53,8 @@
       </div> -->
       <div class="field col-12">
         <label for="quantity">Số Lượng</label>
-        <textarea id="quantity" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
-          formControlName="quantity" [style]="{ width: '100%' }"></textarea>
+        <textarea id="quantity" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial" formControlName="quantity"
+          [style]="{ width: '100%' }"></textarea>
       </div>
       <div class="field col-12">
         <label for="documentNo">DocumentNo</label>
@@ -72,7 +77,7 @@
     </div>
     <ng-template pTemplate="footer">
       <button type="submit" class="btn btn-primary ms-1" [disabled]="!form.valid || btnDisabled">
-        Lưu 
+        Lưu
       </button>
     </ng-template>
 

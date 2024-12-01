@@ -35,6 +35,8 @@ namespace TPBlog.Core.Domain.Content
         public string[]? Thumbnail { get; set; }
         public string? FilePdf { get; set; }
         public Guid ProjectId { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
         [Required]
         [Column(TypeName = "varchar(250)")]
         public required string InvtCategorySlug { get; set; }
@@ -43,5 +45,6 @@ namespace TPBlog.Core.Domain.Content
         public required string InvtCategoryName { get; set; }
         [Required]
         public Guid InvtCategoryId { get; set; }
+
     }
 }

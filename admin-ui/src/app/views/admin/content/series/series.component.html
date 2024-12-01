@@ -1,6 +1,13 @@
 <p-panel #pnl [style]="{'margin-bottom':'10px'}">
-  <p-header>
-    Quản lý series bài viết
+  <p-header style="display: flex; justify-content: space-between;align-items: center; ">
+
+    <h5>Quản lý Series bài viết</h5>
+    <div>
+      <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%' }"
+        placeholder="Chọn Dự Án" [showClear]="true" [(ngModel)]="projectId">
+      </p-dropdown>
+    </div>
+
   </p-header>
   <div class="row">
     <div class="col-6">
@@ -10,7 +17,7 @@
         class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0" (click)="deleteItems()"></button>
       <button appPermission appPolicy="Permissons.Series.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
         class="p-button-sm ms-1 p-button-help" *ngIf="selectedItems.length== 1" (click)="showEditModal()"></button>
-        <button appPermission appPolicy="Permissons.Series.Edit" pButton type="button" label="Bài viết" icon="fa fa-edit"
+      <button appPermission appPolicy="Permissons.Series.Edit" pButton type="button" label="Bài viết" icon="fa fa-edit"
         class="p-button-sm ms-1 p-button-info" *ngIf="selectedItems.length== 1" (click)="showPosts()"></button>
     </div>
     <div class="col-6">

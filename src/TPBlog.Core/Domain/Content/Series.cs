@@ -32,6 +32,9 @@ namespace TPBlog.Core.Domain.Content
         public string? Content { get; set; }
         public Guid AuthorUserId { get; set; }
         public Guid ProjectId { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
 
     }
 }

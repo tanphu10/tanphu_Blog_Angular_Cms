@@ -59,6 +59,7 @@ export class WebsiteSearchComponent implements OnInit, OnDestroy {
   public totalCount: number;
   keyword: string | null = null;
   public categorySlug?: string = null;
+  public projectSlug?: string = null;
   public postItems: PostInListDto[];
 
   private ngUnsubscribe = new Subject<void>();
@@ -98,6 +99,7 @@ export class WebsiteSearchComponent implements OnInit, OnDestroy {
       .getPostsPaging(
         this.keyword,
         this.categorySlug,
+        this.projectSlug,
         this.pageIndex,
         this.pageSize
       )

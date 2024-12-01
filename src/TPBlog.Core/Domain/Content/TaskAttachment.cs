@@ -22,5 +22,9 @@ namespace TPBlog.Core.Domain.Content
         public string FilePath { get; set; }
         [MaxLength(250)]
         public required string Slug { get; set; }
+        [Column(TypeName = "varchar(250)")]
+
+        public string ProjectSlug { get; set; }
+
     }
 }

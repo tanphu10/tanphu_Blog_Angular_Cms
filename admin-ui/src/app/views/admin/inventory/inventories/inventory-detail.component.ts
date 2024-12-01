@@ -32,7 +32,9 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
   public title: string;
   public btnDisabled = false;
   public saveBtnName: string;
-  public projectCategories: any[] = [];
+  public projectCategory: any[] = [];
+  public projectId?: string = null;
+
   // public contentTypes: any[] = [];
   // public series: any[] = [];
 
@@ -97,9 +99,10 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
           //Push categories to dropdown list
           // this.tags = repsonse.tags as string[];
 
-          var projects = repsonse.project as ProjectInListDto[];
+          var projects = repsonse.projects as ProjectInListDto[];
           projects.forEach((element) => {
-            this.projectCategories.push({
+            console.log('cehck', element);
+            this.projectCategory.push({
               value: element.id,
               label: element.name,
             });
@@ -160,28 +163,20 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
       });
     }
   }
-  // if (event.target.files && event.target.files.length) {
-  //   this.uploadService.uploadImage('products', event.target.files).subscribe({
-  //             next: (response: any) => {
-  //       this.form.controls['thumbnail'].setValue(response.path);
-  //       this.thumbnailImage = environment.API_URL + response.path;
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err);
-  //     },
-  //   });
-  // }
+
   onFilePdfChange(event) {
     if (event.target.files && event.target.files.length) {
-      this.uploadService.uploadPdf('inventories', event.target.files).subscribe({
-        next: (response: any) => {
-          this.form.controls['pdf'].setValue(response.path);
-          this.catalogPdf = environment.API_URL + response.path;
-        },
-        error: (err: any) => {
-          console.log(err);
-        },
-      });
+      this.uploadService
+        .uploadPdf('inventories', event.target.files)
+        .subscribe({
+          next: (response: any) => {
+            this.form.controls['pdf'].setValue(response.path);
+            this.catalogPdf = environment.API_URL + response.path;
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+        });
     }
   }
   saveChange() {
@@ -235,18 +230,10 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
   buildForm() {
     // console.log('post cate>>>', this.productCategories);
     this.form = this.fb.group({
-      // id: new FormControl(
-      //   this.selectedEntity.name || null,
-      //   Validators.compose([
-      //     Validators.required,
-      //     Validators.maxLength(255),
-      //     Validators.minLength(3),
-      //   ])
-      // ),
-      // documentType: new FormControl(
-      //   this.selectedEntity.documentType || null,
-      //   Validators.required
-      // ),
+      projectId: new FormControl(
+        this.selectedEntity.projectId || null,
+        Validators.required
+      ),
       documentNo: new FormControl(
         this.selectedEntity.documentNo || null,
         Validators.required
@@ -258,8 +245,12 @@ export class InventoryDetailComponent implements OnInit, OnDestroy {
       quantity: new FormControl(this.selectedEntity.quantity || 0),
       filePdf: new FormControl(this.selectedEntity.filePdf || null),
       thumbnail: new FormControl(this.selectedEntity.thumbnail || []),
-      projectId: new FormControl(this.selectedEntity.projectId ),
       notice: new FormControl(this.selectedEntity.notice || null),
+      invtCategoryId: new FormControl(
+        this.selectedEntity.itemNo || null,
+        Validators.required
+      ),
+      
     });
     if (this.selectedEntity.thumbnail) {
       this.thumbnailImages = this.selectedEntity.thumbnail.map(

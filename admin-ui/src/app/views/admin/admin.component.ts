@@ -14,6 +14,7 @@ import { iconSubset } from 'src/app/icons/icon-subset';
       icon="pi pi-exclamation-triangle"
     ></p-confirmDialog>
     <router-outlet></router-outlet>`,
+  styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
   title = 'core cms blog admin ui';

@@ -14,5 +14,8 @@ namespace TPBlog.Core.Domain.Content
         [Required]
         [MaxLength(100)]
         public required string Name { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
     }
 }

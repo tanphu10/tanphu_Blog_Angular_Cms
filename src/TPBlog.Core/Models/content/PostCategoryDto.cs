@@ -15,6 +15,7 @@ namespace TPBlog.Core.Models.content
         public DateTimeOffset? DateLastModified { get; set; }
         public string? SeoDescription { set; get; }
         public int SortOrder { set; get; }
+        public string ProjectSlug { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using TPBlog.Api.Extensions;
+using TPBlog.Api.Services.IServices;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
@@ -16,16 +18,19 @@ namespace TPBlog.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProjectController(IMapper mapper, IUnitOfWork unitOfWork)
+        private readonly IPermissionService _permission;
+        public ProjectController(IMapper mapper, IUnitOfWork unitOfWork, IPermissionService permission)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _permission = permission;
         }
         [HttpPost]
         //[Authorize(Permissions.Projects.Create)]
         public async Task<IActionResult> CreateProject([FromBody] CreateUpdateProjectRequest request)
         {
             var post = _mapper.Map<CreateUpdateProjectRequest, Project>(request);
+            post.DateCreated= DateTimeOffset.Now;
             _unitOfWork.Projects.Add(post);
 
             var result = await _unitOfWork.CompleteAsync();
@@ -113,7 +118,7 @@ namespace TPBlog.Api.Controllers
         [Route("paging")]
         //[Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<PageResult<ProjectInListDto>>> GetProjectPaging(string? keyword,
-          int pageIndex=1, int pageSize = 10)
+          int pageIndex = 1, int pageSize = 10)
         {
             var result = await _unitOfWork.Projects.GetAllPaging(keyword, pageIndex, pageSize);
 
@@ -124,8 +129,15 @@ namespace TPBlog.Api.Controllers
         [Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<List<ProjectInListDto>>> GetAllProjects()
         {
-            var result = await _unitOfWork.Projects.GetAllAsync();
-            var projects = _mapper.Map<List<ProjectInListDto>>(result);
+
+            var userPermissions = await _permission.UserHasPermissionForProjectAsync();
+
+            var allProjects = await _unitOfWork.Projects.GetAllAsync();
+
+
+            var allowedProjects = allProjects.Where(p => userPermissions.Contains($"Permissions.Projects.{p.Slug}"));
+
+            var projects = _mapper.Map<List<ProjectInListDto>>(allowedProjects);
             return Ok(projects);
         }
     }

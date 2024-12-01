@@ -151,5 +151,6 @@ namespace TPBlog.Core.SeedWorks.Contants
             [Description("Vào Trang Admin")]
             public const string View = "Permissions.Admin.View";
         }
+
     }
 }

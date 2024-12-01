@@ -17,8 +17,10 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 import {
   AdminApiPostApiClient,
   AdminApiPostCategoryApiClient,
+  AdminApiProjectApiClient,
   PostCategoryDto,
   PostDto,
+  ProjectDto,
 } from 'src/app/api/admin-api.service.generated';
 import { UploadService } from 'src/app/shared/services/upload.service';
 import { environment } from 'src/environments/environment';
@@ -39,8 +41,10 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   public btnDisabled = false;
   public saveBtnName: string;
   public postCategories: any[] = [];
+  public projectCategory: any[] = [];
   public contentTypes: any[] = [];
   public series: any[] = [];
+  public projectId?: string = null;
 
   selectedEntity = {} as PostDto;
   public thumbnailImage;
@@ -57,6 +61,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private postApiClient: AdminApiPostApiClient,
     private postCategoryApiClient: AdminApiPostCategoryApiClient,
+    private projectCategoryApiClient: AdminApiProjectApiClient,
     private uploadService: UploadService
   ) {}
   ngOnDestroy(): void {
@@ -89,10 +94,12 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     //Load data to form
     var categories = this.postCategoryApiClient.getPostCategories();
     var tags = this.postApiClient.getAllTags();
+    var projects = this.projectCategoryApiClient.getAllProjects();
     this.toggleBlockUI(true);
     forkJoin({
       categories,
       tags,
+      projects,
     })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
@@ -103,6 +110,14 @@ export class PostDetailComponent implements OnInit, OnDestroy {
           var categories = repsonse.categories as PostCategoryDto[];
           categories.forEach((element) => {
             this.postCategories.push({
+              value: element.id,
+              label: element.name,
+            });
+          });
+
+          var projects = repsonse.projects as ProjectDto[];
+          projects.forEach((element) => {
+            this.projectCategory.push({
               value: element.id,
               label: element.name,
             });
@@ -215,6 +230,10 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   buildForm() {
     // console.log("post cate>>>",this.postCategories);
     this.form = this.fb.group({
+      projectId: new FormControl(
+        this.selectedEntity.projectId || null,
+        Validators.required
+      ),
       name: new FormControl(
         this.selectedEntity.name || null,
         Validators.compose([
@@ -242,7 +261,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       content: new FormControl(this.selectedEntity.content || null),
       thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
       tags: new FormControl(this.postTags),
-      filePdf: new FormControl(this.selectedEntity.filePdf || null)
+      filePdf: new FormControl(this.selectedEntity.filePdf || null),
     });
     if (this.selectedEntity.thumbnail) {
       this.thumbnailImage = environment.API_URL + this.selectedEntity.thumbnail;

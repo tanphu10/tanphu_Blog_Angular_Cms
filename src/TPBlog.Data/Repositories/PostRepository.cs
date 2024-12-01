@@ -26,7 +26,7 @@ namespace TPBlog.Data.Repositories
             _userManager = userManager;
         }
 
-        public async Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10)
         {
             var user = await _userManager.FindByIdAsync(currentUserId.ToString());
             if (user == null)
@@ -55,6 +55,10 @@ namespace TPBlog.Data.Repositories
             if (categoryId.HasValue)
             {
                 query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+            if (projectId.HasValue)
+            {
+                query = query.Where(x => x.ProjectId == projectId.Value);
             }
 
             if (!canApprove)
@@ -119,7 +123,8 @@ namespace TPBlog.Data.Repositories
                 UserId = currentUserId,
                 UserName = user.UserName,
                 PostId = id,
-                Note = $"{user?.UserName} duyệt bài"
+                Note = $"{user?.UserName} duyệt bài",
+                ProjectSlug = post.ProjectSlug,
             });
             post.Status = PostStatus.Published;
             _context.Posts.Update(post);
@@ -194,7 +199,8 @@ namespace TPBlog.Data.Repositories
                 UserName = user.UserName,
                 Note = $"{user.UserName} gửi bài chờ duyệt",
                 DateCreated = DateTimeOffset.Now,
-                DateLastModified = DateTimeOffset.Now
+                DateLastModified = DateTimeOffset.Now,
+                ProjectSlug = post.ProjectSlug
             });
             post.Status = PostStatus.WaitingForApproval;
             _context.Posts.Update(post);

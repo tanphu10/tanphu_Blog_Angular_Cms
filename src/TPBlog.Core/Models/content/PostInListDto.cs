@@ -35,6 +35,8 @@ namespace TPBlog.Core.Models.content
         public double RoyaltyAmount { get; set; }
         public DateTime? PaidDate { get; set; }
         public int IdOffer { get; set; }
+        public string ProjectSlug { get; set; }
+        public string ProjectId { get; set; }
 
         public class AutoMapperProfiles : Profile
         {

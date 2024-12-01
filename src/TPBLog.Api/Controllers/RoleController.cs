@@ -10,6 +10,7 @@ using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models.system;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Data;
 
 namespace TPBlog.Api.Controllers
 {
@@ -19,10 +20,12 @@ namespace TPBlog.Api.Controllers
     {
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
-        public RoleController(RoleManager<AppRole> roleManager, IMapper mapper)
+        private readonly TPBlogContext _context;
+        public RoleController(RoleManager<AppRole> roleManager, IMapper mapper, TPBlogContext context)
         {
             _roleManager = roleManager;
             _mapper = mapper;
+            _context = context;
         }
         [HttpPost]
         [Authorize(Permissions.Roles.Create)]
@@ -56,7 +59,7 @@ namespace TPBlog.Api.Controllers
             {
                 var role = await _roleManager.FindByIdAsync(id.ToString());
                 if (role is null)
-                return NotFound();
+                    return NotFound();
                 await _roleManager.DeleteAsync(role);
             }
             return Ok();
@@ -107,6 +110,18 @@ namespace TPBlog.Api.Controllers
             var allPermissions = new List<RoleClaimsDto>();
             var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
 
+            var projects = await _context.Project.Where(x => x.IsActive).Select(p => new { p.Id, p.Slug }).ToListAsync();
+
+            foreach (var project in projects)
+            {
+                allPermissions.Add(new RoleClaimsDto
+                {
+                    Type = "Permissions",
+                    Value = $"Permissions.Projects.{project.Slug}",
+                    DisplayName = $"Phân Quyền Cho : {project.Slug}",
+                    Selected = false,
+                });
+            }
             foreach (var type in types)
             {
                 allPermissions.GetPermissions(type);
@@ -129,7 +144,7 @@ namespace TPBlog.Api.Controllers
                 {
                     permission.Selected = true;
                 }
-            }
+            }           
             model.RoleClaims = allPermissions;
             return Ok(model);
         }

@@ -26,6 +26,9 @@ namespace TPBlog.Core.Domain.Content
         [MaxLength(250)]
         public string UserName { set; get; }
         public Guid ProjectId { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models.Auth;
 using TPBlog.Core.Models.system;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Data;
 
 namespace TPBlog.Api.Controllers
 {
@@ -21,13 +23,16 @@ namespace TPBlog.Api.Controllers
         private readonly SignInManager<AppUser> _siginManager;
         private readonly ITokenService _tokenService;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly TPBlogContext _context;
+        private readonly IPermissionService _permissionService;
         public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager
-            , ITokenService tokenService)
+            , ITokenService tokenService, TPBlogContext context, IPermissionService permissionService)
         {
             _userManager = userManager;
             _siginManager = signInManager;
             _tokenService = tokenService;
             _roleManager = roleManager;
+            _context = context;
         }
         [HttpPost]
         public async Task<ActionResult<AuthenticatedResult>> Login([FromBody] LoginRequest request)
@@ -52,7 +57,7 @@ namespace TPBlog.Api.Controllers
 
             //Authorization
             var roles = await _userManager.GetRolesAsync(user);
-            var permission = await this.GetPermissionByUserIdAsync(user.Id.ToString());
+            var permission = this.GetPermissionByUserIdAsync(user.Id.ToString()).Result;
 
             var claims = new[]
             {
@@ -87,7 +92,18 @@ namespace TPBlog.Api.Controllers
             var allPermissions = new List<RoleClaimsDto>();
             if (roles.Contains(Roles.Admin))
             {
+                // Lấy danh sách dự án đang hoạt động
+                var projects = await _context.Project
+                    .Where(x => x.IsActive)
+                    .Select(p => new { p.Id, p.Slug })
+                    .ToListAsync();
+
+                // Tạo quyền cho từng dự án
+                permissions.AddRange(projects.Select(project =>
+                    $"Permissions.Projects.{project.Slug}"));
                 var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
+
+
                 foreach (var item in types)
                 {
                     allPermissions.GetPermissions(item);

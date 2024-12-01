@@ -138,6 +138,10 @@ namespace TPBlog.Data.Migrations
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
@@ -196,6 +200,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("SeoDescription")
                         .HasMaxLength(160)
@@ -264,6 +272,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -345,6 +357,10 @@ namespace TPBlog.Data.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
                     b.Property<double>("RoyaltyAmount")
                         .HasColumnType("float");
 
@@ -407,6 +423,10 @@ namespace TPBlog.Data.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
                     b.Property<int>("ToStatus")
                         .HasColumnType("int");
 
@@ -448,6 +468,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("SeoDescription")
                         .HasMaxLength(160)
@@ -712,6 +736,10 @@ namespace TPBlog.Data.Migrations
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
                     b.Property<string>("SeoDescription")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
@@ -746,6 +774,10 @@ namespace TPBlog.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -771,6 +803,10 @@ namespace TPBlog.Data.Migrations
                     b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -806,6 +842,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<DateTimeOffset?>("DateLastModified")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -846,6 +886,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<DateTimeOffset?>("DateLastModified")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -919,6 +963,10 @@ namespace TPBlog.Data.Migrations
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Slug")
                         .IsRequired()

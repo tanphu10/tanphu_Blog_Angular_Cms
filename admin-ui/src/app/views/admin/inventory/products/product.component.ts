@@ -17,6 +17,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
+  styleUrls: ['../../admin.component.scss'],
 })
 export class ProductComponent implements OnInit, OnDestroy {
   //System variables

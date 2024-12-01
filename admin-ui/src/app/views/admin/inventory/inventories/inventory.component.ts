@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import * as adminApiServiceGenerated from 'src/app/api/admin-api.service.generated';
 import {
   AdminApiInventoryCategoryApiClient,
+  AdminApiProjectApiClient,
   InventoryCategoryDto,
   InventoryEntryDto,
   InventoryInListDto,
@@ -21,7 +22,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss'],
+  styleUrls: ['./inventory.component.scss','../../admin.component.scss'],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
   //System variables
@@ -52,7 +53,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   constructor(
     private inventoryApiClient: adminApiServiceGenerated.AdminApiInventoryApiClient,
     private invtCategoryApiClient: AdminApiInventoryCategoryApiClient,
-    private projectApiClient: adminApiServiceGenerated.AdminApiProjectApiClient,
+    private projectApiClient: AdminApiProjectApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
     private confirmationService: ConfirmationService,
@@ -108,13 +109,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
       .getInventoryPaging(
         this.keyword,
         this.projectId,
+        this.categorySlug,
         this.pageIndex,
         this.pageSize
       )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: InventoryInListDtoPageResult) => {
-          // console.log("check ",response)
+          console.log("InventoryInListDtoPageResult ",response)
           this.items = response.results;
           this.totalCount = response.rowCount;
           this.stockQuantity = response.additionalData;

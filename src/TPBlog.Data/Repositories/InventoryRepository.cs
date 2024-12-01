@@ -129,13 +129,14 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("Project don't exist");
             }
             var category = _context.InventoryCategories.Where(x => x.Slug == categorySlug);
-            if (project == null)
+            if (category == null)
             {
                 throw new Exception("Category don't exist");
             }
             var query = from i in _context.Inventories
                         join p in _context.Project on i.ProjectId equals p.Id
-                        where i.InvtCategorySlug== categorySlug
+                        join c in _context.InventoryCategories on i.InvtCategoryId equals c.Id
+                        //where i.InvtCategorySlug == categorySlug
                         select new InventoryInListDto
                         {
                             Id = i.Id,
@@ -152,8 +153,6 @@ namespace TPBlog.Data.Repositories
                             ProjectName = p.Name
 
                         };
-
-
             //var query = _context.Inventories.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))

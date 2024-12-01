@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TPBlog.Api.Extensions;
 using TPBlog.Api.Services;
+using TPBlog.Api.Services.IServices;
+using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
@@ -22,12 +24,14 @@ namespace TPBlog.Api.Controllers.website
         private readonly IPostService _postService;
         private readonly UserManager<AppUser> _userManager;
 
-        public WebsitePostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IPostService postService)
+        private readonly IPermissionService _permissionService;
+        public WebsitePostController(IMapper mapper, IUnitOfWork unitOfWork, UserManager<AppUser> userManager, IPostService postService, IPermissionService permissionService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _postService = postService;
+            _permissionService = permissionService;
         }
         [HttpGet]
         [Route("detail/{slug}")]
@@ -52,17 +56,20 @@ namespace TPBlog.Api.Controllers.website
         [HttpGet]
         [Route("paging")]
         [Authorize(Posts.View)]
-        public async Task<ActionResult<PageResult<PostInListDto>>> GetPostWebsitePaging(string? keyword, string? categorySlug,
+        public async Task<ActionResult<PageResult<PostInListDto>>> GetPostWebsitePaging(string? keyword, string? categorySlug, string? projectSlug,
                   int pageIndex = 1, int pageSize = 10)
         {
             var userId = User.GetUserId();
             var category = await _unitOfWork.PostCategories.GetBySlug(categorySlug);
-            //if (category == null)
-            //{
-            //    return NotFound("không tìm thấy category");
-            //}
-            var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, pageIndex, pageSize);
-            return Ok(result);
+            var project = await _unitOfWork.Projects.GetBySlug(projectSlug);
+            var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
+
+            var query = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
+            var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
+            //var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
+            query.Results = allowedProjects.ToList();
+
+            return Ok(query);
         }
     }
 }

@@ -10,7 +10,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.component.html',
-  // styleUrls: ['./post-category.component.scss'],
+  styleUrls: ['../../admin.component.scss'],
 })
 export class ProductCategoryComponent implements OnInit, OnDestroy {
   //System variables

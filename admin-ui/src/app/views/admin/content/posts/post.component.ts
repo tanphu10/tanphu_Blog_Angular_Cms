@@ -8,10 +8,12 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import {
   AdminApiPostApiClient,
   AdminApiPostCategoryApiClient,
+  AdminApiProjectApiClient,
   PostCategoryDto,
   PostDto,
   PostInListDto,
   PostInListDtoPageResult,
+  ProjectInListDto,
 } from 'src/app/api/admin-api.service.generated';
 import { PostSeriesComponent } from './post-series.component';
 import { PostReturnReasonComponent } from './post-return-reason.component';
@@ -39,13 +41,16 @@ export class PostComponent implements OnInit, OnDestroy {
 
   public categoryId?: string = null;
   public postCategories: any[] = [];
+  public projectCategory: any[] = [];
+  public projectId?: string = null;
 
   constructor(
     private postCategoryApiClient: AdminApiPostCategoryApiClient,
     private postApiClient: AdminApiPostApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private projectApiClient: AdminApiProjectApiClient
   ) {}
 
   ngOnDestroy(): void {
@@ -55,7 +60,9 @@ export class PostComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadPostCategories();
+    this.loadProjects();
     this.loadData();
+
   }
 
   loadData(selectionId = null) {
@@ -64,6 +71,7 @@ export class PostComponent implements OnInit, OnDestroy {
       .getPostsPaging(
         this.keyword,
         this.categoryId,
+        this.projectId,
         this.pageIndex,
         this.pageSize
       )
@@ -78,6 +86,20 @@ export class PostComponent implements OnInit, OnDestroy {
         error: () => {
           this.toggleBlockUI(false);
         },
+      });
+  }
+
+  loadProjects() {
+    this.projectApiClient
+      .getAllProjects()
+      .subscribe((response: ProjectInListDto[]) => {
+        response.forEach((element) => {
+          console.log("elementProject",element)
+          this.projectCategory.push({
+            value: element.id,
+            label: element.name,
+          });
+        });
       });
   }
 

@@ -59,6 +59,9 @@ namespace TPBlog.Core.Domain.Content
         public string? FilePdf { get; set; }
         public int IdOffer { get; set; }
         public Guid ProjectId { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
 
     }
 

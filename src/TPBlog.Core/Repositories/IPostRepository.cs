@@ -7,7 +7,7 @@ namespace TPBlog.Core.Repositories
 {
     public interface IPostRepository : IRepository<Post, Guid>
     {
-        Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10);
         Task<bool> IsSlugAlreadyExisted(string slug, Guid? currentId = null);
         Task<bool> CheckPostTagExists(Guid id, Guid tagId);
         Task<List<SeriesInListDto>> GetAllSeries(Guid postId);

@@ -38,5 +38,6 @@ namespace TPBlog.Core.Domain.Content
 
         [EmailAddress]
         public string? EmailProAddress { get; set; }
+
     }
 }

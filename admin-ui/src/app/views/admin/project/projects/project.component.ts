@@ -6,13 +6,8 @@ import { MessageConstants } from '../../../../shared/constants/message.constant'
 import { ProjectDetailComponent } from './project-detail.component';
 import { AlertService } from '../../../../shared/services/alert.service';
 import {
-  AdminApiProductApiClient,
-  AdminApiProductCategoryApiClient,
   AdminApiProjectApiClient,
-  ProductCategoryDto,
-  ProductDto,
   ProductInListDto,
-  ProductInListDtoPageResult,
   ProjectDto,
   ProjectInListDto,
   ProjectInListDtoPageResult,
@@ -20,6 +15,7 @@ import {
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
+  styleUrls: ['../../admin.component.scss'],
 })
 export class ProjectComponent implements OnInit, OnDestroy {
   //System variables
@@ -64,7 +60,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.keyword,
         // this.categoryId,
         this.pageIndex,
-        this.pageSize,
+        this.pageSize
       )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({

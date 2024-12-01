@@ -7,6 +7,7 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Models;
 using TPBlog.Data.SeedWorks;
 using static TPBlog.Core.SeedWorks.Contants.Permissions;
+using TPBlog.Api.Services.IServices;
 
 namespace TPBlog.Api.Controllers
 {
@@ -16,10 +17,12 @@ namespace TPBlog.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public PostCategoryController(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IPermissionService _permissionService;
+        public PostCategoryController(IUnitOfWork unitOfWork, IMapper mapper,IPermissionService permissionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _permissionService = permissionService;
         }
         [HttpPost]
         [Authorize(PostCategories.View)]
@@ -92,15 +95,28 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<PageResult<PostCategoryDto>>> GetPostCategoriesPaging(string? keyword,
             int pageIndex, int pageSize = 10)
         {
-            var result = await _unitOfWork.PostCategories.GetPagingPostCategoryAsync(keyword, pageIndex, pageSize);
-            return Ok(result);
+
+            //var userId = User.GetUserId();
+            var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
+
+            var query = await  _unitOfWork.PostCategories.GetPagingPostCategoryAsync(keyword, pageIndex, pageSize);
+            var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.Slug}"));
+            query.Results = allowedProjects.ToList();
+            return Ok(query);
+        
         }
 
         [HttpGet]
         //[Authorize(PostCategories.View)]
         public async Task<ActionResult<List<PostCategoryDto>>> GetPostCategories()
         {
+            var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
+
+            //var allProjects = await _unitOfWork.Projects.GetAllAsync();
+
             var query = await _unitOfWork.PostCategories.GetAllAsync();
+
+            var allowedProjects = query.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
             var model = _mapper.Map<List<PostCategoryDto>>(query);
             return Ok(model);
         }

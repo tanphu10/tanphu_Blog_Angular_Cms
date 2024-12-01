@@ -6,8 +6,10 @@ import { MessageConstants } from 'src/app/shared/constants/message.constant';
 import { PostCategoryDetailComponent } from './post-category-detail.component';
 import {
   AdminApiPostCategoryApiClient,
+  AdminApiProjectApiClient,
   PostCategoryDto,
   PostCategoryDtoPageResult,
+  ProjectInListDto,
 } from 'src/app/api/admin-api.service.generated';
 import { AlertService } from 'src/app/shared/services/alert.service';
 
@@ -30,12 +32,15 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
   public items: PostCategoryDto[];
   public selectedItems: PostCategoryDto[] = [];
   public keyword: string = '';
-
+  public projectCategory: any[] = [];
+  public projectId?: string = null;
   constructor(
     private postCategoryService: AdminApiPostCategoryApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private projectApiClient: AdminApiProjectApiClient
+
   ) {}
 
   ngOnDestroy(): void {
@@ -45,8 +50,21 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadData();
+    this.loadProjects();
   }
-
+  loadProjects() {
+    this.projectApiClient
+      .getAllProjects()
+      .subscribe((response: ProjectInListDto[]) => {
+        response.forEach((element) => {
+          console.log('elementProject', element);
+          this.projectCategory.push({
+            value: element.id,
+            label: element.name,
+          });
+        });
+      });
+  }
   loadData() {
     this.toggleBlockUI(true);
     this.postCategoryService

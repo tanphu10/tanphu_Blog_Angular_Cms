@@ -27,6 +27,9 @@ namespace TPBlog.Core.Domain.Content
         public string oldContent { get; set; }
         public string newContent { get; set; }
         public DateTimeOffset ChangeDate { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
     }
-   
+
 }

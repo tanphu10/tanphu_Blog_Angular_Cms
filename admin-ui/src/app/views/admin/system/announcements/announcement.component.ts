@@ -14,6 +14,7 @@ import { AnnouncementDetailComponent } from './announcement-detail.component';
 @Component({
   selector: 'app-announcement',
   templateUrl: './announcement.component.html',
+  styleUrls: ['../../admin.component.scss'],
 })
 export class AnnouncementComponent implements OnInit, OnDestroy {
   //System variables

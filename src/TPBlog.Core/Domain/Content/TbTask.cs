@@ -24,6 +24,8 @@ namespace TPBlog.Core.Domain.Content
         public PriorityStatus Priority { get; set; }
         public DateTimeOffset DueDate { get; set; }
         public DateTimeOffset Complete { get; set; }
-        
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
     }
 }

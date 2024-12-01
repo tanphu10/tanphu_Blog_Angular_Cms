@@ -27,5 +27,8 @@ namespace TPBlog.Core.Domain.Content
         public string? SeoDescription { set; get; }
         public int SortOrder { set; get; }
         public Guid ProjectId { get; set; }
+        [Column(TypeName = "varchar(250)")]
+        public string ProjectSlug { get; set; }
+
     }
 }

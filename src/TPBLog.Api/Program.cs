@@ -103,33 +103,9 @@ internal class Program
         builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
         builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
         builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
-
-
-
-        //builder.Services.Scan(scan => scan
-        //    .FromAssemblies(AssemblyHelper.GetAllAssemblies())
-        //    //.FromAssemblyOf<IInjectableService>()
-        //    .AddClasses(classes => classes.AssignableTo<ITransientService>())
-        //    .AsImplementedInterfaces()
-        //    .WithTransientLifetime()
-
-        //    .AddClasses(classes => classes.AssignableTo<IScopedService>())
-        //    .AsImplementedInterfaces()
-        //    .WithScopedLifetime()
-
-        //    .AddClasses(classes => classes.AssignableTo<ISingletonService>())
-        //    .AsImplementedInterfaces()
-        //    .WithSingletonLifetime()
-
-        //    //.AddClasses(classes => classes.AssignableTo(typeof(IRequestHandler<,>)))
-        //    //.AsImplementedInterfaces()
-        //    //.WithScopedLifetime()
-        //);
-
-
-
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<IPostService, PostService>();
+        builder.Services.AddScoped<IPermissionService, PermissionService>();
         builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
         builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
