@@ -1,0 +1,18 @@
+.sub_header {
+  position: relative;
+  z-index: 10;
+  margin-top: -64px;
+  left: 0;
+  height: 200px;
+  // background: #f12711;
+  // background: -webkit-linear-gradient(to left, #c40808, #8be30f5b);
+  // background: linear-gradient(to left, #f12711, #051f6f);
+  background: linear-gradient(to left, #c94b4b, #4b134f);
+  h2 {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    // transform: translate(-50%, -50%);
+    color: wheat;
+  }
+}

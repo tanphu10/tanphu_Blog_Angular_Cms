@@ -5,10 +5,11 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Repositories;
 using TPBlog.Data.SeedWorks;
+using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
-    public class SeriesRepository : RepositoryBase<Series, Guid>, ISeriesRepository
+    public class SeriesRepository : RepositoryBase<IC_Series, Guid>, ISeriesRepository
     {
         private readonly IMapper _mapper;
         public SeriesRepository(TPBlogContext context, IMapper mapper) : base(context)
@@ -21,7 +22,7 @@ namespace TPBlog.Data.Repositories
             var postInSeries = await _context.PostInSeries.FirstOrDefaultAsync(x => x.PostId == postId && x.SeriesId == seriesId);
             if (postInSeries == null)
             {
-                await _context.PostInSeries.AddAsync(new PostInSeries()
+                await _context.PostInSeries.AddAsync(new IC_PostInSeries()
                 {
                     SeriesId = seriesId,
                     PostId = postId,
@@ -30,12 +31,18 @@ namespace TPBlog.Data.Repositories
             }
         }
 
-        public async Task<PageResult<SeriesInListDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<SeriesInListDto>> GetAllPaging(string? keyword,Guid? projectId, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.Series.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
+            }
+            if (projectId.HasValue)
+            {
+                query = query.Where(x => x.ProjectId == projectId.Value);
             }
 
             var totalRow = await query.CountAsync();

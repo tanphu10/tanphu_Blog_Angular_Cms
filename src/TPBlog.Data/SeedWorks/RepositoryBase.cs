@@ -17,9 +17,10 @@ namespace TPBlog.Data.SeedWorks
             _dbSet = context.Set<T>();
             _context = context;
         }
-        public void Add(T entity)
+
+        public async Task Add(T entity)
         {
-            _dbSet.AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);  // Thêm bất đồng bộ
         }
         public void AddRange(IEnumerable<T> entities)
         {
@@ -36,7 +37,7 @@ namespace TPBlog.Data.SeedWorks
         public async Task<T> GetByIdAsync(Key id)
         {
 
-            var a= await _dbSet.FindAsync(id);
+            var a = await _dbSet.FindAsync(id);
             return a;
         }
         public void Remove(T entity)
@@ -47,5 +48,24 @@ namespace TPBlog.Data.SeedWorks
         {
             _dbSet.RemoveRange(entities);
         }
+
+        public async Task<T> GetSingleByCondition(Expression<Func<T, bool>> expression, string[] includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (includes != null && includes.Length > 0)
+            {
+                query = query.Include(includes.First());
+                foreach (var include in includes.Skip(1))
+                    query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(expression);
+        }
+
+        //public TaskAdd(T entity)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

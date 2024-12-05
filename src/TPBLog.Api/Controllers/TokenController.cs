@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TPBlog.Api.Services;
+using TPBlog.Api.Services.IServices;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models.Auth;
 

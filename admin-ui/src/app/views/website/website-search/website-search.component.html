@@ -1,0 +1,53 @@
+<website-sub-header [headerText]="'Tìm Kiếm'" style="margin-bottom: 500px;" />
+<div class="container" style="margin-top: 50px;  ">
+    <div class="keyword-container" style="margin-top: 50px;">
+        <h5 class="keyword" style="display: flex; justify-content: center;" *ngIf="keyword">Từ Khóa :{{keyword}}
+        </h5>
+        <hr>
+    </div>
+</div>
+
+<!-- -- tìm kiếm post -->
+<p-panel #pnl [style]="{ 'margin': '20px' }" *ngIf="postItems?.length > 0">
+    <div class="card flex justify-content-center" >
+        <p-fieldset legend="Bài Viết"  >
+            <div *ngFor=" let post of postItems" class="tab-content">
+                <div class="tab-panel">
+                    <a *ngIf="post.filePdf" [href]="environment.API_URL+'/' + post.filePdf" target="_blank"
+                        style="text-decoration: none; color: green;" rel="noopener noreferrer">
+                        <div class="tab_item col-12 col-md-6 col-xl-4 w-100">
+                            <img [src]="environment.API_URL + '/' + post.thumbnail" alt="">
+                            <div class="text">
+                                <h3>{{post.name}}</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="tab_notice">
+                        <p>-Thực Hiện: <span>{{post.authorUserName}}</span> </p>
+                        <p>-Tình Trạng:
+                            <p-badge *ngIf="post.status == 3" value="Khoá" severity="danger"></p-badge>
+                            <p-badge *ngIf="post.status == 2" value="Khoá" severity="danger"></p-badge>
+                            <p-badge *ngIf="post.status == 1" value="Kích hoạt" severity="success"></p-badge>
+                            <p-badge *ngIf="post.status == 0" value="Khoá" severity="danger"></p-badge>
+                        <p>-Mô Tả: <span>{{post.description}}</span> </p>
+                        <p>-Ngày duyệt: <span>{{post.dateCreated}}</span> </p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </p-fieldset>
+    </div>
+
+    <!-- </div> -->
+
+    <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator>
+
+
+    <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+        <p-progressSpinner [style]="{width: '100px', height: '100px', position:'absolute',top:'25%',left:'50%'}"
+            strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+</p-panel>
+
+<website-footer  />

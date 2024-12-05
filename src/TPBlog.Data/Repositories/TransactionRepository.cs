@@ -5,10 +5,11 @@ using TPBlog.Core.Models;
 using TPBlog.Core.Repositories;
 using TPBlog.Data.SeedWorks;
 using TPBlog.Core.Domain.Royalty;
+using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
-    public class TransactionRepository:RepositoryBase<Transaction, Guid>,ITransactionRepository
+    public class TransactionRepository:RepositoryBase<IC_Transaction, Guid>,ITransactionRepository
     {
         private readonly IMapper _mapper;
         public TransactionRepository(TPBlogContext context, IMapper mapper) : base(context)
@@ -21,7 +22,9 @@ namespace TPBlog.Data.Repositories
             var query = _context.Transactions.AsQueryable();
             if (!string.IsNullOrWhiteSpace(userName))
             {
-                query = query.Where(x => x.ToUserName.Contains(userName));
+
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(userName);
+                query = query.Where(x => x.ToUserName.Contains(normalizedKeyword));
             }
             if (fromMonth > 0 && fromYear > 0)
             {

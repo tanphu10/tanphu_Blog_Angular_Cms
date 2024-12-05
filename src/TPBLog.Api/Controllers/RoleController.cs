@@ -10,6 +10,7 @@ using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models.system;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Data;
 
 namespace TPBlog.Api.Controllers
 {
@@ -19,10 +20,12 @@ namespace TPBlog.Api.Controllers
     {
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
-        public RoleController(RoleManager<AppRole> roleManager, IMapper mapper)
+        private readonly TPBlogContext _context;
+        public RoleController(RoleManager<AppRole> roleManager, IMapper mapper, TPBlogContext context)
         {
             _roleManager = roleManager;
             _mapper = mapper;
+            _context = context;
         }
         [HttpPost]
         [Authorize(Permissions.Roles.Create)]
@@ -62,7 +65,7 @@ namespace TPBlog.Api.Controllers
             return Ok();
         }
         [HttpGet("{id}")]
-        //[Authorize(Permissions.Roles.View)]
+        [Authorize(Permissions.Roles.View)]
         public async Task<ActionResult<RoleDto>> GetRoleByIdAsync(Guid id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
@@ -91,7 +94,7 @@ namespace TPBlog.Api.Controllers
             return Ok(paginationSet);
         }
         [HttpGet("all")]
-        //[Authorize(Permissions.Roles.View)]
+        [Authorize(Permissions.Roles.View)]
         public async Task<ActionResult<List<RoleDto>>> GetAllRoleAsync()
         {
             var data = await _mapper.ProjectTo<RoleDto>(_roleManager.Roles).ToListAsync();
@@ -107,6 +110,18 @@ namespace TPBlog.Api.Controllers
             var allPermissions = new List<RoleClaimsDto>();
             var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
 
+            var projects = await _context.Project.Where(x => x.IsActive).Select(p => new { p.Id, p.Slug }).ToListAsync();
+
+            foreach (var project in projects)
+            {
+                allPermissions.Add(new RoleClaimsDto
+                {
+                    Type = "Permissions",
+                    Value = $"Permissions.Projects.{project.Slug}",
+                    DisplayName = $"Phân Quyền Cho : {project.Slug}",
+                    Selected = false,
+                });
+            }
             foreach (var type in types)
             {
                 allPermissions.GetPermissions(type);
@@ -115,9 +130,13 @@ namespace TPBlog.Api.Controllers
             if (role == null)
                 return NotFound();
             model.RoleId = roleId;
+            //ở đây sẽ lấy tất cả các quyền mà role đó có ra biến claims
             var claims = await _roleManager.GetClaimsAsync(role);
+            //lấy list value của permission
             var allClaimValues = allPermissions.Select(a => a.Value).ToList();
+            //ở đây  sẽ lấy value tất cả quyền mà role đó có
             var roleClaimValues = claims.Select(a => a.Value).ToList();
+            //là authorized lấy phần chung của quyền role đó với all các quyền
             var authorizedClaims = allClaimValues.Intersect(roleClaimValues).ToList();
             foreach (var permission in allPermissions)
             {
@@ -125,12 +144,12 @@ namespace TPBlog.Api.Controllers
                 {
                     permission.Selected = true;
                 }
-            }
+            }           
             model.RoleClaims = allPermissions;
             return Ok(model);
         }
         [HttpPut("permissions")]
-        //[Authorize(Permissions.Roles.Edit)]
+        [Authorize(Permissions.Roles.Edit)]
         public async Task<IActionResult> SavePermission([FromBody] PermissionDto model)
         {
             var role = await _roleManager.FindByIdAsync(model.RoleId);

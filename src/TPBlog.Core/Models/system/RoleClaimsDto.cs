@@ -12,7 +12,5 @@ namespace TPBlog.Core.Models.system
         public required string Value { get; set; }
         public string? DisplayName { get; set; }
         public bool Selected { get; set; }
-
-
     }
 }

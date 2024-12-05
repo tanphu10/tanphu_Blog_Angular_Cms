@@ -1,0 +1,63 @@
+<website-sub-header [headerText]="'Danh Mục'" style="margin-bottom: 500px;" />
+
+<p-panel #pnl [style]="{ 'margin': '20px' }">
+
+    <div class="card">
+        <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true" (onChange)="onTabChange($event)">
+            <div class="formSearch">
+                <div class="row">
+                    <div class="col">
+                        <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
+                            [(ngModel)]="keyword" placeholder="Nhập tìm kiếm..." type="text">
+                    </div>
+                    <div class="col">
+                        <button type="button" class="buttonSearch" pButton (click)="loadData()">Tìm Kiếm</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p-tabPanel *ngFor="let tab of postCategories" [header]="tab.label" (onChange)="loadData()">
+                <div *ngFor=" let post of postItems" class="tab-content">
+                    <div class="tab-panel" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <!-- <div class="row"> -->
+                        <a *ngIf="post.filePdf" [href]="environment.API_URL+'/' + post.filePdf" target="_blank"
+                            rel="noopener noreferrer">
+                            <div class="tab_item col-12 col-md-6 col-xl-4 w-100">
+                                <img [src]="environment.API_URL + '/' + post.thumbnail" alt="">
+                                <div class="text">
+                                    <h3>{{post.name}}</h3>
+                                    <!-- <p>{{post.filePdf}}</p> -->
+                                </div>
+                            </div>
+                        </a>
+                        <div class="tab_notice">
+                            <p>-Thực Hiện: <span>{{post.authorUserName}}</span> </p>
+                            <p>-Tình Trạng:
+                                <!-- {{post.status}} -->
+                                <p-tag *ngIf="post.status == 3" severity="success" value="duyệt" />
+                                <p-tag *ngIf="post.status == 2" value="từ chối" severity="danger" />
+
+                                <p-tag *ngIf="post.status == 1" value="đang trình" severity="warning" />
+
+                                <p-tag *ngIf="post.status == 0" value="phát thảo" severity="info" />
+                            <p>-Mô Tả: <span>{{post.description}}</span> </p>
+                            <p>-Ngày phát hành: <span>{{post.dateCreated}}</span> </p>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+    <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
+        [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator>
+
+
+    <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+        <p-progressSpinner [style]="{width: '100px', height: '100px', position:'absolute',top:'25%',left:'50%'}"
+            strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+</p-panel>
+
+
+<website-footer />

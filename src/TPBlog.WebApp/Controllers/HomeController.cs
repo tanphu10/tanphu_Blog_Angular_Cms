@@ -20,7 +20,7 @@ namespace TPBlog.WebApp.Controllers
         {
             var viewModel = new HomeViewModel()
             {
-                LatestPosts = await _unitOfWork.BaiPost.GetLatestPublishPost(10)
+                LatestPosts = await _unitOfWork.IC_Posts.GetLatestPublishPost(10)
             };
             return View(viewModel);
         }

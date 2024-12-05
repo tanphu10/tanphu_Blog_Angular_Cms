@@ -7,7 +7,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class TagRepositiory : RepositoryBase<Tag, Guid>, ITagRepository
+    public class TagRepositiory : RepositoryBase<IC_Tag, Guid>, ITagRepository
     {
         private readonly IMapper _mapper;
         public TagRepositiory(TPBlogContext context, IMapper mapper) : base

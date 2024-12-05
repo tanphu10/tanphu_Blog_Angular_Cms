@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TPBlog.Core.Domain.Content;
 using AutoMapper;
+using TPBlog.Core.Shared.Enums;
 
 namespace TPBlog.Core.Models.content
 {
@@ -19,14 +20,13 @@ namespace TPBlog.Core.Models.content
         public string? Source { get; set; }
         public string? Tags { get; set; }
         public string? SeoDescription { get; set; }
-        public DateTime? DateModified { get; set; }
         public PostStatus Status { get; set; }
       
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Post, PostDto>();
+                CreateMap<IC_Post, PostDto>();
             }
         }
 

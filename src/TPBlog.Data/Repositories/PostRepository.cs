@@ -3,17 +3,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Core.Models.system;
 using TPBlog.Core.Repositories;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Core.Shared.Enums;
 using TPBlog.Data;
 using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class PostRepository : RepositoryBase<Post, Guid>, IPostRepository
+    public class PostRepository : RepositoryBase<IC_Post, Guid>, IPostRepository
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
@@ -24,7 +26,7 @@ namespace TPBlog.Data.Repositories
             _userManager = userManager;
         }
 
-        public async Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10)
         {
             var user = await _userManager.FindByIdAsync(currentUserId.ToString());
             if (user == null)
@@ -46,11 +48,17 @@ namespace TPBlog.Data.Repositories
             var query = _context.Posts.AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
-            }
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x => x.Slug.Contains(normalizedKeyword) ||
+                         x.Name.Contains(normalizedKeyword));
+            };
             if (categoryId.HasValue)
             {
                 query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+            if (projectId.HasValue)
+            {
+                query = query.Where(x => x.ProjectId == projectId.Value);
             }
 
             if (!canApprove)
@@ -82,7 +90,7 @@ namespace TPBlog.Data.Repositories
                         select s;
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
-        public IEnumerable<Post> GetPopularPosts(int count)
+        public IEnumerable<IC_Post> GetPopularPosts(int count)
         {
             return _context.Posts.OrderByDescending(d => d.ViewCount).Take(count).ToList();
         }
@@ -95,6 +103,10 @@ namespace TPBlog.Data.Repositories
             }
             return _context.Posts.AnyAsync(x => x.Slug == slug);
         }
+        public Task<bool> CheckPostTagExists(Guid id, Guid tagId)
+        {
+            return _context.PostTags.AnyAsync(x => x.TagId == tagId && x.PostId == id);
+        }
         public async Task Approve(Guid id, Guid currentUserId)
         {
             var post = await _context.Posts.FindAsync(id);
@@ -103,7 +115,7 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("Không tồn tại bài viết");
             }
             var user = await _context.Users.FindAsync(currentUserId);
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 Id = Guid.NewGuid(),
                 FromStatus = post.Status,
@@ -111,7 +123,8 @@ namespace TPBlog.Data.Repositories
                 UserId = currentUserId,
                 UserName = user.UserName,
                 PostId = id,
-                Note = $"{user?.UserName} duyệt bài"
+                Note = $"{user?.UserName} duyệt bài",
+                ProjectSlug = post.ProjectSlug,
             });
             post.Status = PostStatus.Published;
             _context.Posts.Update(post);
@@ -124,7 +137,7 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("Không tồn tại bài viết");
             }
             var user = await _userManager.FindByIdAsync(currentUserId.ToString());
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 FromStatus = post.Status,
                 ToStatus = PostStatus.Rejected,
@@ -157,7 +170,7 @@ namespace TPBlog.Data.Repositories
                 .OrderByDescending(x => x.DateCreated);
             return await _mapper.ProjectTo<PostActivityLogDto>(query).ToListAsync();
         }
-        public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
+        public async Task<List<IC_Post>> GetListUnpaidPublishPosts(Guid userId)
         {
             return await _context.Posts
                .Where(x => x.AuthorUserId == userId && x.IsPaid == false
@@ -177,14 +190,17 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Không tồn tại user");
             }
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 FromStatus = post.Status,
                 ToStatus = PostStatus.WaitingForApproval,
                 UserId = currentUserId,
                 PostId = post.Id,
                 UserName = user.UserName,
-                Note = $"{user.UserName} gửi bài chờ duyệt"
+                Note = $"{user.UserName} gửi bài chờ duyệt",
+                DateCreated = DateTimeOffset.Now,
+                DateLastModified = DateTimeOffset.Now,
+                ProjectSlug = post.ProjectSlug
             });
             post.Status = PostStatus.WaitingForApproval;
             _context.Posts.Update(post);
@@ -229,7 +245,7 @@ namespace TPBlog.Data.Repositories
 
         public async Task AddTagToPost(Guid postId, Guid tagId)
         {
-            await _context.PostTags.AddAsync(new PostTag()
+            await _context.PostTags.AddAsync(new IC_PostTag()
             {
                 PostId = postId,
                 TagId = tagId,
@@ -294,7 +310,8 @@ namespace TPBlog.Data.Repositories
             var query = _context.Posts.Where(x => x.AuthorUserId == userId).AsQueryable();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Name.Contains(keyword));
+                var lowerKeyword = keyword.Trim().ToLower();
+                query = query.Where(x => x.Name.ToLower().Contains(lowerKeyword));
             }
 
 

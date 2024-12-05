@@ -12,6 +12,7 @@ using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Helpers;
 using TPBlog.Core.SeedWorks.Constants;
 using TPBlog.Core.SeedWorks.Contants;
+using TPBlog.Core.Shared.Enums;
 using TPBlog.Data.SeedWorks;
 using TPBlog.WebApp.Extensions;
 using TPBlog.WebApp.Models;
@@ -150,8 +151,8 @@ namespace TPBlog.WebApp.Controllers
                 return View(await SetCreatePostModel());
             }
             var user = await GetCurrentUser();
-            var category = await _unitOfWork.PostCategories.GetByIdAsync(model.CategoryId);
-            var post = new Post()
+            var category = await _unitOfWork.IC_PostCategories.GetByIdAsync(model.CategoryId);
+            var post = new IC_Post()
             {
                 Name = model.Title,
                 CategoryName = category.Name,
@@ -166,7 +167,7 @@ namespace TPBlog.WebApp.Controllers
                 AuthorUserName = user.UserName,
                 Description = model.Description
             };
-            _unitOfWork.BaiPost.Add(post);
+            _unitOfWork.IC_Posts.Add(post);
             if (thumbnail != null)
             {
                 await UploadThumbnail(thumbnail, post);
@@ -185,7 +186,7 @@ namespace TPBlog.WebApp.Controllers
 
         }
 
-        private async Task UploadThumbnail(IFormFile thumbnail, Post post)
+        private async Task UploadThumbnail(IFormFile thumbnail, IC_Post post)
         {
             using (var client = new HttpClient())
             {
@@ -224,7 +225,7 @@ namespace TPBlog.WebApp.Controllers
             var model = new CreatePostViewModel()
             {
                 Title = "Untitled",
-                Categories = new SelectList(await _unitOfWork.PostCategories.GetAllAsync(), "Id", "Name")
+                Categories = new SelectList(await _unitOfWork.IC_PostCategories.GetAllAsync(), "Id", "Name")
             };
             return model;
         }
@@ -233,7 +234,7 @@ namespace TPBlog.WebApp.Controllers
         [Route("/profile/posts/list")]
         public async Task<IActionResult> ListPosts(string keyword, int page = 1)
         {
-            var posts = await _unitOfWork.BaiPost.GetPostByUserPaging(keyword, User.GetUserId(), page, 12);
+            var posts = await _unitOfWork.IC_Posts.GetPostByUserPaging(keyword, User.GetUserId(), page, 12);
             return View(new ListPostByUserViewModel()
             {
                 Posts = posts

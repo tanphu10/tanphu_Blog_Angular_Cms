@@ -1,0 +1,301 @@
+<c-carousel style=" position: relative;
+z-index: 10; 
+margin-top: -64px;">
+    <c-carousel-indicators></c-carousel-indicators>
+    <c-carousel-inner>
+        <c-carousel-item *ngFor="let slide of slides">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img alt="{{slide.title}}" class="d-block w-100" style="z-index: 999 !important;" loading="lazy"
+                        src="{{slide.src}}" />
+                    <div class="carousel__banner">
+                        <img src="{{slide.src}}" alt="">
+                        <h2 class="d-md-block ">{{slide.title}}</h2>
+                        <p>{{slide.subtitle}}</p>
+                    </div>
+                </div>
+            </div>
+        </c-carousel-item>
+    </c-carousel-inner>
+    <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
+    <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
+</c-carousel>
+<!-- card_landing  -->
+<section class="card_landing py-5 ">
+    <div class="container">
+        <!-- past title  -->
+        <div class="project__title text-center mx-auto ">
+            <h2 class="fw-bold">I Love What I Do</h2>
+            <p>Vestibulum ante ipsum primis in faucibus orciluctus et ultrices posuere cubilia Curae;
+                Nulla mollis dapibus nunc, ut rhoncus turpis sodales quis.
+                Integer sit amet mattis quam.Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+                cubilia Curae;
+                Nulla mollis dapibus nunc</p>
+        </div>
+        <!-- past content  -->
+        <div class="card">
+            <p-tabView>
+                <p-tabPanel header="XÂY DỰNG" style="text-decoration: none; color: none;">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-panel fade show active" id="home-tab-pane" role="tabpanel"
+                            aria-labelledby="home-tab" tabindex="0">
+                            <div class="row">
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_5.jpg" alt="">
+                                    <div class="text">
+                                        <h3>Apologetic robot holding flowers</h3>
+                                        <p>Branding</p>
+                                    </div>
+                                </div>
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_6.jpg" alt="">
+                                    <div class="text">
+                                        <h3>Woman walking her small dog</h3>
+                                        <p>Illustrations</p>
+                                    </div>
+                                </div>
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_7.jpg" alt="">
+                                    <div class="text">
+                                        <h3>Oil bottle branding</h3>
+                                        <p>Branding</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_4.jpg" alt="">
+                                    <div class="text">
+                                        <h3>Smiling Woman</h3>
+                                        <p>Illustrations</p>
+                                    </div>
+                                </div>
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_3.jpg" alt="">
+                                    <div class="text">
+                                        <h3>Drink can design</h3>
+                                        <p>Branding</p>
+                                    </div>
+                                </div>
+                                <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                                    <img src="../../../../assets/img/controls/hinhnen_2.jpg" alt="">
+                                    <div class="text">
+                                        <h3>I love you hand gesture</h3>
+                                        <p>Illustrations</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="ĐẦU TƯ" style="text-decoration: none; color: none;">
+                    <p>
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                        beatae vitae dicta sunt explicabo. Nemo enim
+                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+                        dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
+                        numquam eius modi.
+                    </p>
+                </p-tabPanel>
+                <p-tabPanel header="KINH TẾ" style="text-decoration: none; color: none;">
+                    <p>
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                        provident, similique sunt in culpa
+                        qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
+                        facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
+                        cumque nihil impedit quo minus.
+                    </p>
+                </p-tabPanel>
+                <p-tabPanel header="ĐA DẠNG HÓA" style="text-decoration: none; color: none;">
+                    <p>
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                        provident, similique sunt in culpa
+                        qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
+                        facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
+                        cumque nihil impedit quo minus.
+                    </p>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+
+        <!-- <div class="project__content">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">All Project</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                        type="button" role="tab" aria-controls="profile-tab-pane"
+                        aria-selected="false">Illustration</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
+                        type="button" role="tab" aria-controls="contact-tab-pane"
+                        aria-selected="false">Photography</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
+                        type="button" role="tab" aria-controls="disabled-tab-pane"
+                        aria-selected="false">Website</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                    tabindex="0">
+                    <div class="row">
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_5.jpg" alt="">
+                            <div class="text">
+                                <h3>Apologetic robot holding flowers</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_6.jpg" alt="">
+                            <div class="text">
+                                <h3>Woman walking her small dog</h3>
+                                <p>Illustrations</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_7.jpg" alt="">
+                            <div class="text">
+                                <h3>Oil bottle branding</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_4.jpg" alt="">
+                            <div class="text">
+                                <h3>Smiling Woman</h3>
+                                <p>Illustrations</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_3.jpg" alt="">
+                            <div class="text">
+                                <h3>Drink can design</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="../../../../assets/img/controls/hinhnen_2.jpg" alt="">
+                            <div class="text">
+                                <h3>I love you hand gesture</h3>
+                                <p>Illustrations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                    tabindex="0">
+                    <div class="row">
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="./img/g1.jpg" alt="">
+                            <div class="text">
+                                <h3>Apologetic robot holding flowers</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="./img/g2.jpg" alt="">
+                            <div class="text">
+                                <h3>Woman walking her small dog</h3>
+                                <p>Illustrations</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="./img/g3.jpg" alt="">
+                            <div class="text">
+                                <h3>Oil bottle branding</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                    tabindex="0">
+                    <div class="row">
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="./img/g3.jpg" alt="">
+                            <div class="text">
+                                <h3>Oil bottle branding</h3>
+                                <p>Branding</p>
+                            </div>
+                        </div>
+                        <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                            <img src="./img/g4.jpg" alt="">
+                            <div class="text">
+                                <h3>Smiling Woman</h3>
+                                <p>Illustrations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+                    tabindex="0">
+                    <div class="animate__animated animate__zoomIn project__item col-12 col-md-6 col-xl-4">
+                        <img src="./img/g6.jpg" alt="">
+                        <div class="text">
+                            <h3>I love you hand gesture</h3>
+                            <p>Illustrations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</section>
+<!-- available  -->
+<section class="available py-5 text-white">
+    <div class="overlay"></div>
+    <div class="container position-relative">
+        <div class="available__title text-white text-center ">
+            <h2>I'm Available For Hire</h2>
+            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla mollis
+                dapibus nunc, ut rhoncus turpis sodales quis. Integer sit amet mattis quam.</p>
+        </div>
+        <div class="available_content ">
+            <div class="row g-4">
+                <div class="col-12 col-xl-4">
+                    <div class="avai__item text-white text-center px-4 py-5 rounded-3">
+                        <i class="fa fa-paint-brush text-success fs-1"></i>
+                        <h3 class="my-3">Design</h3>
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla
+                            mollis
+                            dapibus nunc</p>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="avai__item text-white text-center px-4 py-5 rounded-3">
+                        <i class="fa fa-paint-brush text-success fs-1"></i>
+                        <h3 class="my-3">Design</h3>
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla
+                            mollis
+                            dapibus nunc</p>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="avai__item text-white text-center px-4 py-5 rounded-3">
+                        <i class="fa fa-paint-brush text-success fs-1"></i>
+                        <h3 class="my-3">Design</h3>
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla
+                            mollis
+                            dapibus nunc</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<div class="container  mt-3">
+    <website-news-event />
+</div>
+<website-footer class="d-block p-0 " style="margin-top: 20px;" />

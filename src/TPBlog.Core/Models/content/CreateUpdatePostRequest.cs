@@ -19,17 +19,18 @@ namespace TPBlog.Core.Models.content
 
         [MaxLength(500)]
         public string? Thumbnail { get; set; }
-
+        public string? FilePdf { get; set; }
         public Guid CategoryId { get; set; }
         public string? Content { get; set; }
         public string? Source { get; set; }
         public string[] Tags { get; set; }
         public string? SeoDescription { get; set; }
+        public Guid ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdatePostRequest, Post>();
+                CreateMap<CreateUpdatePostRequest, IC_Post>();
             }
         }
 

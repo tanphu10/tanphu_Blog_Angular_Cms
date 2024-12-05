@@ -1,0 +1,38 @@
+<ul class="c-sidebar-nav">
+    <li *ngFor="let navItem of navItems" class="c-sidebar-nav-item" [ngClass]="{
+        'c-sidebar-nav-dropdown': navItem.children,
+        'c-sidebar-nav-item-hover': dropdownMode === 'hover'
+      }">
+        <a *ngIf="!navItem.children" class="c-sidebar-nav-link" [routerLink]="navItem.url">
+            <i class="fa fa-angle-right"></i>
+            <i *ngIf="navItem.iconComponent" [ngClass]="navItem.iconComponent.name"></i>
+            {{ navItem.name }}
+        </a>
+        <a *ngIf="navItem.children" class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle"
+            (click)="toggleDropdown(navItem)">
+            <i *ngIf="navItem.iconComponent" [ngClass]="navItem.iconComponent.name"></i>
+            {{ navItem.name }}
+        </a>
+
+        <ul *ngIf="navItem.children" class="c-sidebar-nav-dropdown-items">
+            <!-- [class.show]="navItem.open" -->
+            <li *ngFor="let child of navItem.children" class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link" [routerLink]="child.url">
+                    <i *ngIf="child.iconComponent" [ngClass]="child.iconComponent.name"></i>
+                    {{ child.name }}
+                </a>
+            </li>
+        </ul>
+
+        <c-dropdown>
+            <button cButton cDropdownToggle color="secondary">
+                Dropdown button
+            </button>
+            <ul cDropdownMenu>
+                <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
+                <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
+                <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
+            </ul>
+        </c-dropdown>
+    </li>
+</ul>

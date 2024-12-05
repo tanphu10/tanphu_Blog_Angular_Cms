@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TPBlog.Core.Domain.Content;
 
 namespace TPBlog.Core.Models.content
@@ -32,11 +27,12 @@ namespace TPBlog.Core.Models.content
         public string? Thumbnail { set; get; }
 
         public string? Content { get; set; }
+        public Guid ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateSeriesRequest, Series>();
+                CreateMap<CreateUpdateSeriesRequest, IC_Series>();
             }
         }
     }

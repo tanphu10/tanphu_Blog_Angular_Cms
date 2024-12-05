@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPBlog.Core.Models.content;
 
 namespace TPBlog.Core.Models
 {
@@ -13,5 +14,6 @@ namespace TPBlog.Core.Models
         {
             Results = new List<T>();
          }
+
     }
 }

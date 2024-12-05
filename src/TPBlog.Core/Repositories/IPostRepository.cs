@@ -5,10 +5,11 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IPostRepository : IRepository<Post, Guid>
+    public interface IPostRepository : IRepository<IC_Post, Guid>
     {
-        Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<PostInListDto>> GetAllPaging(string? keyword, Guid currentUserId, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10);
         Task<bool> IsSlugAlreadyExisted(string slug, Guid? currentId = null);
+        Task<bool> CheckPostTagExists(Guid id, Guid tagId);
         Task<List<SeriesInListDto>> GetAllSeries(Guid postId);
         Task Approve(Guid id, Guid currentUserId);
         Task SendToApprove(Guid id, Guid currentUserId);
@@ -16,7 +17,7 @@ namespace TPBlog.Core.Repositories
         Task<string> GetReturnReason(Guid id);
         Task<bool> HasPublishInLast(Guid id);
         Task<List<PostActivityLogDto>> GetActivityLogs(Guid id);
-        Task<List<Post>> GetListUnpaidPublishPosts(Guid userId);
+        Task<List<IC_Post>> GetListUnpaidPublishPosts(Guid userId);
         Task<List<PostInListDto>> GetLatestPublishPost(int top);
         Task<PageResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
         Task<PostDto> GetBySlug(string slug);

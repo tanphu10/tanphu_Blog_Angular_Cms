@@ -1,0 +1,208 @@
+/* Đặt carousel lên trên cùng và phủ lên header */
+::ng-deep .c-carousel {
+  position: relative;
+  z-index: 10; /* Đảm bảo carousel sẽ ở trên header */
+  margin-top: -64px; /* Di chuyển carousel lên trên che phần header, điều chỉnh giá trị này tùy theo chiều cao của header */
+}
+
+@media screen and (max-width: 767px) {
+  :host ::ng-deep .carousel-inner {
+    height: auto !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner h2 {
+    font-size: 20px !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner p {
+    font-size: 12px !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner img {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+  }
+}
+@media screen and (max-width: 576px) {
+  :host ::ng-deep .carousel-inner {
+    height: auto !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner {
+    margin-top: 50px;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner h2 {
+    font-size: 10px !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner p {
+    font-size: 6px !important;
+  }
+  :host ::ng-deep .carousel-item .carousel__banner img {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+  }
+}
+/* css carousel  */
+:host ::ng-deep .carousel-inner {
+  height: 100vh;
+}
+:host ::ng-deep .carousel-inner .carousel-item {
+  height: 100%;
+  position: relative;
+}
+:host ::ng-deep .carousel-inner img {
+  filter: brightness(0.8) grayscale(30%);
+}
+// .carousel-inner .carousel-item {
+// }
+:host ::ng-deep .carousel-item .carousel__banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+:host ::ng-deep .carousel-item .carousel__banner img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+:host ::ng-deep.carousel-item .carousel__banner h2 {
+  font-size: 50px;
+}
+
+/* css card_landing  */
+.card_landing .project__title {
+  max-width: 750px;
+}
+
+.card_landing .card ul {
+  justify-content: center;
+  margin-bottom: 20px;
+  border: none;
+}
+.card_landing .card ul li {
+  margin-right: 20px;
+}
+.card_landing .card .nav-item button.active {
+  background-color: #35a22c;
+  color: white;
+  border: none;
+}
+.card_landing .card .nav-item button {
+  border: 1px solid black;
+  color: black;
+  border-radius: 5px;
+}
+.card_landing .card .tab-content .project__item img {
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+}
+.card_landing .card .tab-content .project__item {
+  /* border-radius: 15px; */
+  margin: 20px 0;
+  transition: all 0.5s;
+}
+.card_landing .card .tab-content .project__item .text {
+  padding: 20px 20px 30px;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+  transition: all 0.4s;
+}
+.card_landing .card .tab-content .project__item:hover .text {
+  border: 1px solid #35a22c;
+  border-top: none;
+}
+.card_landing .card .tab-content .project__item h3 {
+  font-size: 20px;
+  font-weight: 400;
+  transition: all 0.4s;
+}
+.card_landing .card .tab-content .project__item:hover h3 {
+  color: #35a22c;
+}
+/* css available */
+.available {
+  background-image: url(../../../../assets/img/controls/hinhnen_1.jpg);
+  background-attachment: fixed;
+  position: relative;
+}
+.available .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(7, 10, 12, 0.72);
+}
+.available .available_content .avai__item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid transparent;
+  transition: all 0.4s;
+}
+.available .available_content .avai__item:hover {
+  background-color: black;
+  border: 1px solid white;
+}
+
+// @media screen and (max-width=576px) {
+//   .cybercarousel .carousel-item .carousel__banner h2 {
+//     font-size: 30px;
+//   }
+// }
+
+::ng-deep .p-tabview a {
+  background-color: #f0f0f0; /* Ví dụ: thay đổi nền */
+  color: #35a22c !important;
+  text-decoration: none !important;
+  // margin-left: 5px;
+  border-radius: 10px;
+}
+// ::ng-deep .
+::ng-deep .navbar-nav a {
+  color: #f5af19;
+  position: relative; /* Để dùng ::after */
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px; /* Độ dày của sọc */
+    width: 0; /* Bắt đầu từ 0 */
+    background-color: green;
+    transition: width 0.3s ease-in-out; /* Hiệu ứng từ trái sang phải */
+  }
+  &:hover {
+    color: #f5af19;
+  }
+
+  &:hover::after {
+    background-color: green;
+    width: 100%; /* Mở rộng đầy đủ chiều rộng của link */
+  }
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  border-color: #35a22c;
+}
+@media (max-width: 992px) {
+  ::ng-deep .userIo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    top: 13px;
+  }
+}
+
+::ng-deep .p-tabview-nav-content {
+  border-radius: 15px;
+  li {
+    margin-right: 10px;
+  }
+}

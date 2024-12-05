@@ -1,0 +1,236 @@
+#_buttonSearch {
+  border: 0; /* Xóa border mặc định */
+  position: relative;
+  // background: linear-gradient(to left, #ffa02d, #b5ac49);
+  background: white;
+  color: transparent;
+  border-radius: 8px; /* Áp dụng border-radius */
+  padding: 0px 15px;
+  z-index: 0;
+  background-clip: text;
+  color: transparent;
+
+  /* Tạo viền gradient */
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    padding: 0px 5px;
+    z-index: -1;
+    background-clip: text;
+    border: 1px solid #ffeeee;
+  }
+
+  &:hover {
+    color: white;
+    background: #f12711;
+    background: -webkit-linear-gradient(to left, #f12711, #f5af19);
+    background: linear-gradient(to left, #f12711, #f5af19);
+  }
+}
+
+#_buttonLogin {
+  border-radius: 5px;
+  border: 1px solid #d60c0c;
+  background: linear-gradient(to left, #c6c907, #e71809);
+  background-clip: text;
+  color: #e11111;
+  &:hover {
+    color: white;
+    background: #f12711;
+    background: -webkit-linear-gradient(to left, #830580, #088b7b);
+    background: linear-gradient(to left, #087d2f, #a60e13);
+    border-color: white;
+  }
+}
+
+/* Ensure the dropdown has a circular appearance */
+.circle-dropdown .p-dropdown-label {
+  border-radius: 50%;
+}
+
+/* Styling for the city items */
+.city-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.city-avatar {
+  margin-right: 10px;
+}
+
+/* Optionally, make the avatar image a fixed size */
+.p-avatar {
+  width: 30px;
+  height: 30px;
+}
+
+.transparent-navbar {
+  background-color: transparent !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dark-navbar {
+  // .effect {
+  background: linear-gradient(to left, #087d2f, #a60e13);
+  transition: background-color 0.3s ease-in-out;
+
+  .nav-link {
+    color: linear-gradient(to left, #f12711, #f5af19);
+    position: relative; /* Để dùng ::after */
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px; /* Độ dày của sọc */
+      width: 0; /* Bắt đầu từ 0 */
+      background-color: green;
+      transition: width 0.3s ease-in-out; /* Hiệu ứng từ trái sang phải */
+    }
+
+    &:hover::after {
+      width: 100%; /* Mở rộng đầy đủ chiều rộng của link */
+    }
+  }
+  // }
+}
+.dropdown-toggle::after {
+  display: inline-block;
+  vertical-align: none;
+  content: "";
+  border: none !important;
+}
+.navbar-scrolled {
+  background-color: rgba(52, 58, 64, 0.9) !important; /* Hiệu ứng mờ */
+}
+
+.transparent-navbar {
+  color: black; /* Màu chữ cho menu khi navbar trong suốt */
+}
+
+@media (max-width: 1200px) {
+  .userIo {
+    position: fixed; /* Đảm bảo luôn cố định khi thu nhỏ màn hình */
+    top: 10px; /* Khoảng cách từ trên */
+    right: 10px;
+    z-index: 1050; /* Đặt trên các thành phần khác */
+  }
+}
+@media (max-width: 992px) {
+  ::ng-deep .navbar-collapse {
+    background: linear-gradient(to left, #6be585, #dd3e54);
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+  }
+}
+.notify {
+  width: 35px; /* Đường kính hình tròn */
+  height: 35px;
+  border-radius: 50%; /* Làm tròn góc để tạo hình tròn */
+  background-color: rgba(0, 0, 0, 0.1); /* Màu mờ (đen nhạt) */
+  border: 1px solid rgba(0, 0, 0, 0.3); /* Đường viền mờ */
+  position: relative; /* Tạo gốc định vị cho phần tử con */
+  &:hover {
+    background-color: rgba(145, 125, 89, 0.414); /* Màu mờ (đen nhạt) */
+  }
+  .notifyItem {
+    display: block !important;
+    top: 50%;
+    left: 50%;
+    margin: 10px;
+    justify-content: center;
+  }
+  .nav-link {
+    color: none;
+    position: relative; /* Để dùng ::after */
+    &::after {
+      content: "";
+      background-color: none;
+    }
+  }
+}
+.notificateDropdown {
+  left: -7px;
+  top: -5px;
+  button {
+    margin-left: 3px;
+    height: 25px !important;
+    .start-30 {
+      top: -25px;
+      right: -25px;
+      border-radius: 15px;
+    }
+  }
+  ul {
+    width: 300px !important;
+    margin-top: 19px !important;
+    li {
+      .announceItems {
+        height: 70px !important;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        margin-left: 0;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        &:hover {
+          // padding: 5px;
+          border-radius: 10px;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        .itemNotify {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          .itemContent {
+            margin-top: 10px;
+            white-space: nowrap; /* Không cho phép xuống dòng */
+            overflow: hidden; /* Ẩn nội dung tràn */
+            text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung tràn */
+            width: 200px; /* Đặt chiều rộng tối đa cho phần nội dung (tùy chỉnh theo ý bạn) */
+            /* Căn các phần tử con từ trái */
+            text-align: left; /* Căn chữ từ trái */
+            .content {
+              font-size: 14px;
+              // position: relative;
+              // right: ;
+            }
+            .time {
+              display: flex;
+              font-size: 10px;
+              color: blue;
+            }
+          }
+          .dot_button {
+            position: absolute;
+            right: 5px;
+            button {
+              background-color: #0083b0;
+              width: 5px;
+              margin-bottom: 10px;
+              height: 5px !important;
+              padding: 5px;
+              border-radius: 50%;
+              border: 0.5px solid rgb(24, 31, 229);
+              &:hover {
+                background-color: #0c3cdbfe;
+              }
+            }
+          }
+        }
+      }
+      .text-center{
+        button{
+          border: none;
+        }
+      }
+    }
+  }
+}

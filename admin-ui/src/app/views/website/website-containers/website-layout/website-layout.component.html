@@ -1,0 +1,18 @@
+<div *ngIf="isSmallScreen" class="loading-container">
+  <div class="card ">
+    <div class="display:flex ; justi">
+      <h5 style="color: rgb(241, 115, 12);">Loading</h5>
+    </div>
+    <p-progressSpinner ariaLabel="loading" class="d-flex" />
+  </div>
+</div>
+
+
+<div *ngIf="!isSmallScreen" class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+  <website-header style="display: block; padding: 0; background: transparent;" position="sticky" />
+  <div class="body flex-grow-1">
+    <c-container breakpoint="lg" class="h-auto">
+      <router-outlet></router-outlet> <!-- Đảm bảo có router-outlet ở đây -->
+    </c-container>
+  </div>
+</div>

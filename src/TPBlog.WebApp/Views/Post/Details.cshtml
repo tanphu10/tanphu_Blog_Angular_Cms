@@ -15,7 +15,7 @@
                     <span class="meta">
                         Posted by
                         <a href="@string.Format(UrlConsts.Author,Model.Posts.AuthorUserName)">@Model.Posts.AuthorName</a>
-                        on @Model.Posts.DateCreated.ToLongTimeString()
+                        on @Model.Posts.DateCreated.ToString("HH:mm:ss")
                     </span>
                 </div>
             </div>

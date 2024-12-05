@@ -24,17 +24,17 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet]
         [Route("transaction-histories")]
-        //[Authorize(Royalty.View)]
+        [Authorize(Royalty.View)]
         public async Task<ActionResult<PageResult<TransactionDto>>> GetTransactionHistory(string? keyword,
           int fromMonth, int fromYear, int toMonth, int toYear,
             int pageIndex, int pageSize = 10)
         {
-            var result = await _unitOfWork.Transactions.GetAllPaging(keyword, fromMonth, fromYear, toMonth, toYear, pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Transactions.GetAllPaging(keyword, fromMonth, fromYear, toMonth, toYear, pageIndex, pageSize);
             return Ok(result);
         }
         [HttpGet]
         [Route("Royalty-report-by-user")]
-        //[Authorize(Royalty.View)]
+        [Authorize(Royalty.View)]
         public async Task<ActionResult<List<RoyaltyReportByUserDto>>> GetRoyaltyReportByUser(Guid? userId,
           int fromMonth, int fromYear, int toMonth, int toYear)
         {
@@ -44,7 +44,7 @@ namespace TPBlog.Api.Controllers
 
         [HttpGet]
         [Route("Royalty-report-by-month")]
-        //[Authorize(Royalty.View)]
+        [Authorize(Royalty.View)]
         public async Task<ActionResult<List<RoyaltyReportByMonthDto>>> GetRoyaltyReportByMonth(Guid? userId,
          int fromMonth, int fromYear, int toMonth, int toYear)
         {
@@ -53,10 +53,8 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpPost]
-        //[Route("{userId}")]
         [Route("{userId}")]
-
-        //[Authorize(Royalty.Pay)]
+        [Authorize(Royalty.Pay)]
         //public async Task<IActionResult> PayRoyalty(Guid userId)
         public async Task<IActionResult> PayRoyalty(Guid userId)
         {

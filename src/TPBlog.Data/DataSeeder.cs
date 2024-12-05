@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Shared.Enums;
 
 namespace TPBlog.Data
 {
@@ -47,6 +49,51 @@ namespace TPBlog.Data
                 });
                 await context.SaveChangesAsync();
             }
+
+
+            //if (!context.Inventories.Any())
+            //{
+            //    var entity = new List<IC_InventoryEntry>
+            //    {
+            //        new()
+            //        {
+            //            Quantity=10,
+            //            DocumentNo=Guid.NewGuid().ToString(),
+            //            ItemNo="Lotus",
+            //            ExternalDocumentNo=Guid.NewGuid().ToString(),
+            //            DocumentType=EDocumentType.Purchase,
+            //            Notice="Ghi Chú Tồn Kho 1",
+            //            POUnit="Thung",
+            //            SOUnit="lon",
+            //            CnvFact=24,
+            //            StkUnit=1,
+            //            InvtCategoryName="inv t",
+            //            InvtCategorySlug="inv-t",
+            //            Slug="lotus",
+
+            //        },
+            //         new()
+            //        {
+            //            Quantity=10,
+            //            DocumentNo=Guid.NewGuid().ToString(),
+            //            ItemNo="Cadillac",
+            //            ExternalDocumentNo=Guid.NewGuid().ToString(),
+            //            DocumentType=EDocumentType.Purchase,
+            //            Notice="Ghi Chú Tồn Kho 2",
+            //            POUnit="Thung",
+            //            SOUnit="lon",
+            //            CnvFact=24,
+            //            StkUnit=1,
+            //            InvtCategoryName="inv c",
+            //            InvtCategorySlug="inv-c",
+            //            Slug="Cadillac",
+
+            //                                },
+            //    };
+            //    await context.Inventories.AddRangeAsync(entity);
+            //    await context.SaveChangesAsync();
+
+            //}
         }
     }
 }

@@ -1,0 +1,13 @@
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\bin\Release\net8.0\TPBlog.Core.deps.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\bin\Release\net8.0\TPBlog.Core.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\bin\Release\net8.0\TPBlog.Core.pdb
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.csproj.AssemblyReference.cache
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.AssemblyInfoInputs.cache
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.AssemblyInfo.cs
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.csproj.CoreCompileInputs.cache
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.sourcelink.json
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\refint\TPBlog.Core.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\TPBlog.Core.pdb
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.Core\obj\Release\net8.0\ref\TPBlog.Core.dll

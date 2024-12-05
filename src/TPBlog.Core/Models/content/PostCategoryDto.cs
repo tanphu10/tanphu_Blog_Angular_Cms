@@ -11,15 +11,17 @@ namespace TPBlog.Core.Models.content
         public required string Slug { set; get; }
         public Guid? ParentId { set; get; }
         public bool IsActive { set; get; }
-        public DateTime DateCreated { set; get; }
-        public DateTime? DateModified { set; get; }
+        public DateTimeOffset DateCreated { get; set; }
+        public DateTimeOffset? DateLastModified { get; set; }
         public string? SeoDescription { set; get; }
         public int SortOrder { set; get; }
+        public string ProjectSlug { get; set; }
+        public string ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<PostCategory, PostCategoryDto>();
+                CreateMap<IC_PostCategory, PostCategoryDto>();
             }
         }
     }

@@ -45,6 +45,7 @@ import {
   cilEnvelopeClosed,
   cilEnvelopeOpen,
   cilFile,
+  cilFolderOpen,
   cilHome,
   cilInbox,
   cilIndentDecrease,
@@ -59,6 +60,7 @@ import {
   cilMagnifyingGlass,
   cilMap,
   cilMediaPlay,
+  cilMediaRecord,
   cilMenu,
   cilMoon,
   cilNotes,
@@ -88,10 +90,17 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilUserUnfollow
+  cilUserUnfollow,
+  cibC,
+  cilAccountLogout,
 } from '@coreui/icons';
 
 export const iconSubset = {
+  cilAccountLogout,
+  cilDescription,
+  cibC,
+  cilMediaRecord,
+  cilFolderOpen,
   cibCcAmex,
   cibCcApplePay,
   cibCcMastercard,
@@ -132,7 +141,6 @@ export const iconSubset = {
   cilCommentSquare,
   cilCreditCard,
   cilCursor,
-  cilDescription,
   cilDollar,
   cilDrop,
   cilEnvelopeClosed,
@@ -181,7 +189,7 @@ export const iconSubset = {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilUserUnfollow
+  cilUserUnfollow,
 };
 
 export enum IconSubset {
