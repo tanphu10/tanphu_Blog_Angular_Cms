@@ -14,7 +14,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class ProCategoryRepository : RepositoryBase<ProductCategory, Guid>, IProCategoryRepository
+    public class ProCategoryRepository : RepositoryBase<IC_ProductCategory, Guid>, IProCategoryRepository
     {
         private readonly IMapper _mapper;
 

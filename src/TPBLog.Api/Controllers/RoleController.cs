@@ -65,7 +65,7 @@ namespace TPBlog.Api.Controllers
             return Ok();
         }
         [HttpGet("{id}")]
-        //[Authorize(Permissions.Roles.View)]
+        [Authorize(Permissions.Roles.View)]
         public async Task<ActionResult<RoleDto>> GetRoleByIdAsync(Guid id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
@@ -94,7 +94,7 @@ namespace TPBlog.Api.Controllers
             return Ok(paginationSet);
         }
         [HttpGet("all")]
-        //[Authorize(Permissions.Roles.View)]
+        [Authorize(Permissions.Roles.View)]
         public async Task<ActionResult<List<RoleDto>>> GetAllRoleAsync()
         {
             var data = await _mapper.ProjectTo<RoleDto>(_roleManager.Roles).ToListAsync();
@@ -149,7 +149,7 @@ namespace TPBlog.Api.Controllers
             return Ok(model);
         }
         [HttpPut("permissions")]
-        //[Authorize(Permissions.Roles.Edit)]
+        [Authorize(Permissions.Roles.Edit)]
         public async Task<IActionResult> SavePermission([FromBody] PermissionDto model)
         {
             var role = await _roleManager.FindByIdAsync(model.RoleId);

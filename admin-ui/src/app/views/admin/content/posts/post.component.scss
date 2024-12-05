@@ -2,3 +2,50 @@
 ::ng-deep .p-panel-header {
   display: block;
 }
+:host ::ng-deep {
+  .speeddial-circle-demo {
+    .p-speeddial-quarter-circle {
+      radius: 120;
+      &.p-speeddial-direction-down-right {
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        // right: 30px;
+
+        .p-element {
+          background-color: transparent;
+          // background-color: none;
+          height: 25px;
+          width: 25px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          :hover {
+            background-color: #22c55e;
+            color: white;
+          }
+          a {
+            background-color: #f1f5f9 !important;
+            color: #475569;
+            text-decoration: none;
+            position: absolute;
+            z-index: 10;
+            transform: translateZ(1px); /* Đẩy phần tử về phía trước */
+            &:hover {
+              background-color: #f1f5f9d4 !important;
+              // color: #475569;
+            }
+            span {
+              font-size: 12px;
+              // background-color: green;
+            }
+          }
+          svg {
+            width: 15px;
+            color: #22c55e;
+          }
+        }
+      }
+    }
+  }
+}

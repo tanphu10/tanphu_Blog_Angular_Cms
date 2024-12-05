@@ -7,9 +7,12 @@ import { RoleAssignComponent } from './role-assign.component';
 import { SetPasswordComponent } from './set-password.component';
 import { UserDetailComponent } from './user-detail.component';
 import {
+  AdminApiProjectApiClient,
   AdminApiUserApiClient,
+  ProjectInListDto,
   UserDto,
-  UserDtoPageResult,
+  UserPagingDto,
+  UserPagingDtoPageResult,
 } from 'src/app/api/admin-api.service.generated';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { MessageConstants } from 'src/app/shared/constants/message.constant';
@@ -17,7 +20,7 @@ import { MessageConstants } from 'src/app/shared/constants/message.constant';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['../../admin.component.scss'],
+  styleUrls: ['../../admin.component.scss', './user.component.scss'],
 })
 export class UserComponent implements OnInit, OnDestroy {
   //System variables
@@ -30,15 +33,19 @@ export class UserComponent implements OnInit, OnDestroy {
   public totalCount: number;
 
   //Business variables
-  public items: UserDto[];
-  public selectedItems: UserDto[] = [];
+  public items: UserPagingDto[];
+  public selectedItems: UserPagingDto[] = [];
   public keyword: string = '';
+
+  public projectId?: string = null;
+  public projectCategory: any[] = [];
 
   constructor(
     private userService: AdminApiUserApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private projectApiClient: AdminApiProjectApiClient
   ) {}
 
   ngOnDestroy(): void {
@@ -47,18 +54,37 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loadProjects();
     this.loadData();
   }
 
+  loadProjects() {
+    this.projectApiClient
+      .getAllProjects()
+      .subscribe((response: ProjectInListDto[]) => {
+        response.forEach((element) => {
+          this.projectCategory.push({
+            value: element.id,
+            label: element.name,
+          });
+        });
+      });
+  }
   loadData(selectionId = null) {
     this.toggleBlockUI(true);
     this.userService
-      .getAllUserPaging(this.keyword, this.pageIndex, this.pageSize)
+      .getAllUserPaging(
+        this.keyword,
+        this.projectId,
+        this.pageIndex,
+        this.pageSize
+      )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: UserDtoPageResult) => {
+        next: (response: UserPagingDtoPageResult) => {
           this.items = response.results;
           this.totalCount = response.rowCount;
+
           if (selectionId != null && this.items.length > 0) {
             this.selectedItems = this.items.filter((x) => x.id == selectionId);
           }

@@ -10,6 +10,8 @@ namespace TPBlog.Core.Models.content
         public Guid UserId { get; set; }
 
         public bool HasRead { get; set; }
+        public Guid? ProjectId { get; set; }
+
 
         public virtual UserDto AppUser { get; set; }
 

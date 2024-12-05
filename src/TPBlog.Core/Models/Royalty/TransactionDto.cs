@@ -18,7 +18,7 @@ namespace TPBlog.Core.Models.Royalty
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Transaction, TransactionDto>();
+                CreateMap<IC_Transaction, TransactionDto>();
             }
         }
     }

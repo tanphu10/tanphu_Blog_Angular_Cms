@@ -24,7 +24,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Project, ProjectInListDto>();
+                CreateMap<IC_Project, ProjectInListDto>();
             }
         }
     }

@@ -53,7 +53,7 @@ namespace TPBlog.Data
 
             //if (!context.Inventories.Any())
             //{
-            //    var entity = new List<InventoryEntry>
+            //    var entity = new List<IC_InventoryEntry>
             //    {
             //        new()
             //        {
@@ -62,8 +62,15 @@ namespace TPBlog.Data
             //            ItemNo="Lotus",
             //            ExternalDocumentNo=Guid.NewGuid().ToString(),
             //            DocumentType=EDocumentType.Purchase,
-            //            Notice="Ghi Chú Tồn Kho 1"
-                        
+            //            Notice="Ghi Chú Tồn Kho 1",
+            //            POUnit="Thung",
+            //            SOUnit="lon",
+            //            CnvFact=24,
+            //            StkUnit=1,
+            //            InvtCategoryName="inv t",
+            //            InvtCategorySlug="inv-t",
+            //            Slug="lotus",
+
             //        },
             //         new()
             //        {
@@ -73,9 +80,15 @@ namespace TPBlog.Data
             //            ExternalDocumentNo=Guid.NewGuid().ToString(),
             //            DocumentType=EDocumentType.Purchase,
             //            Notice="Ghi Chú Tồn Kho 2",
+            //            POUnit="Thung",
+            //            SOUnit="lon",
+            //            CnvFact=24,
+            //            StkUnit=1,
+            //            InvtCategoryName="inv c",
+            //            InvtCategorySlug="inv-c",
+            //            Slug="Cadillac",
 
-
-            //        },
+            //                                },
             //    };
             //    await context.Inventories.AddRangeAsync(entity);
             //    await context.SaveChangesAsync();

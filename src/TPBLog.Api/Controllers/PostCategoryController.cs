@@ -18,7 +18,7 @@ namespace TPBlog.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
-        public PostCategoryController(IUnitOfWork unitOfWork, IMapper mapper,IPermissionService permissionService)
+        public PostCategoryController(IUnitOfWork unitOfWork, IMapper mapper, IPermissionService permissionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -29,9 +29,20 @@ namespace TPBlog.Api.Controllers
 
         public async Task<IActionResult> CreatePostCategory([FromBody] CreateUpdatePostCategoryRequest request)
         {
+
+            var project = await _unitOfWork.IC_Projects.GetByIdAsync(request.ProjectId);
+
+            if (project == null)
+            {
+                throw new Exception("không tồn tại dự án");
+            }
             request.DateCreated = DateTimeOffset.Now;
-            var post = _mapper.Map<CreateUpdatePostCategoryRequest, PostCategory>(request);
-            _unitOfWork.PostCategories.Add(post);
+
+
+            var post = _mapper.Map<CreateUpdatePostCategoryRequest, IC_PostCategory>(request);
+
+            post.ProjectSlug = project.Slug;
+            _unitOfWork.IC_PostCategories.Add(post);
 
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
@@ -41,7 +52,7 @@ namespace TPBlog.Api.Controllers
         [Authorize(PostCategories.Edit)]
         public async Task<IActionResult> UpdatePostCategory(Guid id, [FromBody] CreateUpdatePostCategoryRequest request)
         {
-            var post = await _unitOfWork.PostCategories.GetByIdAsync(id);
+            var post = await _unitOfWork.IC_PostCategories.GetByIdAsync(id);
             if (post == null)
             {
                 return NotFound();
@@ -55,21 +66,21 @@ namespace TPBlog.Api.Controllers
         }
 
         [HttpDelete]
-        //[Authorize(PostCategories.Delete)]
+        [Authorize(PostCategories.Delete)]
         public async Task<IActionResult> DeletePostCategory([FromQuery] Guid[] ids)
         {
             foreach (var id in ids)
             {
-                var post = await _unitOfWork.PostCategories.GetByIdAsync(id);
+                var post = await _unitOfWork.IC_PostCategories.GetByIdAsync(id);
                 if (post == null)
                 {
                     return NotFound();
                 }
-                if (await _unitOfWork.PostCategories.HasPost(id))
+                if (await _unitOfWork.IC_PostCategories.HasPost(id))
                 {
                     return BadRequest("Danh mục đang chứa bài viết, không thể xóa");
                 }
-                _unitOfWork.PostCategories.Remove(post);
+                _unitOfWork.IC_PostCategories.Remove(post);
             }
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
@@ -77,10 +88,10 @@ namespace TPBlog.Api.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        //[Authorize(PostCategories.View)]
+        [Authorize(PostCategories.View)]
         public async Task<ActionResult<PostCategoryDto>> GetPostCategoryById(Guid id)
         {
-            var category = await _unitOfWork.PostCategories.GetByIdAsync(id);
+            var category = await _unitOfWork.IC_PostCategories.GetByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -91,30 +102,30 @@ namespace TPBlog.Api.Controllers
 
         [HttpGet]
         [Route("paging")]
-        //[Authorize(PostCategories.View)]
-        public async Task<ActionResult<PageResult<PostCategoryDto>>> GetPostCategoriesPaging(string? keyword,
+        [Authorize(PostCategories.View)]
+        public async Task<ActionResult<PageResult<PostCategoryDto>>> GetPostCategoriesPaging(string? keyword, Guid? projectId,
             int pageIndex, int pageSize = 10)
         {
 
             //var userId = User.GetUserId();
             var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
 
-            var query = await  _unitOfWork.PostCategories.GetPagingPostCategoryAsync(keyword, pageIndex, pageSize);
-            var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.Slug}"));
+            var query = await _unitOfWork.IC_PostCategories.GetPagingPostCategoryAsync(keyword, projectId, pageIndex, pageSize);
+            var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
             query.Results = allowedProjects.ToList();
             return Ok(query);
-        
+
         }
 
         [HttpGet]
-        //[Authorize(PostCategories.View)]
+        [Authorize(PostCategories.View)]
         public async Task<ActionResult<List<PostCategoryDto>>> GetPostCategories()
         {
             var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
 
             //var allProjects = await _unitOfWork.Projects.GetAllAsync();
 
-            var query = await _unitOfWork.PostCategories.GetAllAsync();
+            var query = await _unitOfWork.IC_PostCategories.GetAllAsync();
 
             var allowedProjects = query.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
             var model = _mapper.Map<List<PostCategoryDto>>(query);

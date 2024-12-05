@@ -30,7 +30,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateProductCategoryRequest, ProductCategory>();
+                CreateMap<CreateUpdateProductCategoryRequest, IC_ProductCategory>();
             }
         }
     }

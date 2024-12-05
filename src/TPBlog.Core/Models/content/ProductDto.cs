@@ -17,7 +17,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Product, ProductDto>();
+                CreateMap<IC_Product, ProductDto>();
             }
         }
 

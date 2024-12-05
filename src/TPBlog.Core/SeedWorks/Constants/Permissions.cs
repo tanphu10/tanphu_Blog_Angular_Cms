@@ -14,6 +14,17 @@ namespace TPBlog.Core.SeedWorks.Contants
             [Description("Xem dashboard")]
             public const string View = "Permissions.Dashboard.View";
         }
+        public static class Tasks
+        {
+            [Description("Xem Task")]
+            public const string View = "Permissions.Tasks.View";
+            [Description("Tạo mới Task")]
+            public const string Create = "Permissions.Tasks.Create";
+            [Description("Sửa Task")]
+            public const string Edit = "Permissions.Tasks.Edit";
+            [Description("Xóa quyềTaskn")]
+            public const string Delete = "Permissions.Tasks.Delete";
+        }
         public static class Roles
         {
             [Description("Xem quyền")]

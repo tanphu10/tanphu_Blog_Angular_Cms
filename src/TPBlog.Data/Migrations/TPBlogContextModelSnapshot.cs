@@ -123,7 +123,7 @@ namespace TPBlog.Data.Migrations
                     b.ToTable("AppUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Announcement", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Announcement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,10 +154,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Announcements");
+                    b.ToTable("IC_Announcements");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.AnnouncementUser", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_AnnouncementUser", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier")
@@ -172,10 +172,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("UserId", "AnnouncementId");
 
-                    b.ToTable("AnnouncementUsers", (string)null);
+                    b.ToTable("IC_AnnouncementUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.InventoryCategory", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_InventoryCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,14 +221,17 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("InventoryCategories");
+                    b.ToTable("IC_InventoryCategories");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.InventoryEntry", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_InventoryEntry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CnvFact")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
@@ -270,6 +273,9 @@ namespace TPBlog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("POUnit")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
@@ -280,19 +286,25 @@ namespace TPBlog.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("SOUnit")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("varchar(250)");
+
+                    b.Property<string>("StkUnit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Thumbnail")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("InventoryEntries");
+                    b.ToTable("IC_InventoryEntries");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Post", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -395,10 +407,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Posts");
+                    b.ToTable("IC_Posts");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.PostActivityLog", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_PostActivityLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -440,10 +452,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostActivityLogs");
+                    b.ToTable("IC_PostActivityLogs");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.PostCategory", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_PostCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -489,10 +501,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("PostCategories");
+                    b.ToTable("IC_PostCategories");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.PostInProject", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_PostInProject", b =>
                 {
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
@@ -505,10 +517,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("PostId", "ProjectId");
 
-                    b.ToTable("PostInProject");
+                    b.ToTable("IC_PostInProject");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.PostInSeries", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_PostInSeries", b =>
                 {
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
@@ -521,10 +533,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("PostId", "SeriesId");
 
-                    b.ToTable("PostInSeries");
+                    b.ToTable("IC_PostInSeries");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.PostTag", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_PostTag", b =>
                 {
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
@@ -534,14 +546,17 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("PostId", "TagId");
 
-                    b.ToTable("PostTags");
+                    b.ToTable("IC_PostTags");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Product", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BaseUnit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
@@ -602,10 +617,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Products");
+                    b.ToTable("IC_Products");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.ProductCategory", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_ProductCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -644,10 +659,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("IC_ProductCategories");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Project", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -700,10 +715,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Projects");
+                    b.ToTable("IC_Projects");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Series", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Series", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -760,10 +775,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Series");
+                    b.ToTable("IC_Series");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.Tag", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -785,10 +800,71 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("IC_Tags");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.TaskAttachment", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("Complete")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DateLastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTimeOffset>("DueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("OriginalEstimate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeTrackingRemaining")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeTrackingSpent")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("IC_Tasks");
+                });
+
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskAttachment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -824,10 +900,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("TaskAttachments");
+                    b.ToTable("IC_TaskAttachments");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.TaskComment", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskComment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -863,10 +939,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("TaskComments");
+                    b.ToTable("IC_TaskComments");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.TaskHistory", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskHistory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -915,10 +991,10 @@ namespace TPBlog.Data.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("TaskHistories");
+                    b.ToTable("IC_TaskHistories");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.TaskTag", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskTag", b =>
                 {
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier");
@@ -928,20 +1004,30 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("TaskId", "TagId");
 
-                    b.ToTable("TaskTags");
+                    b.ToTable("IC_TaskTags");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Content.TbTask", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskUser", b =>
+                {
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TaskId", "UserId");
+
+                    b.ToTable("IC_TaskUser");
+                });
+
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_UnitConversion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AssignedTo")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("Complete")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<int>("CnvFactor")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
@@ -949,41 +1035,35 @@ namespace TPBlog.Data.Migrations
                     b.Property<DateTimeOffset?>("DateLastModified")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTimeOffset>("DueDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProjectSlug")
+                    b.Property<string>("FromUnit")
                         .IsRequired()
                         .HasColumnType("varchar(250)");
 
-                    b.Property<string>("Slug")
+                    b.Property<string>("FromUnitDescr")
                         .IsRequired()
                         .HasColumnType("varchar(250)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("InvtId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MultDiv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ToUnit")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("ToUnitDescr")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Slug")
-                        .IsUnique();
-
-                    b.ToTable("Tasks");
+                    b.ToTable("IC_UnitConversion");
                 });
 
             modelBuilder.Entity("TPBlog.Core.Domain.Identity.AppRole", b =>
@@ -1107,10 +1187,10 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("TPBlog.Core.Domain.Royalty.Transaction", b =>
+            modelBuilder.Entity("TPBlog.Core.Domain.Royalty.IC_Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1147,7 +1227,7 @@ namespace TPBlog.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("IC_Transactions");
                 });
 #pragma warning restore 612, 618
         }

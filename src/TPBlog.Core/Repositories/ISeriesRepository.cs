@@ -10,9 +10,9 @@ using TPBlog.Core.Domain.Content;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface ISeriesRepository : IRepository<Series, Guid>
+    public interface ISeriesRepository : IRepository<IC_Series, Guid>
     {
-        Task<PageResult<SeriesInListDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<SeriesInListDto>> GetAllPaging(string? keyword,Guid? projectId, int pageIndex = 1, int pageSize = 10);
         Task AddPostToSeries(Guid seriesId, Guid postId, int sortOrder);
         Task RemovePostToSeries(Guid seriesId, Guid postId);
         Task<List<PostInListDto>> GetAllPostsInSeries(Guid seriesId);

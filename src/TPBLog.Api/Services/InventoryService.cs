@@ -10,7 +10,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Api.Services
 {
-    public class InventoryService : RepositoryBase<InventoryEntry, Guid>, IInventoryService
+    public class InventoryService : RepositoryBase<IC_InventoryEntry, Guid>, IInventoryService
     {
         private readonly IMapper _mapper;
 
@@ -57,7 +57,7 @@ namespace TPBlog.Api.Services
             {
                 throw new Exception("không tồn tại InventoryCategory");
             }
-            var itemToAdd = new InventoryEntry()
+            var itemToAdd = new IC_InventoryEntry()
             {
                 Id = Guid.NewGuid(),
                 ItemNo = itemNo,
@@ -82,7 +82,7 @@ namespace TPBlog.Api.Services
                 throw new Exception("không tồn tại InventoryCategory");
             }
 
-            var itemToAdd = new InventoryEntry()
+            var itemToAdd = new IC_InventoryEntry()
             {
                 Id = Guid.NewGuid(),
                 ItemNo = itemNo,
@@ -111,7 +111,7 @@ namespace TPBlog.Api.Services
             var documentNo = Guid.NewGuid().ToString();
             foreach (var saleItem in model.SaleItems)
             {
-                var itemToAdd = new InventoryEntry()
+                var itemToAdd = new IC_InventoryEntry()
                 {
                     Id = Guid.NewGuid(),
                     DocumentNo = documentNo,

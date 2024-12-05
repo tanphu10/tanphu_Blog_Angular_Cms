@@ -10,7 +10,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IProCategoryRepository : IRepository<ProductCategory, Guid>
+    public interface IProCategoryRepository : IRepository<IC_ProductCategory, Guid>
     {
         Task<PageResult<ProductCategoryDto>> GetPagingProductCategoryAsync(string? keyword, int pageIndex = 1, int pageSize = 10);
         Task<bool> HasProduct(Guid categoryId);

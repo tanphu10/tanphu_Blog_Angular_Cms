@@ -10,11 +10,11 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IAnnouncementRepository : IRepository<Announcement, int>
+    public interface IAnnouncementRepository : IRepository<IC_Announcement, int>
     {
         //IQueryable<Announcement> GetAllUnread(Guid userId);
         Task<PageResult<AnnouncementViewModel>> GetAllPaging(int pageIndex = 1, int pageSize = 10);
-        Task<PageResult<Announcement>> ListAllUnread(Guid userId, int pageIndex=1, int pageSize=10);
+        Task<PageResult<IC_Announcement>> ListAllUnread(Guid userId, int pageIndex=1, int pageSize=10);
 
     }
 }

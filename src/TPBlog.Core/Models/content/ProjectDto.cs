@@ -23,7 +23,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Project, ProjectDto>();
+                CreateMap<IC_Project, ProjectDto>();
             }
         }
     }

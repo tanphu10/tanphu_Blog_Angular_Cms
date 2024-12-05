@@ -121,7 +121,7 @@ namespace TPBlog.Data.Services
             {
                 throw new Exception($"User {toUserId} not found");
             }
-            var unpaidPublishPosts = await _unitOfWork.BaiPost.GetListUnpaidPublishPosts(toUserId);
+            var unpaidPublishPosts = await _unitOfWork.IC_Posts.GetListUnpaidPublishPosts(toUserId);
             double totalRoyalty = 0;
             foreach (var post in unpaidPublishPosts)
             {
@@ -132,7 +132,7 @@ namespace TPBlog.Data.Services
             }
             toUser.Balance += totalRoyalty;
             await _userManager.UpdateAsync(toUser);
-            _unitOfWork.Transactions.Add(new Transaction()
+            _unitOfWork.IC_Transactions.Add(new IC_Transaction()
             {
                 FromUserId = fromUser.Id,
                 FromUserName = fromUser.UserName,

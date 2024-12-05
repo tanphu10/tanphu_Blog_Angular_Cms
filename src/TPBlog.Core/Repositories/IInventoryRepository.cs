@@ -11,14 +11,14 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IInventoryRepository :IRepository<InventoryEntry, Guid>
+    public interface IInventoryRepository : IRepository<IC_InventoryEntry, Guid>
 
     {
         Task<int> GetStockQuantity(string itemNo);
 
         Task<List<InventoryEntryDto>> GetAllByItemNoAsync(string itemNo);
-        Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword,Guid? projectId,string? categorySlug,int pageIndex = 1, int pageSize = 10);
-        Task<PageResult<InventoryInListDto>> GetAllByCategoryPagingAsync(string? keyword,Guid? categoryId,Guid? projectId,int pageIndex = 1, int pageSize = 10);
+        Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, string? categorySlug, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
+        Task<PageResult<InventoryInListDto>> GetAllByCategoryPagingAsync(string? keyword, Guid? categoryId, Guid? projectId, int pageIndex = 1, int pageSize = 10);
 
         Task<InventoryEntryDto> GetByIdAsync(Guid id);
         Task<InventoryEntryDto> GetBySlug(string slug);

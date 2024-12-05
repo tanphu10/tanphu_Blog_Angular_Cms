@@ -29,13 +29,15 @@ namespace TPBlog.Core.Models.content
         //public UserDto AppUser { get; set; }
 
         public bool Status { get; set; }
+        public string ProjectName { get; set; }
+        public string UserName { get; set; }
 
         //public virtual ICollection<AnnouncementUserViewModel> AnnouncementUsers { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Announcement, AnnouncementViewModel>();
+                CreateMap<IC_Announcement, AnnouncementViewModel>();
                 //CreateMap<AnnouncementUser, AnnouncementUserViewModel>();
             }
         }

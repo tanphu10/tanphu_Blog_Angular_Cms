@@ -24,11 +24,13 @@ namespace TPBlog.Core.Models.content
 
         public string? SeoDescription { set; get; }
         public int SortOrder { set; get; }
+        public string ProjectSlug { get; set; }
+        public Guid ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateInvtCategoryRequest, InventoryCategory>();
+                CreateMap<CreateUpdateInvtCategoryRequest, IC_InventoryCategory>();
             }
         }
     }

@@ -5,10 +5,22 @@
   border-radius: 0;
 }
 ::ng-deep .p-datatable-table {
+  font-size: small;
+
+  padding: 0;
+
   tr {
     border-top: 1px solid #ccc; /* Viền mỏng phía trên */
     border-bottom: 1px solid #ccc; /* Viền mỏng phía dưới */
     border-left: none; /* Không có viền bên trái */
     border-right: none; /* Không có viền bên phải */
+    // padding: 5px;
+  }
+  td {
+    font-size: small;
+    padding: 5px;
+  }
+  th {
+    padding: 10px 5px;
   }
 }

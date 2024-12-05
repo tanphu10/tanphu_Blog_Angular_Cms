@@ -26,22 +26,22 @@ namespace TPBlog.Api.Controllers
             _permission = permission;
         }
         [HttpPost]
-        //[Authorize(Permissions.Projects.Create)]
+        [Authorize(Permissions.Projects.Create)]
         public async Task<IActionResult> CreateProject([FromBody] CreateUpdateProjectRequest request)
         {
-            var post = _mapper.Map<CreateUpdateProjectRequest, Project>(request);
-            post.DateCreated= DateTimeOffset.Now;
-            _unitOfWork.Projects.Add(post);
+            var post = _mapper.Map<CreateUpdateProjectRequest, IC_Project>(request);
+            post.DateCreated = DateTimeOffset.Now;
+            _unitOfWork.IC_Projects.Add(post);
 
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
 
         [HttpPut]
-        //[Authorize(Permissions.Projects.Edit)]
+        [Authorize(Permissions.Projects.Edit)]
         public async Task<IActionResult> UpdateProject(Guid id, [FromBody] CreateUpdateProjectRequest request)
         {
-            var post = await _unitOfWork.Projects.GetByIdAsync(id);
+            var post = await _unitOfWork.IC_Projects.GetByIdAsync(id);
             if (post == null)
             {
                 return NotFound();
@@ -53,61 +53,61 @@ namespace TPBlog.Api.Controllers
         }
         [Route("post-project")]
         [HttpPut()]
-        //[Authorize(Permissions.Projects.Edit)]
+        [Authorize(Permissions.Projects.Edit)]
         public async Task<IActionResult> AddPostProject([FromBody] AddPostProjectRequest request)
         {
-            var isExisted = await _unitOfWork.Projects.IsPostInProject(request.ProjectId, request.PostId);
+            var isExisted = await _unitOfWork.IC_Projects.IsPostInProject(request.ProjectId, request.PostId);
             if (isExisted)
             {
                 return BadRequest($"Bài viết này đã nằm trong Project.");
             }
-            await _unitOfWork.Projects.AddPostToProject(request.ProjectId, request.PostId, request.SortOrder);
+            await _unitOfWork.IC_Projects.AddPostToProject(request.ProjectId, request.PostId, request.SortOrder);
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
         [HttpGet("post-project/{id}")]
-        //[Authorize(Permissions.Projects.Edit)]
+        [Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<List<PostInListDto>>> GetPostsInProject(Guid id)
         {
-            var posts = await _unitOfWork.Projects.GetAllPostsInProject(id);
+            var posts = await _unitOfWork.IC_Projects.GetAllPostsInProject(id);
             return Ok(posts);
         }
         [Route("post-project")]
         [HttpDelete()]
-        //[Authorize(Permissions.Projects.Edit)]
+        [Authorize(Permissions.Projects.Delete)]
         public async Task<IActionResult> DeletePostProject([FromBody] AddPostProjectRequest request)
         {
-            var isExisted = await _unitOfWork.Projects.IsPostInProject(request.ProjectId, request.PostId);
+            var isExisted = await _unitOfWork.IC_Projects.IsPostInProject(request.ProjectId, request.PostId);
             if (!isExisted)
             {
                 return NotFound();
             }
-            await _unitOfWork.Projects.RemovePostToProject(request.ProjectId, request.PostId);
+            await _unitOfWork.IC_Projects.RemovePostToProject(request.ProjectId, request.PostId);
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
         [HttpDelete]
-        //[Authorize(Permissions.Projects.Delete)]
+        [Authorize(Permissions.Projects.Delete)]
         public async Task<IActionResult> DeleteProject([FromQuery] Guid[] ids)
         {
             foreach (var id in ids)
             {
-                var post = await _unitOfWork.Projects.GetByIdAsync(id);
+                var post = await _unitOfWork.IC_Projects.GetByIdAsync(id);
                 if (post == null)
                 {
                     return NotFound();
                 }
-                _unitOfWork.Projects.Remove(post);
+                _unitOfWork.IC_Projects.Remove(post);
             }
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok() : BadRequest();
         }
         [HttpGet]
         [Route("{id}")]
-        //[Authorize(Permissions.Projects.View)]
+        [Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<ProjectDto>> GetProjectById(Guid id)
         {
-            var post = await _unitOfWork.Projects.GetByIdAsync(id);
+            var post = await _unitOfWork.IC_Projects.GetByIdAsync(id);
             if (post == null)
             {
                 return NotFound();
@@ -116,15 +116,14 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet]
         [Route("paging")]
-        //[Authorize(Permissions.Projects.View)]
+        [Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<PageResult<ProjectInListDto>>> GetProjectPaging(string? keyword,
           int pageIndex = 1, int pageSize = 10)
         {
-            var result = await _unitOfWork.Projects.GetAllPaging(keyword, pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Projects.GetAllPaging(keyword, pageIndex, pageSize);
 
             return Ok(result);
         }
-
         [HttpGet]
         [Authorize(Permissions.Projects.View)]
         public async Task<ActionResult<List<ProjectInListDto>>> GetAllProjects()
@@ -132,13 +131,13 @@ namespace TPBlog.Api.Controllers
 
             var userPermissions = await _permission.UserHasPermissionForProjectAsync();
 
-            var allProjects = await _unitOfWork.Projects.GetAllAsync();
+            var allProjects = await _unitOfWork.IC_Projects.GetAllAsync();
 
 
             var allowedProjects = allProjects.Where(p => userPermissions.Contains($"Permissions.Projects.{p.Slug}"));
 
-            var projects = _mapper.Map<List<ProjectInListDto>>(allowedProjects);
-            return Ok(projects);
+            var Projects = _mapper.Map<List<ProjectInListDto>>(allowedProjects);
+            return Ok(Projects);
         }
     }
 }

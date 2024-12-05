@@ -13,19 +13,19 @@ namespace TPBlog.WebApp.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [Route("/series")]
-        public async Task<IActionResult> Index([FromQuery] int page = 1)
-        {
-            var series = await _unitOfWork.Series.GetAllPaging(string.Empty, page);
-            return View(series);
-        }
+        //[Route("/series")]
+        //public async Task<IActionResult> Index([FromQuery] int page = 1)
+        //{
+        //    var series = await _unitOfWork.Series.GetAllPaging(string.Empty, page);
+        //    return View(series);
+        //}
 
         //[Route("series/detail/{id}")]
         [Route("series/detail/{slug}")]
         public async Task<IActionResult> Details(string slug)
         {
-            var post = await _unitOfWork.Series.GetPostsInSeriesPaging(slug);
-            var series = await _unitOfWork.Series.GetBySlug(slug);
+            var post = await _unitOfWork.IC_Series.GetPostsInSeriesPaging(slug);
+            var series = await _unitOfWork.IC_Series.GetBySlug(slug);
             return View(new SeriesDetailViewModel()
             {
                 Series = series,

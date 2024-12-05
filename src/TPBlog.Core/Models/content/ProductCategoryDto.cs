@@ -23,7 +23,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<ProductCategory, ProductCategoryDto>();
+                CreateMap<IC_ProductCategory, ProductCategoryDto>();
             }
         }
     }

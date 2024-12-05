@@ -12,6 +12,12 @@
   >
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
+        <label for="projectId" class="block">Chọn Dự Án</label>
+        <p-dropdown id="projectId" [options]="projectCategory" formControlName="projectId" [showClear]="true"
+          placeholder="Chọn Dự Án" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
         <label for="title">Thông Báo <span class="required">*</span></label>
         <input
           id="title"

@@ -19,5 +19,9 @@ namespace TPBlog.Core.Models.content
         public Guid ProjectId { get; set; }
         public Guid InvtCategoryId { get; set; }
         public string Slug { get; set; }
+        public string? POUnit { get; set; }
+        public string? SOUnit { get; set; }
+        public int? CnvFact { get; set; }
+        public string? StkUnit { get; set; }
     }
 }

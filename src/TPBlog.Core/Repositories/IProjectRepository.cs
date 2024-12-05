@@ -10,7 +10,7 @@ using TPBlog.Core.Domain.Content;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IProjectRepository : IRepository<Project, Guid>
+    public interface IProjectRepository : IRepository<IC_Project, Guid>
     {
         Task<PageResult<ProjectInListDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10);
         Task AddPostToProject(Guid projectId, Guid postId, int sortOrder);

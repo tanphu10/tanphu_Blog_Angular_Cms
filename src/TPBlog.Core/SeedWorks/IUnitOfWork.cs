@@ -9,20 +9,21 @@ namespace TPBlog.Data.SeedWorks
 {
     public interface IUnitOfWork
     {
-        IPostRepository BaiPost { get; }
-        IPostCategoryRepository PostCategories { get; }
-        ISeriesRepository Series { get; }
-        IProjectRepository Projects { get; }
-        ITransactionRepository Transactions { get; }
-        ITagRepository Tags { get; }
+        ITaskRepository IC_Tasks { get; }
+        IPostRepository IC_Posts { get; }
+        IPostCategoryRepository IC_PostCategories { get; }
+        ISeriesRepository IC_Series { get; }
+        IProjectRepository IC_Projects { get; }
+        ITransactionRepository IC_Transactions { get; }
+        ITagRepository IC_Tags { get; }
         IUserRepository Users { get; }
-        IInventoryRepository Inventories { get; }
-        IInventoryCategoryRepository InventoryCategories { get; }
+        IInventoryRepository IC_Inventories { get; }
+        IInventoryCategoryRepository IC_InventoryCategories { get; }
 
-        IProductRepository Products { get; }
-        IProCategoryRepository ProCategories { get; }
-        IAnnouncementRepository Announcements { get; }
-        IAnnouncementUserRepository AnnouncementUsers { get; }
+        IProductRepository IC_Products { get; }
+        IProCategoryRepository IC_ProCategories { get; }
+        IAnnouncementRepository IC_Announcements { get; }
+        IAnnouncementUserRepository IC_AnnouncementUsers { get; }
         Task<int> CompleteAsync();
     }
 }

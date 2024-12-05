@@ -16,11 +16,12 @@ namespace TPBlog.Core.Models.content
         public string? SeoDescription { set; get; }
         public int SortOrder { set; get; }
         public string ProjectSlug { get; set; }
+        public string ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<PostCategory, PostCategoryDto>();
+                CreateMap<IC_PostCategory, PostCategoryDto>();
             }
         }
     }

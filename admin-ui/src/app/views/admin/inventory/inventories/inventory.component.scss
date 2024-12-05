@@ -4,31 +4,6 @@
   display: flex;
   justify-items: center;
   justify-content: space-between;
-  .formSearch {
-    margin-left: 20px;
-    display: flex;
-    justify-content: end;
-    .buttonSearch {
-      border-radius: 5px;
-      border: 1px solid #f12711;
-      background: linear-gradient(to left, #f12711, #f5af19);
-      background-clip: text;
-      color: transparent;
-      &:hover {
-        color: white;
-        background: #f12711;
-        background: -webkit-linear-gradient(to left, #283c86, #f5af19);
-        background: linear-gradient(to right, #23074d, #cc5333) 1;
-        // border: none;
-        border-color: white;
-      }
-    }
-    .inputkeyword {
-      padding: 11px;
-      border: 2px solid;
-      border-image: linear-gradient(to right, #23074d, #cc5333) 1;
-    }
-  }
 }
 
 // - css phần tab card
@@ -37,7 +12,62 @@
     border-radius: 5px;
   }
   .p-tabview-panels {
-    // padding: 0 !important;
+    padding-top: 0 !important;
+
+    .Header_tool {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      .Category {
+        height: 35px;
+        span {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          border-radius: 0;
+        }
+      }
+      .formSearch {
+        margin-left: 20px;
+        display: flex;
+        justify-content: end;
+        .buttonSearch {
+          height: 35px;
+          border-radius: 5px;
+          border: 1px solid #f12711;
+          background: linear-gradient(to left, #f12711, #f5af19);
+          background-clip: text;
+          color: transparent;
+          &:hover {
+            color: white;
+            background: #f12711;
+            background: -webkit-linear-gradient(to left, #283c86, #f5af19);
+            background: linear-gradient(to right, #23074d, #cc5333) 1;
+            // border: none;
+            border-color: white;
+          }
+        }
+        .inputkeyword {
+          height: 35px;
+          border-radius: 5px;
+          border: 1px solid #cc5333;
+          font-size: small;
+          padding: 0 5px;
+          // border-image: linear-gradient(to right, #23074d, #cc5333) 1;
+        }
+      }
+      input {
+        padding: 5px;
+        width: 160px;
+        border-radius: 0;
+      }
+      button {
+        padding: 5px;
+        background-color: white;
+        color: #ced4daa6;
+        border: 1px solid #ced4da;
+      }
+    }
     .p-tabview-panel {
       .p-element p-selectable-row ng-star-inserted {
         border-bottom: 0.5px solid gray;

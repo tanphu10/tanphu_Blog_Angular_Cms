@@ -26,8 +26,8 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<InventoryEntry, InventoryEntryDto>();
-                CreateMap<InventoryEntryDto, InventoryEntry>();
+                CreateMap<IC_InventoryEntry, InventoryEntryDto>();
+                CreateMap<InventoryEntryDto, IC_InventoryEntry>();
             }
         }
     }

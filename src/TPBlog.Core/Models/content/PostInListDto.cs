@@ -42,7 +42,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Post, PostInListDto>();
+                CreateMap<IC_Post, PostInListDto>();
             }
         }
 

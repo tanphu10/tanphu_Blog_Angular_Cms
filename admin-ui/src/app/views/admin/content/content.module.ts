@@ -33,7 +33,10 @@ import { SeriesDetailComponent } from './series/series-detail.component';
 import { SeriesPostsComponent } from './series/series-post.component';
 import { PostLinkComponent } from './posts/post-link.component';
 import { CmsSharedModule } from 'src/app/shared/modules/cms-shared.module';
-
+import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -59,7 +62,10 @@ import { CmsSharedModule } from 'src/app/shared/modules/cms-shared.module';
     InputNumberModule,
     ImageModule,
     AutoCompleteModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    TooltipModule,
+    SpeedDialModule,
+    ToastModule,
   ],
   declarations: [
     PostComponent,
@@ -74,7 +80,7 @@ import { CmsSharedModule } from 'src/app/shared/modules/cms-shared.module';
     PostSeriesComponent,
     PostActivityLogsComponent,
     PostLinkComponent,
-    
   ],
+  providers: [MessageService],
 })
 export class ContentModule {}

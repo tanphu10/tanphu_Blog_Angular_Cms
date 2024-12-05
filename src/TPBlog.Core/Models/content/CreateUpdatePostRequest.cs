@@ -30,7 +30,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdatePostRequest, Post>();
+                CreateMap<CreateUpdatePostRequest, IC_Post>();
             }
         }
 

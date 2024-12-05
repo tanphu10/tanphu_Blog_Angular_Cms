@@ -13,7 +13,7 @@ namespace TPBlog.WebApp.Components
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _unitOfWork.PostCategories.GetAllAsync();
+            var model = await _unitOfWork.IC_PostCategories.GetAllAsync();
             var navItems = model.Select(x => new NavigationViewModel()
             {
                 Slug = x.Slug,

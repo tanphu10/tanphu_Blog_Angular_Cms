@@ -23,7 +23,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<InventoryCategory, InventoryCategoryDto>();
+                CreateMap<IC_InventoryCategory, InventoryCategoryDto>();
             }
         }
     }

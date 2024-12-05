@@ -8,7 +8,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Core.Repositories
 {
-    public interface IAnnouncementUserRepository:IRepository<AnnouncementUser,int>
+    public interface IAnnouncementUserRepository:IRepository<IC_AnnouncementUser,int>
     {
 
 

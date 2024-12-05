@@ -23,14 +23,15 @@ namespace TPBlog.Core.Models.content
         public Guid? UserId { set; get; }
 
         public bool Status { get; set; }
+        public Guid ProjectId { get; set; }
 
         //public virtual ICollection<AnnouncementUserViewModel> AnnouncementUsers { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateAnnouncementRequest, Announcement>();
-                CreateMap<AnnouncementUser, AnnouncementUserViewModel>();
+                CreateMap<CreateAnnouncementRequest, IC_Announcement>();
+                CreateMap<IC_AnnouncementUser, AnnouncementUserViewModel>();
             }
         }
     }

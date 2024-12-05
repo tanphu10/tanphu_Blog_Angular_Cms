@@ -10,7 +10,7 @@ using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Controllers
 {
-    [Route("api/admin/tags")]
+    [Route("api/admin/Tags")]
     [ApiController]
     public class TagController : ControllerBase
     {
@@ -26,9 +26,9 @@ namespace TPBlog.Api.Controllers
         {
 
             //khúc này nó ánh xạ qua post để có thể tạo 1 biến chứa tất cả cacs thuộc tính của post
-            var post = _mapper.Map<TagDto, Tag>(request);
+            var post = _mapper.Map<TagDto, IC_Tag>(request);
             //bước này dùng để thêm data post vào trong cơ sở dữ liệu
-            _unitOfWork.Tags.Add(post);
+            _unitOfWork.IC_Tags.Add(post);
             var res = await _unitOfWork.CompleteAsync();
             return res > 0 ? Ok() : BadRequest();
         }
@@ -37,7 +37,7 @@ namespace TPBlog.Api.Controllers
 
         public async Task<ActionResult<TagDto>> GetAllTagsAsync()
         {
-            var data = await _unitOfWork.Tags.GetAllAsync();
+            var data = await _unitOfWork.IC_Tags.GetAllAsync();
             return Ok(data);
         }
         [HttpGet("/detail/{tagid}")]
@@ -46,7 +46,7 @@ namespace TPBlog.Api.Controllers
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 
-            var data = await _unitOfWork.Tags.GetByIdAsync(tagid);
+            var data = await _unitOfWork.IC_Tags.GetByIdAsync(tagid);
             if (data == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace TPBlog.Api.Controllers
         [HttpPut]
         public async Task<ActionResult<TagDto>> UpdateTag([FromBody] TagDto request)
         {
-            var checkdata = await _unitOfWork.Tags.GetByIdAsync(request.Id);
+            var checkdata = await _unitOfWork.IC_Tags.GetByIdAsync(request.Id);
             if (checkdata == null)
             {
                 return NotFound();

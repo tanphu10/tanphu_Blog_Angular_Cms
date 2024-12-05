@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { MessageConstants } from 'src/app/shared/constants/message.constant';
@@ -18,11 +18,13 @@ import {
 import { PostSeriesComponent } from './post-series.component';
 import { PostReturnReasonComponent } from './post-return-reason.component';
 import { PostActivityLogsComponent } from './post-activity-logs.component';
+import { TokenInterceptor } from 'src/app/shared/interceptors/token.interceptor';
+import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
+  styleUrls: ['./post.component.scss', '../../admin.component.scss'],
 })
 export class PostComponent implements OnInit, OnDestroy {
   //System variables
@@ -43,14 +45,17 @@ export class PostComponent implements OnInit, OnDestroy {
   public postCategories: any[] = [];
   public projectCategory: any[] = [];
   public projectId?: string = null;
-
+  public permissions: string[] = [];
+  itemsMenu: MenuItem[] | undefined;
   constructor(
     private postCategoryApiClient: AdminApiPostCategoryApiClient,
     private postApiClient: AdminApiPostApiClient,
     public dialogService: DialogService,
     private alertService: AlertService,
     private confirmationService: ConfirmationService,
-    private projectApiClient: AdminApiProjectApiClient
+    private projectApiClient: AdminApiProjectApiClient,
+    private token: TokenStorageService,
+    private messageService: MessageService
   ) {}
 
   ngOnDestroy(): void {
@@ -59,10 +64,131 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.itemsMenu = [
+    //   {
+    //     icon: 'pi pi-list',
+    //     tooltip: 'Loạt bài',
+    //     command: () => {
+    //       if (this.canAddToSeries()) {
+    //         this.addToSeries(this.row.id);
+    //       }
+    //     },
+    //     visible: this.canAddToSeries()
+    //   },
+    //   {
+    //     icon: 'pi pi-check',
+    //     tooltip: 'Duyệt bài',
+    //     command: () => {
+    //       if (this.canApprove() && this.row.status != 3) {
+    //         this.approve(this.row.id);
+    //       }
+    //     },
+    //     visible: this.canApprove() && this.row.status != 3
+    //   },
+    //   {
+    //     icon: 'pi pi-forward',
+    //     tooltip: 'Gửi duyệt',
+    //     command: () => {
+    //       if (this.row.status != 3 && this.row.status != 1) {
+    //         this.sendToApprove(this.row.id);
+    //       }
+    //     },
+    //     visible: this.row.status != 3 && this.row.status != 1
+    //   },
+    //   {
+    //     icon: 'pi pi-backward',
+    //     tooltip: 'Trả lại',
+    //     command: () => {
+    //       if (this.canApprove() && this.row.status != 3) {
+    //         this.reject(this.row.id);
+    //       }
+    //     },
+    //     visible: this.canApprove() && this.row.status != 3
+    //   },
+    //   {
+    //     icon: 'pi pi-history',
+    //     tooltip: 'Xem lịch sử',
+    //     command: () => {
+    //       this.showLogs(this.row.id);
+    //     },
+    //     // visible: this.hasPermission('Permissons.Posts.View')
+    //   }
+    // ];
+
     this.loadPostCategories();
     this.loadProjects();
     this.loadData();
+    this.permissions = this.token.getUser().permissions;
+    console.log(this.permissions);
+    console.log(
+      'oninit approve',
+      this.permissions.includes('Permissions.Posts.Approve')
+    ); // Phải trả về true
+  }
 
+  canAddToSeries(): boolean {
+    return this.permissions.includes('Permissons.Posts.Create');
+  }
+
+  canViewLogs(): boolean {
+    return this.permissions.includes('Permissons.Posts.View');
+  }
+
+  canApprove(): boolean {
+    return this.permissions.includes('Permissions.Posts.Approve');
+  }
+  updateItemsMenu(row: any) {
+    this.itemsMenu = [
+      {
+        icon: 'pi pi-check',
+        tooltip: 'Duyệt bài',
+        command: () => {
+          if (this.canApprove() && row.status != 3) {
+            this.approve(row.id);
+          }
+        },
+        visible: this.canApprove() && row.status != 3 && row.status == 1,
+      },
+
+      {
+        icon: 'pi pi-backward',
+        tooltip: 'Trả lại',
+        command: () => {
+          if (this.canApprove() && row.status != 3) {
+            this.reject(row.id);
+          }
+        },
+        visible: this.canApprove() && row.status != 3 && row.status == 1,
+      },
+      {
+        icon: 'pi pi-forward',
+        tooltip: 'Gửi duyệt',
+        command: () => {
+          if (row.status != 3 && row.status != 1) {
+            this.sendToApprove(row.id);
+          }
+        },
+        visible: row.status != 3 && row.status != 1,
+      },
+      {
+        icon: 'pi pi-history',
+        tooltip: 'Xem lịch sử',
+        command: () => {
+          this.showLogs(row.id);
+        },
+        // visible: this.canViewLogs(),
+      },
+      {
+        icon: 'pi pi-list',
+        tooltip: 'Loạt bài',
+        command: () => {
+          if (this.canAddToSeries()) {
+            this.addToSeries(row.id);
+          }
+        },
+        // visible: this.canAddToSeries(),
+      },
+    ];
   }
 
   loadData(selectionId = null) {
@@ -94,7 +220,7 @@ export class PostComponent implements OnInit, OnDestroy {
       .getAllProjects()
       .subscribe((response: ProjectInListDto[]) => {
         response.forEach((element) => {
-          console.log("elementProject",element)
+          console.log('elementProject', element);
           this.projectCategory.push({
             value: element.id,
             label: element.name,

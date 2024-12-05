@@ -44,19 +44,19 @@ namespace TPBlog.Api.Controllers
             var userId = User.GetUserId();
             foreach (var id in ids)
             {
-                var item = await _unitOfWork.Announcements.GetByIdAsync(id);
-                var item2 = _unitOfWork.AnnouncementUsers.Find(x => x.AnnouncementId == id && x.UserId == userId).FirstOrDefault();
+                var item = await _unitOfWork.IC_Announcements.GetByIdAsync(id);
+                var item2 = _unitOfWork.IC_AnnouncementUsers.Find(x => x.AnnouncementId == id && x.UserId == userId).FirstOrDefault();
                 //var product = _mapper.Map<>(item);
                 if (item == null)
                 {
                     return NotFound();
                 }
-                _unitOfWork.Announcements.Remove(item);
+                _unitOfWork.IC_Announcements.Remove(item);
                 if (item2 == null)
                 {
                     return NotFound();
                 }
-                _unitOfWork.AnnouncementUsers.Remove(item2);
+                _unitOfWork.IC_AnnouncementUsers.Remove(item2);
                 await _unitOfWork.CompleteAsync();
             }
             return NoContent();
@@ -65,20 +65,24 @@ namespace TPBlog.Api.Controllers
         [Route("add")]
         public async Task<IActionResult> CreateNotification([FromBody] CreateAnnouncementRequest model)
         {
-            var newAnnoun = new Announcement
+            var project = _unitOfWork.IC_Projects.GetByIdAsync(model.ProjectId);
+
+
+            var newAnnoun = new IC_Announcement
             {
                 Content = model.Content,
                 Status = model.Status,
                 Title = model.Title,
                 DateCreated = DateTime.Now,
-                UserId = User.GetUserId()
+                UserId = User.GetUserId(),
+                ProjectSlug = project.Result.Slug,
             };
 
             await _announcementService.CreateAsync(newAnnoun);  // đảm bảo CreateAsync là async và lưu vào DB
 
             if (newAnnoun.UserId != null)
             {
-                await _unitOfWork.AnnouncementUsers.Add(new AnnouncementUser()
+                await _unitOfWork.IC_AnnouncementUsers.Add(new IC_AnnouncementUser()
                 {
                     AnnouncementId = newAnnoun.Id,
                     UserId = newAnnoun.UserId,
@@ -86,7 +90,7 @@ namespace TPBlog.Api.Controllers
                 });
             }
             await _unitOfWork.CompleteAsync();
-            var announ = await _unitOfWork.Announcements.GetByIdAsync(newAnnoun.Id);
+            var announ = await _unitOfWork.IC_Announcements.GetByIdAsync(newAnnoun.Id);
 
             //push notification
             if (announ == null)
@@ -105,7 +109,7 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<AnnouncementViewModel>> DetailsAsync(int id)
         {
 
-            var announcement = await _unitOfWork.Announcements.GetByIdAsync(id);
+            var announcement = await _unitOfWork.IC_Announcements.GetByIdAsync(id);
             if (announcement == null)
             {
                 return NotFound();
@@ -118,17 +122,17 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<PageResult<AnnouncementViewModel>>> GetNotificationPaging([FromQuery]
            int pageIndex = 1, int pageSize = 10)
         {
-            var result = await _unitOfWork.Announcements.GetAllPaging(pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Announcements.GetAllPaging(pageIndex, pageSize);
 
             return Ok(result);
         }
         [HttpGet]
         [Route("Get-Top-Announcement")]
-        public async Task<ActionResult<PageResult<Announcement>>> GetTopMyAnnouncement([FromQuery]
+        public async Task<ActionResult<PageResult<IC_Announcement>>> GetTopMyAnnouncement([FromQuery]
           int pageIndex = 1, int pageSize = 10)
         {
             var userId = User.GetUserId();
-            var result = await _unitOfWork.Announcements.ListAllUnread(userId,pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Announcements.ListAllUnread(userId, pageIndex, pageSize);
             return Ok(result);
         }
     }

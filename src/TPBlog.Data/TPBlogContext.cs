@@ -16,35 +16,37 @@ namespace TPBlog.Data
         }
 
         //Quản lí bài viết và dự án
-        public DbSet<Project> Project { get; set; }
-        public DbSet<PostInProject> PostInProject { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<PostCategory> PostCategories { get; set; }
-        public DbSet<PostTag> PostTags { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<PostActivityLog> PostActivityLogs { get; set; }
-        public DbSet<Series> Series { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<PostInSeries> PostInSeries { get; set; }
+        public DbSet<IC_Project> Project { get; set; }
+        public DbSet<IC_PostInProject> PostInProject { get; set; }
+        public DbSet<IC_Post> Posts { get; set; }
+        public DbSet<IC_PostCategory> PostCategories { get; set; }
+        public DbSet<IC_PostTag> PostTags { get; set; }
+        public DbSet<IC_Tag> Tags { get; set; }
+        public DbSet<IC_PostActivityLog> PostActivityLogs { get; set; }
+        public DbSet<IC_Series> Series { get; set; }
+        public DbSet<IC_Transaction> Transactions { get; set; }
+        public DbSet<IC_PostInSeries> PostInSeries { get; set; }
   
 
-        public DbSet<Announcement> Announcements { get; set; }
-        public DbSet<AnnouncementUser> AnnouncementUsers { get; set; }
+        public DbSet<IC_Announcement> Announcements { get; set; }
+        public DbSet<IC_AnnouncementUser> AnnouncementUsers { get; set; }
 
 
         //-- Quản lí sản phẩm và tồn kho
-        public DbSet<InventoryEntry> Inventories { get; set; }
-        public DbSet<InventoryCategory> InventoryCategories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<IC_InventoryEntry> Inventories { get; set; }
+        public DbSet<IC_InventoryCategory> InventoryCategories { get; set; }
+        public DbSet<IC_Product> Products { get; set; }
+        public DbSet<IC_ProductCategory> ProductCategories { get; set; }
+        public DbSet<IC_UnitConversion> UnitConversions { get; set; }
        
 
         //- Quản lí Task
-        public DbSet<TbTask> Tasks { get; set; }
-        public DbSet<TaskComment> TaskComments { get; set; }
-        public DbSet<TaskAttachment> TaskAttachments { get; set; }
-        public DbSet<TaskTag> TaskTags { get; set; }
-        public DbSet<TaskHistory> TaskHistories { get; set; }
+        public DbSet<IC_Task> Tasks { get; set; }
+        public DbSet<IC_TaskComment> TaskComments { get; set; }
+        public DbSet<IC_TaskAttachment> TaskAttachments { get; set; }
+        public DbSet<IC_TaskTag> TaskTags { get; set; }
+        public DbSet<IC_TaskUser> TaskUsers { get; set; }
+        public DbSet<IC_TaskHistory> TaskHistories { get; set; }
 
 
         //  đây là phần ghi đè 
@@ -60,7 +62,7 @@ namespace TPBlog.Data
 
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
 
-            builder.Entity<AnnouncementUser>().ToTable("AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
+            builder.Entity<IC_AnnouncementUser>().ToTable("IC_AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
         }
         //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{

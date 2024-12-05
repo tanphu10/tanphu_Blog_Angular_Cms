@@ -13,8 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TPBlog.Api.Extensions;
 using TPBlog.Core.Domain.Identity;
+using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.system;
+using TPBlog.Data;
 using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Api.Controllers
@@ -24,13 +26,15 @@ namespace TPBlog.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly TPBlogContext _context;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public UserController(IMapper mapper, UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
+        public UserController(IMapper mapper, UserManager<AppUser> userManager, IUnitOfWork unitOfWork, TPBlogContext context)
         {
             _userManager = userManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         [HttpGet]
@@ -53,17 +57,65 @@ namespace TPBlog.Api.Controllers
 
         }
         [HttpGet("paging")]
-        public async Task<ActionResult<PageResult<UserDto>>> GetAllUserPaging(string? keyword, int pageIndex, int pageSize)
+        public async Task<ActionResult<PageResult<UserPagingDto>>> GetAllUserPaging(string? keyword, Guid? projectId, int pageIndex, int pageSize)
+
         {
-            var query = _userManager.Users;
+            var project = await _context.Project.FirstOrDefaultAsync(x => x.Id == projectId);
+            var query = from u in _userManager.Users
+                        join ur in _context.Set<IdentityUserRole<Guid>>() on u.Id equals ur.UserId
+                        join r in _context.Roles on ur.RoleId equals r.Id
+                        join rc in _context.Set<IdentityRoleClaim<Guid>>() on r.Id equals rc.RoleId
+                        where rc.ClaimValue.Contains($"Permissions.Projects")
+                          && !rc.ClaimValue.Contains(".Create")
+                          && !rc.ClaimValue.Contains(".View")
+                          && !rc.ClaimValue.Contains(".Edit")
+                          && !rc.ClaimValue.Contains(".Delete")
+                        group rc by new
+                        {
+                            u.Id,
+                            u.FirstName,
+                            u.LastName,
+                            u.UserName,
+                            u.Email,
+                            u.PhoneNumber,
+                            u.DateCreated,
+                            u.IsActive,
+                            u.Dob,
+                            u.Avatar
+                        } into grouped
+                        select new UserPagingDto
+                        {
+                            Id = grouped.Key.Id,
+                            FirstName = grouped.Key.FirstName,
+                            LastName = grouped.Key.LastName,
+                            UserName = grouped.Key.UserName,
+                            Email = grouped.Key.Email,
+                            PhoneNumber = grouped.Key.PhoneNumber,
+                            DateCreated = grouped.Key.DateCreated,
+                            IsActive = grouped.Key.IsActive,
+                            Dob = grouped.Key.Dob,
+                            Avatar = grouped.Key.Avatar,
+                            RoleClaims = grouped.Select(x => x.ClaimValue).ToArray(), // Chuyển danh sách thành mảng
+                        };
             if (!string.IsNullOrEmpty(keyword))
-                query = query.Where(x => x.UserName.Contains(keyword) || x.FirstName.Contains(keyword));
+            {
+                var normalizedKeyword = TextNormalizedName.ToTextNormalizedString(keyword);
+                query = query.Where(x =>
+                    x.UserName.Contains(normalizedKeyword) ||
+                    x.Email.Contains(normalizedKeyword) ||
+                    x.FirstName.Contains(normalizedKeyword) || x.LastName.Contains(normalizedKeyword));
+            }
+            if (projectId != null)
+            {
+                query = query.Where(x => x.RoleClaims.Contains($"Permissions.Projects.{project.Slug}"));
+
+            }
             var totalRow = query.Count();
             query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-            var data = await _mapper.ProjectTo<UserDto>(query).ToListAsync();
-            var paginationSet = new PageResult<UserDto>
+            //var data = await _mapper.ProjectTo<UserPagingDto>(query).ToListAsync();
+            var paginationSet = new PageResult<UserPagingDto>
             {
-                Results = data,
+                Results = query.ToList(),
                 CurrentPage = pageIndex,
                 RowCount = totalRow,
                 PageSize = pageSize,

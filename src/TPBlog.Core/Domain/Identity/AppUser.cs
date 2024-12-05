@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TPBlog.Core.Domain.Identity
 {
-    //[Table("AppUsers")]
+    [Table("AppUsers")]
     //nếu như chúng ta không để bảng table thì nó sẽ tự generate ra 
 
     public class AppUser : IdentityUser<Guid>

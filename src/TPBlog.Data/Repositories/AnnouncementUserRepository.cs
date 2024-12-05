@@ -9,7 +9,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class AnnouncementUserRepository : RepositoryBase<AnnouncementUser, int>, IAnnouncementUserRepository
+    public class AnnouncementUserRepository : RepositoryBase<IC_AnnouncementUser, int>, IAnnouncementUserRepository
     {
         public AnnouncementUserRepository(TPBlogContext context) : base(context)
         {

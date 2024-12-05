@@ -27,6 +27,7 @@ import { ImageModule } from 'primeng/image';
 import { AnnouncementComponent } from './announcements/announcement.component';
 import { AnnouncementDetailComponent } from './announcements/announcement-detail.component';
 import { CmsSharedModule } from 'src/app/shared/modules/cms-shared.module';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { CmsSharedModule } from 'src/app/shared/modules/cms-shared.module';
     CmsSharedModule,
     BadgeModule,
     PickListModule,
-    ImageModule
+    ImageModule,
+     MultiSelectModule
   ],
   declarations: [
     UserComponent,

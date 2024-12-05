@@ -25,7 +25,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<PostActivityLog, PostActivityLogDto>();
+                CreateMap<IC_PostActivityLog, PostActivityLogDto>();
             }
         }
     }

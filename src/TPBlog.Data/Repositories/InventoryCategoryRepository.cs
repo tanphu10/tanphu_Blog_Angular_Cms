@@ -14,7 +14,7 @@ using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
-    public class InventoryCategoryRepository : RepositoryBase<InventoryCategory, Guid>, IInventoryCategoryRepository
+    public class InventoryCategoryRepository : RepositoryBase<IC_InventoryCategory, Guid>, IInventoryCategoryRepository
     {
         private readonly IMapper _mapper;
         //private readonly 

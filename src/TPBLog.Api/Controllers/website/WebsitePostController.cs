@@ -38,7 +38,7 @@ namespace TPBlog.Api.Controllers.website
         [Authorize(Posts.View)]
         public async Task<ActionResult<PostDto>> GetPostWebsiteBySlug(string slug)
         {
-            var post = await _unitOfWork.BaiPost.GetBySlug(slug);
+            var post = await _unitOfWork.IC_Posts.GetBySlug(slug);
             if (post == null)
             {
                 return NotFound();
@@ -60,13 +60,13 @@ namespace TPBlog.Api.Controllers.website
                   int pageIndex = 1, int pageSize = 10)
         {
             var userId = User.GetUserId();
-            var category = await _unitOfWork.PostCategories.GetBySlug(categorySlug);
-            var project = await _unitOfWork.Projects.GetBySlug(projectSlug);
+            var category = await _unitOfWork.IC_PostCategories.GetBySlug(categorySlug);
+            var project = await _unitOfWork.IC_Projects.GetBySlug(projectSlug);
             var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
 
-            var query = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
+            var query = await _unitOfWork.IC_Posts.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
             var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
-            //var result = await _unitOfWork.BaiPost.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
+            //var result = await _unitOfWork.IC_Posts.GetAllPaging(keyword, userId, category.Id, project.Id, pageIndex, pageSize);
             query.Results = allowedProjects.ToList();
 
             return Ok(query);

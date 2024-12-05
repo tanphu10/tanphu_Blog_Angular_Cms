@@ -36,7 +36,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateProjectRequest, Project>();
+                CreateMap<CreateUpdateProjectRequest, IC_Project>();
             }
         }
     }

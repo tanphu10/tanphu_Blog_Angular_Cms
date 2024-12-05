@@ -27,11 +27,12 @@ namespace TPBlog.Core.Models.content
         public string? Thumbnail { set; get; }
 
         public string? Content { get; set; }
+        public Guid ProjectId { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<CreateUpdateSeriesRequest, Series>();
+                CreateMap<CreateUpdateSeriesRequest, IC_Series>();
             }
         }
     }

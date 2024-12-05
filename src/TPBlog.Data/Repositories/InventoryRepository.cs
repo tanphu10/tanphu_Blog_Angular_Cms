@@ -10,7 +10,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class InventoryRepository : RepositoryBase<InventoryEntry, Guid>, IInventoryRepository
+    public class InventoryRepository : RepositoryBase<IC_InventoryEntry, Guid>, IInventoryRepository
     {
         private readonly IMapper _mapper;
 
@@ -120,7 +120,7 @@ namespace TPBlog.Data.Repositories
             return result;
         }
 
-        public async Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, string? categorySlug, int pageIndex = 1, int pageSize = 10)
+        public async Task<PageResult<InventoryInListDto>> GetAllByItemNoPagingAsync(string? keyword, Guid? projectId, string? categorySlug, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
 
             var project = _context.Project.Where(x => x.Id == projectId);
@@ -133,6 +133,7 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Category don't exist");
             }
+
             var query = from i in _context.Inventories
                         join p in _context.Project on i.ProjectId equals p.Id
                         join c in _context.InventoryCategories on i.InvtCategoryId equals c.Id
@@ -150,8 +151,14 @@ namespace TPBlog.Data.Repositories
                             DateLastModified = i.DateLastModified,
                             ProjectId = p.Id,
                             ProjectSlug = p.Slug,
-                            ProjectName = p.Name
-
+                            ProjectName = p.Name,
+                            POUnit = i.POUnit,
+                            SOUnit = i.SOUnit,
+                            CnvFact = i.CnvFact,
+                            StkUnit = i.StkUnit,
+                            InvtCategoryId=c.Id,
+                            InvtCategoryName=c.Name,
+                            InvtCategorySlug=c.Slug
                         };
             //var query = _context.Inventories.AsQueryable();
 
@@ -166,6 +173,16 @@ namespace TPBlog.Data.Repositories
             {
                 query = query.Where(x => x.ProjectId == projectId);
 
+            }
+            // Bộ lọc theo ngày tháng
+            if (fromDate.HasValue)
+            {
+                query = query.Where(x => x.DateCreated >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(x => x.DateCreated <= toDate.Value);
             }
             var totalRow = await query.CountAsync();
 
@@ -216,16 +233,18 @@ namespace TPBlog.Data.Repositories
             if (await IsSlugAlreadyExisted(model.Slug))
             {
                 throw new Exception("đã tồn tại slug");
-
             }
+            var DateNow = DateTime.UtcNow;
 
             var category = await _context.InventoryCategories.FirstOrDefaultAsync(x => x.Id == model.InvtCategoryId);
             if (category == null)
             {
                 throw new Exception("không tồn tại InventoryCategory");
             }
+            var project = await _context.Project.FirstOrDefaultAsync(x => x.Id == model.ProjectId);
+
             //var post= await _context.in
-            var itemToAdd = new InventoryEntry()
+            var itemToAdd = new IC_InventoryEntry()
             {
                 Id = Guid.NewGuid(),
                 ItemNo = itemNo,
@@ -237,7 +256,15 @@ namespace TPBlog.Data.Repositories
                 InvtCategorySlug = category.Slug,
                 InvtCategoryName = category.Name,
                 InvtCategoryId = category.Id,
-                Slug = model.Slug
+                Slug = model.Slug,
+                DocumentNo = model.DocumentNo,
+                ExternalDocumentNo = model.ExternalDocumentNo,
+                POUnit = model.POUnit,
+                SOUnit = model.SOUnit,
+                StkUnit = model.StkUnit,
+                CnvFact = model.CnvFact,
+                ProjectSlug = project.Slug,
+                DateCreated = DateNow
             };
             await _context.Inventories.AddAsync(itemToAdd);
             _context.SaveChanges();
@@ -258,7 +285,7 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("không tồn tại InventoryCategory");
             }
 
-            var itemToAdd = new InventoryEntry()
+            var itemToAdd = new IC_InventoryEntry()
             {
                 Id = Guid.NewGuid(),
                 ItemNo = itemNo,
@@ -295,7 +322,7 @@ namespace TPBlog.Data.Repositories
             var documentNo = Guid.NewGuid().ToString();
             foreach (var saleItem in model.SaleItems)
             {
-                var itemToAdd = new InventoryEntry()
+                var itemToAdd = new IC_InventoryEntry()
                 {
                     Id = Guid.NewGuid(),
                     DocumentNo = documentNo,

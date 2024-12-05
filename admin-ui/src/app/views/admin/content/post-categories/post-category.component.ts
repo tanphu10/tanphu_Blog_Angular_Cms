@@ -40,7 +40,6 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private confirmationService: ConfirmationService,
     private projectApiClient: AdminApiProjectApiClient
-
   ) {}
 
   ngOnDestroy(): void {
@@ -57,7 +56,7 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
       .getAllProjects()
       .subscribe((response: ProjectInListDto[]) => {
         response.forEach((element) => {
-          console.log('elementProject', element);
+          // console.log('elementProject', element);
           this.projectCategory.push({
             value: element.id,
             label: element.name,
@@ -68,11 +67,16 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
   loadData() {
     this.toggleBlockUI(true);
     this.postCategoryService
-      .getPostCategoriesPaging(this.keyword, this.pageIndex, this.pageSize)
+      .getPostCategoriesPaging(
+        this.keyword,
+        this.projectId,
+        this.pageIndex,
+        this.pageSize
+      )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: PostCategoryDtoPageResult) => {
-          // console.log('check category', response);
+          console.log('check category', response);
           this.items = response.results;
           this.totalCount = response.rowCount;
 

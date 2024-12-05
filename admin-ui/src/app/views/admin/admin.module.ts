@@ -5,7 +5,7 @@ import {
   LocationStrategy,
 } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {
   DefaultFooterComponent,
@@ -67,6 +67,7 @@ import { AdminComponent } from './admin.component';
 import { SignalRService } from '../../shared/services/signalr-service';
 import { ToastModule } from 'primeng/toast';
 import { NavbarModule } from '@coreui/angular';
+import { CalendarModule } from 'primeng/calendar';
 // import { CustomSidebarNavComponent } from './containers/default-layout/custom-sidebar/custom-sidebar-nav.component';
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -75,7 +76,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [ AdminComponent, ...APP_CONTAINERS],
+  declarations: [AdminComponent, ...APP_CONTAINERS],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -105,6 +106,7 @@ const APP_CONTAINERS = [
     DynamicDialogModule,
     ToastModule,
     NavbarModule,
+  
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },

@@ -22,7 +22,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss','../../admin.component.scss'],
+  styleUrls: ['./inventory.component.scss', '../../admin.component.scss'],
 })
 export class InventoryComponent implements OnInit, OnDestroy {
   //System variables
@@ -49,6 +49,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
   activeIndex: number = 3;
   public environment = environment;
   slug: string | null = null;
+
+  fromDate: Date | undefined;
+  toDate: Date | undefined;
+  public categoryId?: string = null;
 
   constructor(
     private inventoryApiClient: adminApiServiceGenerated.AdminApiInventoryApiClient,
@@ -80,6 +84,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.invtCategoryApiClient
       .getInventoryCategories()
       .subscribe((response: InventoryCategoryDto[]) => {
+        console.log('int', response);
         response.forEach((element) => {
           this.invtCategories.push({
             value: element.id,
@@ -104,10 +109,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
   }
   loadData(projectId = null) {
+   
+
     this.toggleBlockUI(true);
     this.inventoryApiClient
       .getInventoryPaging(
         this.keyword,
+        this.fromDate,
+        this.toDate,
         this.projectId,
         this.categorySlug,
         this.pageIndex,
@@ -116,7 +125,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: InventoryInListDtoPageResult) => {
-          console.log("InventoryInListDtoPageResult ",response)
+          console.log('InventoryInListDtoPageResult ', response);
           this.items = response.results;
           this.totalCount = response.rowCount;
           this.stockQuantity = response.additionalData;
@@ -166,31 +175,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  // showEditModal() {
-  //   if (this.selectedItems.length == 0) {
-  //     this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
-  //     return;
-  //   }
-  //   var id = this.selectedItems[0].id;
-  //   const ref = this.dialogService.open(PostDetailComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Cập nhật bài viết',
-  //     width: '70%',
-  //   });
-  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-  //   ref.onClose.subscribe((data: PostDto) => {
-  //     if (data) {
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData(data.id);
-  //     }
-  //   });
-  // }
 
   deleteItems() {
     if (this.selectedItems.length == 0) {
@@ -227,98 +211,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       },
     });
   }
-  // addToSeries(id: string) {
-  //   const ref = this.dialogService.open(PostSeriesComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Thêm vào loạt bài',
-  //     width: '70%',
-  //   });
-  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-  //   ref.onClose.subscribe((data: PostDto) => {
-  //     if (data) {
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData(data.id);
-  //     }
-  //   });
-  // }
-  // approve(id: string) {
-  //   this.toggleBlockUI(true);
-  //   this.postApiClient.approvePost(id).subscribe({
-  //     next: () => {
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.loadData();
-  //       this.selectedItems = [];
-  //       this.toggleBlockUI(false);
-  //     },
-  //     error: () => {
-  //       this.toggleBlockUI(false);
-  //     },
-  //   });
-  // }
-
-  // sendToApprove(id: string) {
-  //   this.toggleBlockUI(true);
-  //   this.postApiClient.sendToApprove(id).subscribe({
-  //     next: () => {
-  //       // console.log("check send approve",id)
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.loadData();
-  //       this.selectedItems = [];
-  //       this.toggleBlockUI(false);
-  //     },
-  //     error: () => {
-  //       this.toggleBlockUI(false);
-  //     },
-  //   });
-  // }
-
-  // reject(id: string) {
-  //   const ref = this.dialogService.open(PostReturnReasonComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Trả lại bài',
-  //     width: '70%',
-  //   });
-  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-  //   ref.onClose.subscribe((data: PostDto) => {
-  //     if (data) {
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData(data.id);
-  //     }
-  //   });
-  // }
-
-  // showLogs(id: string) {
-  //   const ref = this.dialogService.open(PostActivityLogsComponent, {
-  //     data: {
-  //       id: id,
-  //     },
-  //     header: 'Xem lịch sử',
-  //     width: '70%',
-  //   });
-  //   const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-  //   const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-  //   const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-  //   dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-  //   ref.onClose.subscribe((data: PostDto) => {
-  //     if (data) {
-  //       this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-  //       this.selectedItems = [];
-  //       this.loadData(data.id);
-  //     }
-  //   });
-  // }
+  
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;

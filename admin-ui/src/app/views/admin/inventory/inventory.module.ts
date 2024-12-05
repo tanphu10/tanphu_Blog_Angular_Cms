@@ -35,6 +35,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { TagModule } from 'primeng/tag';
 import { WebsiteFooterComponent } from '../../website/website-containers/website-layout/website-footer/website-footer.component';
 import { WebsiteSubHeader } from '../../website/website-containers/website-layout/website-sub-header/website-sub-header.component';
+import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -75,7 +77,8 @@ import { WebsiteSubHeader } from '../../website/website-containers/website-layou
     WebsiteFooterComponent,
     TagModule,
     DropdownModule,
-
+    CalendarModule,
+    FormsModule,
   ],
   declarations: [
     InventoryComponent,

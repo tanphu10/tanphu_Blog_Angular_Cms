@@ -34,18 +34,18 @@ namespace TPBlog.Api.Services
 
         public async Task UpdatePostServiceAsync(Guid id, CreateUpdatePostRequest request)
         {
-            if (await _unitOfWork.BaiPost.IsSlugAlreadyExisted(request.Slug, id))
+            if (await _unitOfWork.IC_Posts.IsSlugAlreadyExisted(request.Slug, id))
             {
                 throw new Exception("đã tồn tại slug");
             }
-            var post = await _unitOfWork.BaiPost.GetByIdAsync(id);
+            var post = await _unitOfWork.IC_Posts.GetByIdAsync(id);
             if (post == null)
             {
                 throw new Exception("không tìm thấy");
             }
             if (post.CategoryId != request.CategoryId)
             {
-                var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
+                var category = await _unitOfWork.IC_PostCategories.GetByIdAsync(request.CategoryId);
                 post.CategoryName = category.Name;
                 post.CategorySlug = category.Slug;
                 post.DateLastModified = DateTimeOffset.Now;
@@ -57,12 +57,12 @@ namespace TPBlog.Api.Services
                 foreach (var tagName in request.Tags)
                 {
                     var tagSlug = TextHelper.ToUnsignedString(tagName);
-                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
+                    var tag = await _unitOfWork.IC_Tags.GetBySlug(tagSlug);
                     Guid tagId;
                     if (tag == null)
                     {
                         tagId = Guid.NewGuid();
-                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
+                        _unitOfWork.IC_Tags.Add(new IC_Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
 
                     }
                     else
@@ -70,13 +70,13 @@ namespace TPBlog.Api.Services
                         tagId = tag.Id;
                     }
                     // Kiểm tra xem đã có bản ghi PostTags hay chưa
-                    var postTagExists = await _unitOfWork.BaiPost.CheckPostTagExists(id, tagId);
+                    var postTagExists = await _unitOfWork.IC_Posts.CheckPostTagExists(id, tagId);
 
                     if (!postTagExists)
                     {
-                        await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
+                        await _unitOfWork.IC_Posts.AddTagToPost(id, tagId);
                     }
-                    //await _unitOfWork.BaiPost.AddTagToPost(id, tagId);
+                    //await _unitOfWork.IC_Posts.AddTagToPost(id, tagId);
                 }
             }
         }
@@ -84,13 +84,13 @@ namespace TPBlog.Api.Services
         public async Task CreatePostServiceAsync(CreateUpdatePostRequest request)
         {
 
-            if (await _unitOfWork.BaiPost.IsSlugAlreadyExisted(request.Slug))
+            if (await _unitOfWork.IC_Posts.IsSlugAlreadyExisted(request.Slug))
             {
                 throw new Exception("đã tồn tại slug");
             }
-            var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
+            var post = _mapper.Map<CreateUpdatePostRequest, IC_Post>(request);
             var postId = Guid.NewGuid();
-            var category = await _unitOfWork.PostCategories.GetByIdAsync(request.CategoryId);
+            var category = await _unitOfWork.IC_PostCategories.GetByIdAsync(request.CategoryId);
             post.Id = postId;
             post.CategoryName = category.Name;
             post.CategorySlug = category.Slug;
@@ -100,32 +100,32 @@ namespace TPBlog.Api.Services
             post.AuthorName = user.GetFullName();
             post.AuthorUserName = user.UserName;
             post.DateCreated = DateTimeOffset.Now;
-            var project = await _unitOfWork.Projects.GetByIdAsync(request.ProjectId);
+            var project = await _unitOfWork.IC_Projects.GetByIdAsync(request.ProjectId);
             if (project == null)
             {
                 throw new Exception("không tồn tại dự án");
             }
             post.ProjectSlug = project.Slug;
-            _unitOfWork.BaiPost.Add(post);
+            _unitOfWork.IC_Posts.Add(post);
             //Process tag 
             if (request.Tags != null && request.Tags.Length > 0)
             {
                 foreach (var tagName in request.Tags)
                 {
                     var tagSlug = TextHelper.ToUnsignedString(tagName);
-                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
+                    var tag = await _unitOfWork.IC_Tags.GetBySlug(tagSlug);
                     Guid tagId;
                     if (tag == null)
                     {
                         tagId = Guid.NewGuid();
-                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug, ProjectSlug = project.Slug });
+                        _unitOfWork.IC_Tags.Add(new IC_Tag() { Id = tagId, Name = tagName, Slug = tagSlug, ProjectSlug = project.Slug });
 
                     }
                     else
                     {
                         tagId = tag.Id;
                     }
-                    await _unitOfWork.BaiPost.AddTagToPost(postId, tagId);
+                    await _unitOfWork.IC_Posts.AddTagToPost(postId, tagId);
                 }
             }
         }

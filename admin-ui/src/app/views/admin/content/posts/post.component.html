@@ -48,8 +48,8 @@
             <!-- <th>Lượt xem</th> -->
             <th>Ngày tạo</th>
             <th>PDF</th>
-            <th style="width: 150px">Xuất bản</th>
-            <th></th>
+            <th>Xuất bản</th>
+            <th>Operations</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
@@ -65,27 +65,34 @@
             <td>
               <app-pdf-link [pdfPath]="row.filePdf"></app-pdf-link>
             </td>
-            <td style="width: 150px">
+            <td>
               <p-badge *ngIf="row.status == 0" value="Nháp" severity="info"></p-badge>
               <p-badge *ngIf="row.status == 1" value="Đợi duyệt" severity="warning"></p-badge>
               <p-badge *ngIf="row.status == 2" value="Từ chối" severity="danger"></p-badge>
               <p-badge *ngIf="row.status == 3" value="Đã duyệt" severity="success"></p-badge>
             </td>
             <td>
-              <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
-                (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve" pRipple
-                type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top" (click)="approve(row.id)"
-                class="p-button-rounded p-button-text p-button-success"></button>
+              <div style="height: 25px;" class="speeddial-circle-demo">
+                <p-toast />
+                <p-speedDial [model]="itemsMenu" direction="down-right" type="quarter-circle"
+                  buttonClassName="p-button-success" (onClick)="updateItemsMenu(row)" />
+              </div>
+
+
+              <!-- <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
+                *ngIf="canAddToSeries()" (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="canApprove() && row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve"
+                pRipple type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top"
+                (click)="approve(row.id)" class="p-button-rounded p-button-text p-button-success"></button>
               <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward"
                 pTooltip="Gửi duyệt" tooltipPosition="top" (click)="sendToApprove(row.id)" appPermission
                 appPolicy="Permissons.Posts.Edit" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="row.status != 3" pButton pRipple type="button" icon="pi pi-backward" pTooltip="Trả lại"
-                tooltipPosition="top" (click)="reject(row.id)" appPermission appPolicy="Permissons.Posts.Approve"
-                class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf=" canApprove() && row.status != 3" pButton pRipple type="button" icon="pi pi-backward"
+                pTooltip="Trả lại" tooltipPosition="top" (click)="reject(row.id)" appPermission
+                appPolicy="Permissons.Posts.Approve" class="p-button-rounded p-button-text p-button-danger"></button>
               <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
                 (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
-                class="p-button-rounded p-button-text p-button-info"></button>
+                class="p-button-rounded p-button-text p-button-info"></button> -->
             </td>
           </tr>
         </ng-template>

@@ -9,7 +9,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class ProductRepository : RepositoryBase<Product, Guid>, IProductRepository
+    public class ProductRepository : RepositoryBase<IC_Product, Guid>, IProductRepository
     {
         private readonly IMapper _mapper;
 
@@ -19,7 +19,7 @@ namespace TPBlog.Data.Repositories
 
         }
 
-        public async Task CreateProductAsync(Product product)
+        public async Task CreateProductAsync(IC_Product product)
 
         {
             if (await IsSlugAlreadyExisted(product.Slug))
@@ -93,17 +93,17 @@ namespace TPBlog.Data.Repositories
             };
         }
 
-        public async Task<Product> GetProductAsync(Guid id)
+        public async Task<IC_Product> GetProductAsync(Guid id)
        => await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<Product>> GetProductByNoAsync(string productNo)
+        public async Task<IEnumerable<IC_Product>> GetProductByNoAsync(string productNo)
               => await _context.Products.Where(x => x.No == productNo).ToListAsync();
 
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<IC_Product>> GetProductsAsync()
         => await _context.Products.ToListAsync();
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(IC_Product product)
         {
 
             var item = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);

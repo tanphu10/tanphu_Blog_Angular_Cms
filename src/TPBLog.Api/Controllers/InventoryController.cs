@@ -35,10 +35,12 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         [Route("paging")]
         [Authorize(Inventories.View)]
-        public async Task<ActionResult<PageResult<InventoryInListDto>>> GetInventoryPaging(string? keyword, Guid? projectId,string? categorySlug,
+        public async Task<ActionResult<PageResult<InventoryInListDto>>> GetInventoryPaging(string? keyword, DateTime? fromDate,
+    DateTime? toDate, Guid? projectId, string? categorySlug,
          int pageIndex, int pageSize = 10)
+        
         {
-            var result = await _unitOfWork.Inventories.GetAllByItemNoPagingAsync(keyword,projectId, categorySlug, pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Inventories.GetAllByItemNoPagingAsync(keyword, projectId, categorySlug, fromDate, fromDate, pageIndex, pageSize);
             return Ok(result);
         }
         [Route("items/{itemNo}", Name = "GetAllByItemNo")]
@@ -46,7 +48,7 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<InventoryEntryDto>>> GetAllByItemNo([Required] string itemNo)
         {
-            var result = await _unitOfWork.Inventories.GetAllByItemNoAsync(itemNo);
+            var result = await _unitOfWork.IC_Inventories.GetAllByItemNoAsync(itemNo);
             return Ok(result);
         }
 
@@ -55,7 +57,7 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<InventoryEntryDto>>> GetStock([Required] string itemNo)
         {
-            var result = await _unitOfWork.Inventories.GetStockQuantity(itemNo);
+            var result = await _unitOfWork.IC_Inventories.GetStockQuantity(itemNo);
             return Ok(result);
         }
 
@@ -65,7 +67,7 @@ namespace TPBlog.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<InventoryEntryDto>> GetInventoryById(Guid id)
         {
-            var result = await _unitOfWork.Inventories.GetByIdAsync(id);
+            var result = await _unitOfWork.IC_Inventories.GetByIdAsync(id);
             return Ok(result);
         }
 
@@ -74,7 +76,7 @@ namespace TPBlog.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<InventoryEntryDto>> PurchaseOrder([Required] string itemNo, [FromBody] PurchaseProductDto model)
         {
-            var result = await _unitOfWork.Inventories.PurchaseItemAsync(itemNo, model);
+            var result = await _unitOfWork.IC_Inventories.PurchaseItemAsync(itemNo, model);
             return Ok(result);
         }
         [Route("sales/{itemNo}", Name = "SaleItem")]
@@ -82,7 +84,7 @@ namespace TPBlog.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<InventoryEntryDto>> SaleItem([Required] string itemNo, [FromBody] SalesProductDto model)
         {
-            var result = await _unitOfWork.Inventories.SalesItemAsync(itemNo, model);
+            var result = await _unitOfWork.IC_Inventories.SalesItemAsync(itemNo, model);
             return Ok(result);
         }
         [Route("sales/order-no/{orderNo}", Name = "SaleOrder")]
@@ -91,7 +93,7 @@ namespace TPBlog.Api.Controllers
         public async Task<ActionResult<InventoryEntryDto>> SaleOrder([Required] string orderNo, [FromBody] SalesOrderDto model)
         {
             model.OrderNo = orderNo;
-            var documentNo = await _unitOfWork.Inventories.SalesOrderAsync(model);
+            var documentNo = await _unitOfWork.IC_Inventories.SalesOrderAsync(model);
             var result = new CreatedSalesOrderSuccessDto(documentNo);
             return Ok(result);
         }
@@ -101,13 +103,13 @@ namespace TPBlog.Api.Controllers
         {
             foreach (var id in ids)
             {
-                var item = await _unitOfWork.Inventories.GetByIdAsync(id);
-                var product = _mapper.Map<InventoryEntry>(item);
+                var item = await _unitOfWork.IC_Inventories.GetByIdAsync(id);
+                var product = _mapper.Map<IC_InventoryEntry>(item);
                 if (product == null)
                 {
                     return NotFound();
                 }
-                _unitOfWork.Inventories.Remove(product);
+                _unitOfWork.IC_Inventories.Remove(product);
             }
             return NoContent();
         }
@@ -117,7 +119,7 @@ namespace TPBlog.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> DeleteByDocumentNo([Required] string documentNo)
         {
-            await _unitOfWork.Inventories.DeleteByDocumentNoAsync(documentNo);
+            await _unitOfWork.IC_Inventories.DeleteByDocumentNoAsync(documentNo);
             return NoContent();
         }
 

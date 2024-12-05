@@ -9,7 +9,7 @@ using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
-    public class TransactionRepository:RepositoryBase<Transaction, Guid>,ITransactionRepository
+    public class TransactionRepository:RepositoryBase<IC_Transaction, Guid>,ITransactionRepository
     {
         private readonly IMapper _mapper;
         public TransactionRepository(TPBlogContext context, IMapper mapper) : base(context)

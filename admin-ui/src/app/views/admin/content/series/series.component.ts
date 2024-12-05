@@ -58,10 +58,17 @@ export class SeriesComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
 
     this.seriesApiClient
-      .getSeriesPaging(this.keyword, this.pageIndex, this.pageSize)
+      .getSeriesPaging(
+        this.keyword,
+        this.projectId,
+        this.pageIndex,
+        this.pageSize
+      )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: PostInListDtoPageResult) => {
+          console.log('PostInListDtoPageResult', response);
+
           this.items = response.results;
           this.totalCount = response.rowCount;
           this.toggleBlockUI(false);
@@ -76,7 +83,7 @@ export class SeriesComponent implements OnInit, OnDestroy {
       .getAllProjects()
       .subscribe((response: ProjectInListDto[]) => {
         response.forEach((element) => {
-          console.log('elementProject', element);
+          // console.log('elementProject', element);
           this.projectCategory.push({
             value: element.id,
             label: element.name,

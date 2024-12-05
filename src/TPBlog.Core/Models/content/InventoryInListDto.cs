@@ -29,12 +29,16 @@ namespace TPBlog.Core.Models.content
         public string InvtCategorySlug { get; set; }
         public string InvtCategoryName { get; set; }
         public Guid InvtCategoryId { get; set; }
-
+        public string? POUnit { get; set; }
+        public string? SOUnit { get; set; }
+        public int? CnvFact { get; set; }
+        //-- sửa lại stkunit=string
+        public string? StkUnit { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
             {
-                CreateMap<InventoryEntry, InventoryInListDto>();
+                CreateMap<IC_InventoryEntry, InventoryInListDto>();
             }
         }
     }

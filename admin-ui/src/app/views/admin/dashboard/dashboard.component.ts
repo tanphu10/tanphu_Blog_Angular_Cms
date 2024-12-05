@@ -5,7 +5,8 @@ import { Subject, takeUntil } from 'rxjs';
 import {
   AdminApiUserApiClient,
   UserDto,
-  UserDtoPageResult,
+  UserPagingDto,
+  UserPagingDtoPageResult,
 } from 'src/app/api/admin-api.service.generated';
 import { environment } from 'src/environments/environment';
 
@@ -24,9 +25,11 @@ export class DashboardComponent implements OnInit {
   public environment = environment;
 
   //Business variables
-  public items: UserDto[];
-  public selectedItems: UserDto[] = [];
+  public items: UserPagingDto[];
+  public selectedItems: UserPagingDto[] = [];
   public keyword: string = '';
+  public projectId?: string = null;
+  public projectCategory: any[] = [];
   constructor(
     private chartsData: DashboardChartsData,
     private userService: AdminApiUserApiClient
@@ -50,10 +53,10 @@ export class DashboardComponent implements OnInit {
   loadData(selectionId = null) {
     this.toggleBlockUI(true);
     this.userService
-      .getAllUserPaging(this.keyword, this.pageIndex, this.pageSize)
+      .getAllUserPaging(this.keyword, this.projectId,this.pageIndex, this.pageSize)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: UserDtoPageResult) => {
+        next: (response: UserPagingDtoPageResult) => {
           // console.log('res', response);
           this.items = response.results;
 

@@ -30,8 +30,9 @@
           </th>
           <th>Tên Title</th>
           <th>Nội Dung</th>
-          <th>UserId</th>
+          <th>UserName</th>
           <th>Ngày Tạo</th>
+          <th>Dự Án</th>
           <th>Tình Trạng </th>
           <th></th>
         </tr>
@@ -44,9 +45,14 @@
           </td>
           <td>{{ row.title }}</td>
           <td>{{ row.content }}</td>
-          <td>{{ row.userId }}</td>
+          <td>{{ row.userName }}</td>
           <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
-          <td>{{ row.status }}</td>
+          <td>{{ row.projectName }}</td>
+          <!-- <td>{{ row.status }}</td> -->
+          <td style="width: 150px">
+            <p-badge *ngIf="row.status == 1" value="Kích hoạt" severity="success"></p-badge>
+            <p-badge *ngIf="row.status == 0" value="Khoá" severity="danger"></p-badge>
+          </td>
           <td>
             <!-- <button pButton class="p-button-sm" (click)="showPermissionModal(row.id, row.name)">Phân quyền</button> -->
           </td>

@@ -85,6 +85,14 @@
       "PackagePath": "staticwebassets\\media\\images\\posts\\112024\\sai-gon-2.jpg"
     },
     {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\122024\\asp.jpg",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\122024\\asp.jpg"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\posts\\122024\\equipment.JPG",
+      "PackagePath": "staticwebassets\\media\\images\\posts\\122024\\equipment.JPG"
+    },
+    {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\images\\products\\112024\\JPEG_example_flower.jpg",
       "PackagePath": "staticwebassets\\media\\images\\products\\112024\\JPEG_example_flower.jpg"
     },
@@ -151,6 +159,14 @@
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\posts\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 23-30_20241105102759.pdf",
       "PackagePath": "staticwebassets\\media\\pdf\\posts\\112024\\NWP.04.A1-HBC.3-SDS-S-Kết cấu móng block căn 23-30_20241105102759.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\posts\\122024\\20220808 MAT BANG BE TONG LOT KHU K1-6 CAN 01-37_20241202223243.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\posts\\122024\\20220808 MAT BANG BE TONG LOT KHU K1-6 CAN 01-37_20241202223243.pdf"
+    },
+    {
+      "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\posts\\122024\\20220822 DAY BE TU HOAI_20241202223355.pdf",
+      "PackagePath": "staticwebassets\\media\\pdf\\posts\\122024\\20220822 DAY BE TU HOAI_20241202223355.pdf"
     },
     {
       "Id": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\wwwroot\\media\\pdf\\products\\112024\\01. KHUNG TEN Model (1)_20241105203118.pdf",

@@ -7,7 +7,7 @@ namespace TPBlog.Api.Services.IServices
     public interface IAnnouncementService
     {
         Task MarkAsRead(Guid userId, int notificationId);
-        Task CreateAsync(Announcement model);
+        Task CreateAsync(IC_Announcement model);
 
     }
 }

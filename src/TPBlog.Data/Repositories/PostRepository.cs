@@ -15,7 +15,7 @@ using TPBlog.Data.SeedWorks;
 
 namespace TPBlog.Data.Repositories
 {
-    public class PostRepository : RepositoryBase<Post, Guid>, IPostRepository
+    public class PostRepository : RepositoryBase<IC_Post, Guid>, IPostRepository
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
@@ -90,7 +90,7 @@ namespace TPBlog.Data.Repositories
                         select s;
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
-        public IEnumerable<Post> GetPopularPosts(int count)
+        public IEnumerable<IC_Post> GetPopularPosts(int count)
         {
             return _context.Posts.OrderByDescending(d => d.ViewCount).Take(count).ToList();
         }
@@ -115,7 +115,7 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("Không tồn tại bài viết");
             }
             var user = await _context.Users.FindAsync(currentUserId);
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 Id = Guid.NewGuid(),
                 FromStatus = post.Status,
@@ -137,7 +137,7 @@ namespace TPBlog.Data.Repositories
                 throw new Exception("Không tồn tại bài viết");
             }
             var user = await _userManager.FindByIdAsync(currentUserId.ToString());
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 FromStatus = post.Status,
                 ToStatus = PostStatus.Rejected,
@@ -170,7 +170,7 @@ namespace TPBlog.Data.Repositories
                 .OrderByDescending(x => x.DateCreated);
             return await _mapper.ProjectTo<PostActivityLogDto>(query).ToListAsync();
         }
-        public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
+        public async Task<List<IC_Post>> GetListUnpaidPublishPosts(Guid userId)
         {
             return await _context.Posts
                .Where(x => x.AuthorUserId == userId && x.IsPaid == false
@@ -190,7 +190,7 @@ namespace TPBlog.Data.Repositories
             {
                 throw new Exception("Không tồn tại user");
             }
-            await _context.PostActivityLogs.AddAsync(new PostActivityLog
+            await _context.PostActivityLogs.AddAsync(new IC_PostActivityLog
             {
                 FromStatus = post.Status,
                 ToStatus = PostStatus.WaitingForApproval,
@@ -245,7 +245,7 @@ namespace TPBlog.Data.Repositories
 
         public async Task AddTagToPost(Guid postId, Guid tagId)
         {
-            await _context.PostTags.AddAsync(new PostTag()
+            await _context.PostTags.AddAsync(new IC_PostTag()
             {
                 PostId = postId,
                 TagId = tagId,

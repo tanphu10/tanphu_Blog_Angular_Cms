@@ -9,7 +9,7 @@ using TPBlog.Core.Helpers;
 
 namespace TPBlog.Data.Repositories
 {
-    public class ProjectRepository : RepositoryBase<Project, Guid>, IProjectRepository
+    public class ProjectRepository : RepositoryBase<IC_Project, Guid>, IProjectRepository
     {
         private readonly IMapper _mapper;
         public ProjectRepository(TPBlogContext context, IMapper mapper) : base(context)
@@ -22,7 +22,7 @@ namespace TPBlog.Data.Repositories
             var postInProject = await _context.PostInProject.FirstOrDefaultAsync(x => x.PostId == postId && x.ProjectId == projectId);
             if (postInProject == null)
             {
-                await _context.PostInProject.AddAsync(new PostInProject()
+                await _context.PostInProject.AddAsync(new IC_PostInProject()
                 {
                     ProjectId = projectId,
                     PostId = postId,

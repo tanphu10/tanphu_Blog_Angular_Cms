@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { AdminApiAnnouncementApiClient, AnnouncementViewModel } from 'src/app/api/admin-api.service.generated';
+import { AdminApiAnnouncementApiClient, AdminApiProjectApiClient, AnnouncementViewModel, CreateAnnouncementRequest, ProjectInListDto } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
 
@@ -24,11 +24,15 @@ export class AnnouncementDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public saveBtnName: string;
     public closeBtnName: string;
-    selectedEntity = {} as AnnouncementViewModel;
+    selectedEntity = {} as CreateAnnouncementRequest;
 
     formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
+
+    public projectId?: string = null;
+    public projectCategory: any[] = [];
     constructor(
+        private projectApiClient: AdminApiProjectApiClient,
         public ref: DynamicDialogRef,
         public config: DynamicDialogConfig,
         private announcementService: AdminApiAnnouncementApiClient,
@@ -45,6 +49,7 @@ export class AnnouncementDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadProjects();
         this.buildForm();
         if (this.utilService.isEmpty(this.config.data?.id) == false) {
             this.loadDetail(this.config.data.id);
@@ -56,6 +61,18 @@ export class AnnouncementDetailComponent implements OnInit, OnDestroy {
         }
     }
 
+    loadProjects() {
+        this.projectApiClient
+          .getAllProjects()
+          .subscribe((response: ProjectInListDto[]) => {
+            response.forEach((element) => {
+              this.projectCategory.push({
+                value: element.id,
+                label: element.name,
+              });
+            });
+          });
+      }
     // Validate
     noSpecial: RegExp = /^[^<>*!_~]+$/;
     validationMessages = {
@@ -101,15 +118,6 @@ export class AnnouncementDetailComponent implements OnInit, OnDestroy {
                     this.toggleBlockUI(false);
                 });
         } 
-        // else {
-        //     this.roleService
-        //         .updateRole(this.config.data.id, this.form.value)
-        //         .pipe(takeUntil(this.ngUnsubscribe))
-        //         .subscribe(() => {
-        //             this.toggleBlockUI(false);
-        //             this.ref.close(this.form.value);
-        //         });
-        // }
     }
 
     buildForm() {
@@ -132,6 +140,10 @@ export class AnnouncementDetailComponent implements OnInit, OnDestroy {
             status: new FormControl(
                 this.selectedEntity.status || true,
             ),
+            projectId: new FormControl(
+                this.selectedEntity.projectId || null,
+                Validators.required
+              ),
             // dateCreated: new FormControl(
             //     this.selectedEntity.dateCreated || new Date(),
             // ),

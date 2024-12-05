@@ -14,23 +14,46 @@
         placeholder="Chọn Dự Án" [showClear]="true" [(ngModel)]="projectId">
       </p-dropdown>
       <!-- </div> -->
-      <div class="formSearch">
-        <div class="row">
-          <div class="col">
-            <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
-              [(ngModel)]="keyword" placeholder="Nhập tìm kiếm..." type="text">
-          </div>
-          <div class="col">
-            <button type="button" class="buttonSearch" pButton (click)="loadData()">Tìm Kiếm</button>
-          </div>
-        </div>
-      </div>
+
     </div>
   </p-header>
 
 
   <div class="card">
     <p-tabView [(activeIndex)]="activeIndex" [scrollable]="true" (onChange)="onTabChange($event)">
+      <div class="Header_tool">
+        <div class="Category">
+          <p-dropdown [options]="invtCategories" (onChange)="loadData()" [style]="{ width: '100%' }"
+            placeholder="Chọn danh mục" [showClear]="true" [(ngModel)]="categoryId">
+          </p-dropdown>
+        </div>
+        <div class="input_Date d-flex">
+          <div class="d-flex" style="align-items: end; margin-right: 10px; font-size: small;">
+            <div style="margin-right: 5px;">From Date</div>
+            <p-calendar [(ngModel)]="fromDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+          </div>
+          <div class="d-flex" style="align-items: end; font-size: small;">
+            <div style="margin-right: 5px;">To Date</div>
+            <p-calendar [(ngModel)]="toDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+          </div>
+        </div>
+
+        <div class="formSearch">
+          <div class="row">
+            <div class="col">
+              <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
+                [(ngModel)]="keyword" placeholder="tìm kiếm..." type="text">
+            </div>
+            <div class="col">
+              <button type="button" style=" font-size: small;" class="buttonSearch" pButton (click)="loadData()">Tìm
+                Kiếm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- </div> -->
       <p-tabPanel *ngFor="let tab of invtCategories" [header]="tab.label" style="height: 30px;">
         <div class="row ">
           <p-table #dt [value]="items" selectionMode="multiple" dataKey="id" [(selection)]="selectedItems"
@@ -45,6 +68,10 @@
                 <th>Số Lượng</th>
                 <th>Ngày tạo</th>
                 <th>PDF</th>
+                <th>poUnit</th>
+                <th>soUnit</th>
+                <th>cnvFact</th>
+                <th>stkUnit</th>
                 <th style="width: 150px">Loại</th>
                 <th></th>
               </tr>
@@ -62,6 +89,10 @@
                 <td>
                   <app-pdf-link [pdfPath]="row.catalogPdf"></app-pdf-link>
                 </td>
+                <td>{{ row.poUnit }}</td>
+                <td>{{ row.soUnit }}</td>
+                <td>{{ row.cnvFact }}</td>
+                <td>{{ row.stkUnit }}</td>
                 <td style="width: 150px">
                   <p-badge *ngIf="row.documentType == 0" value="All" severity="danger"></p-badge>
                   <p-badge *ngIf="row.documentType == 101" value="Mua" severity="success"></p-badge>

@@ -19,7 +19,7 @@ namespace TPBlog.Core.Models.content
         {
             public AutoMapperProfiles()
             {
-                CreateMap<Tag, TagDto>();
+                CreateMap<IC_Tag, TagDto>();
             }
         }
     }

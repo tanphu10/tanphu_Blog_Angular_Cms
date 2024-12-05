@@ -34,7 +34,7 @@ namespace TPBlog.Api.Controllers.website
         [Authorize(Inventories.View)]
         public async Task<ActionResult<InventoryEntryDto>> GetInventoryWebsiteBySlug(string slug)
         {
-            var post = await _unitOfWork.Inventories.GetBySlug(slug);
+            var post = await _unitOfWork.IC_Inventories.GetBySlug(slug);
             if (post == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace TPBlog.Api.Controllers.website
         [Authorize(Inventories.View)]
         public async Task<ActionResult<InventoryInListDto>> GetAllWebsiteInventory()
         {
-            var data = await _unitOfWork.Inventories.GetAllAsync();
+            var data = await _unitOfWork.IC_Inventories.GetAllAsync();
             return Ok(data);
         }
         [HttpGet]
@@ -56,12 +56,12 @@ namespace TPBlog.Api.Controllers.website
                   int pageIndex = 1, int pageSize = 10)
         {
             //var userId = User.GetUserId();
-            var category = await _unitOfWork.InventoryCategories.GetBySlug(categorySlug);
+            var category = await _unitOfWork.IC_InventoryCategories.GetBySlug(categorySlug);
             //if (category == null)
             //{
             //    return NotFound("không tìm thấy category");
             //}
-            var result = await _unitOfWork.Inventories.GetAllByCategoryPagingAsync(keyword,  category.Id,projectId, pageIndex, pageSize);
+            var result = await _unitOfWork.IC_Inventories.GetAllByCategoryPagingAsync(keyword,  category.Id,projectId, pageIndex, pageSize);
             return Ok(result);
         }
     }

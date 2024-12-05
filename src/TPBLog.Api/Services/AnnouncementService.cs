@@ -5,6 +5,7 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
 using TPBlog.Data;
 using TPBlog.Data.Repositories;
+using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Services
 {
@@ -20,9 +21,11 @@ namespace TPBlog.Api.Services
             _context = context;
         }
 
-        public async Task CreateAsync(Announcement model)
+        public async Task CreateAsync(IC_Announcement newAnnoun)
         {
-            await _repository.Add(model);
+
+            await _repository.Add(newAnnoun);
+
             await _context.SaveChangesAsync(); // Hoặc _context.SaveChangesAsync();
         }
         public async Task MarkAsRead(Guid userId, int notificationId)
@@ -31,7 +34,7 @@ namespace TPBlog.Api.Services
 
             if (announ == null)
             {
-                await _announUserRepository.Add(new AnnouncementUser()
+                await _announUserRepository.Add(new IC_AnnouncementUser()
                 {
                     AnnouncementId = notificationId,
                     UserId = userId,
