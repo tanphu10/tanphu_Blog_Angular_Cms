@@ -102,25 +102,6 @@ $ npm run build
 Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
 
 ```
-coreui-free-angular-admin-template
-├── src/                         # project root
-│   ├── app/                     # main app directory
-|   │   ├── containers/          # layout containers
-|   |   │   └── default-layout/  # layout containers
-|   |   |       └── _nav.js      # sidebar navigation config
-|   │   ├── icons/               # icons set for the app
-|   │   └── views/               # application views
-│   ├── assets/                  # images, icons, etc.
-│   ├── components/              # components for demo only
-│   ├── scss/                    # scss styles
-│   └── index.html               # html template
-│
-├── angular.json
-├── README.md
-└── package.json
-```
-
-```
 I will update to become blow  coreui-free-angular-admin-template
 ├── src/                         # project root
 │   ├── app/                     # main app directory
