@@ -109,8 +109,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
   }
   loadData(projectId = null) {
-   
-
     this.toggleBlockUI(true);
     this.inventoryApiClient
       .getInventoryPaging(
@@ -142,6 +140,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       .getAllProjects()
       .subscribe((response: ProjectInListDto[]) => {
         response.forEach((element) => {
+          console.log('project', element);
           this.projectCategory.push({
             value: element.id,
             label: element.name,
@@ -174,7 +173,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.pageSize = event.rows;
     this.loadData();
   }
-
 
   deleteItems() {
     if (this.selectedItems.length == 0) {
@@ -211,7 +209,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       },
     });
   }
-  
+
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;

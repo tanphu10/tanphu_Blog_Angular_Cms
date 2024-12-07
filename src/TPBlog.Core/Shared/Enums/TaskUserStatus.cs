@@ -9,8 +9,9 @@ namespace TPBlog.Core.Shared.Enums
     public enum TaskUserStatus
     {
         Pending = 0,
-        WaitingForApproval = 1,
-        Rejected = 2,
-        Done = 3,
+        InProgress = 1,
+        OnHold = 2,
+        Completed = 3,
+        Cancelled = 4,
     }
 }

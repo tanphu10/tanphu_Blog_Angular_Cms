@@ -65,11 +65,11 @@ namespace TPBlog.Api.Controllers
                         join ur in _context.Set<IdentityUserRole<Guid>>() on u.Id equals ur.UserId
                         join r in _context.Roles on ur.RoleId equals r.Id
                         join rc in _context.Set<IdentityRoleClaim<Guid>>() on r.Id equals rc.RoleId
-                        where rc.ClaimValue.Contains($"Permissions.Projects")
-                          && !rc.ClaimValue.Contains(".Create")
-                          && !rc.ClaimValue.Contains(".View")
-                          && !rc.ClaimValue.Contains(".Edit")
-                          && !rc.ClaimValue.Contains(".Delete")
+                        //where rc.ClaimValue.Contains($"Permissions.Projects")
+                        //  && !rc.ClaimValue.Contains(".Create")
+                        //  && !rc.ClaimValue.Contains(".View")
+                        //  && !rc.ClaimValue.Contains(".Edit")
+                        //  && !rc.ClaimValue.Contains(".Delete")
                         group rc by new
                         {
                             u.Id,
@@ -241,5 +241,20 @@ namespace TPBlog.Api.Controllers
             }
             return Ok();
         }
+
+
+        //[HttpGet("user-project/{id}")]
+        //public async Task<ActionResult<UserDto>> GetUserProjectAsync(Guid id)
+        //{
+        //    var data = await _userManager.FindByIdAsync(id.ToString());
+        //    if (data == null)
+        //        return NotFound();
+        //    var user = _mapper.Map<AppUser, UserDto>(data);
+        //    var roles = await _userManager.GetRolesAsync(data);
+        //    user.Roles = roles;
+        //    return Ok(user);
+
+        //}
+
     }
 }

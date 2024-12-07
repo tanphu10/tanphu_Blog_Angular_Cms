@@ -13,8 +13,9 @@ namespace TPBlog.Core.Repositories
 {
     public interface ITaskRepository :  IRepository<IC_Task, Guid>
     {
-        Task<bool> CreateTaskWithAssignmentAsync(CreateUpdateTaskRequest request);
-        Task<bool> UpdateTaskWithAssignmentAsync(Guid id, CreateUpdateTaskRequest request);
+        Task<bool> CreateTaskAsync(CreateUpdateTaskRequest request);
+        Task<bool> UpdateTaskAsync(Guid id, CreateUpdateTaskRequest request);
+        Task<bool> AssignToUserAsync(Guid id, AssignToUserRequest request);
 
         Task<PageResult<TaskInListDto>> GetAllPagingAsync(string? keyword, Guid? projectId, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
         Task<PageResult<TaskInListDto>> GetUserTaskPagingAsync(string? keyword, Guid? userId, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);

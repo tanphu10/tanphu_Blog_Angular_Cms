@@ -175,8 +175,16 @@ export const navItems: INavData[] = [
     children: [
       {
         iconComponent: { name: 'cilArrowRight' },
+        name: 'Dashboard',
+        url: '/task/task-dashboard',
+        attributes: {
+          policyName: 'Permissions.Roles.View',
+        },
+      },
+      {
+        iconComponent: { name: 'cilArrowRight' },
         name: 'Nhiệm Vụ',
-        url: '/task',
+        url: '/task/management',
         attributes: {
           policyName: 'Permissions.Roles.View',
         },

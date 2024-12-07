@@ -7,8 +7,7 @@ import {AnnouncementComponent} from './announcements/announcement.component';
 
 
 const routes: Routes = [
- 
-  {
+   {
     path:'',
     redirectTo:'users',
     pathMatch:'full',

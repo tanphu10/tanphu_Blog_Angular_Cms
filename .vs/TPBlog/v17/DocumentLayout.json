@@ -3,12 +3,27 @@
   "WorkspaceRootPath": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3C53668D-CFB9-4D02-9660-A097E94D869C}|src\\TPBlog.Data\\TPBlog.Data.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C53668D-CFB9-4D02-9660-A097E94D869C}|src\\TPBlog.Data\\TPBlog.Data.csproj|solutionrelative:src\\tpblog.data\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.api\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|solutionrelative:src\\tpblog.api\\controllers\\taskcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\T14\\AppData\\Local\\SourceServer\\235150b225e5d218596808b0a94b7b22e7465acae33cc618a30da1172863e046\\src\\TPBlog.Data\\Repositories\\TaskRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{644868F3-C044-4B96-8C48-0572C746942A}|src\\TPBLog.Api\\TPBlog.Api.csproj|solutionrelative:src\\tpblog.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.core\\models\\system\\userpagingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|solutionrelative:src\\tpblog.core\\models\\system\\userpagingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.core\\models\\content\\createupdatetaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|solutionrelative:src\\tpblog.core\\models\\content\\createupdatetaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|d:\\05_asp.net\\02_cms\\tpblog\\src\\tpblog.core\\domain\\content\\ic_task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D290406-FFD0-446C-8B9E-0A2DF74047E0}|src\\TPBlog.Core\\TPBlog.Core.csproj|solutionrelative:src\\tpblog.core\\domain\\content\\ic_task.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,8 +32,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 247,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 221,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,38 +58,78 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            }
-          ]
-        },
-        {
-          "DockedWidth": 228,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TaskRepository.cs",
+              "DocumentMoniker": "C:\\Users\\T14\\AppData\\Local\\SourceServer\\235150b225e5d218596808b0a94b7b22e7465acae33cc618a30da1172863e046\\src\\TPBlog.Data\\Repositories\\TaskRepository.cs",
+              "ToolTip": "C:\\Users\\T14\\AppData\\Local\\SourceServer\\235150b225e5d218596808b0a94b7b22e7465acae33cc618a30da1172863e046\\src\\TPBlog.Data\\Repositories\\TaskRepository.cs [Read Only]",
+              "ViewState": "AQIAAJwAAAAAAAAAAAASwLMAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-06T16:03:57.855Z",
+              "EditorCaption": " [Read Only]"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "src\\TPBLog.Api\\Controllers\\UserController.cs",
-              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\UserController.cs",
-              "RelativeToolTip": "src\\TPBLog.Api\\Controllers\\UserController.cs",
-              "ViewState": "AQIAADMAAAAAAAAAAAAawFAAAAAqAAAA",
+              "Title": "TaskRepository.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\Repositories\\TaskRepository.cs",
+              "RelativeDocumentMoniker": "src\\TPBlog.Data\\Repositories\\TaskRepository.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Data\\Repositories\\TaskRepository.cs",
+              "RelativeToolTip": "src\\TPBlog.Data\\Repositories\\TaskRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAOQAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-04T12:51:39.359Z",
+              "WhenOpened": "2024-12-06T16:02:43.389Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserPagingDto.cs",
-              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Models\\system\\UserPagingDto.cs",
-              "RelativeDocumentMoniker": "src\\TPBlog.Core\\Models\\system\\UserPagingDto.cs",
-              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Models\\system\\UserPagingDto.cs",
-              "RelativeToolTip": "src\\TPBlog.Core\\Models\\system\\UserPagingDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAsAAAA",
+              "Title": "TaskController.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\TaskController.cs",
+              "RelativeDocumentMoniker": "src\\TPBLog.Api\\Controllers\\TaskController.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\TaskController.cs",
+              "RelativeToolTip": "src\\TPBLog.Api\\Controllers\\TaskController.cs",
+              "ViewState": "AQIAAEcAAAAAAAAAAAAswFkAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-05T00:34:01.13Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-06T16:02:36.195Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IC_Task.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Domain\\Content\\IC_Task.cs",
+              "RelativeDocumentMoniker": "src\\TPBlog.Core\\Domain\\Content\\IC_Task.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Domain\\Content\\IC_Task.cs",
+              "RelativeToolTip": "src\\TPBlog.Core\\Domain\\Content\\IC_Task.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAwBgAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-06T15:46:47.433Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CreateUpdateTaskRequest.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Models\\content\\CreateUpdateTaskRequest.cs",
+              "RelativeDocumentMoniker": "src\\TPBlog.Core\\Models\\content\\CreateUpdateTaskRequest.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBlog.Core\\Models\\content\\CreateUpdateTaskRequest.cs",
+              "RelativeToolTip": "src\\TPBlog.Core\\Models\\content\\CreateUpdateTaskRequest.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAxwBUAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-06T15:46:27.989Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "src\\TPBLog.Api\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\05_ASP.Net\\02_CMS\\TPBlog\\src\\TPBLog.Api\\Controllers\\UserController.cs",
+              "RelativeToolTip": "src\\TPBLog.Api\\Controllers\\UserController.cs",
+              "ViewState": "AQIAANEAAAAAAAAAAIA/wPsAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-05T14:35:39.143Z"
             }
           ]
         }

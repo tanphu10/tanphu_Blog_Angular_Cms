@@ -1,0 +1,236 @@
+::ng-deep .p-panel-content {
+  .Header_tool {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    .Category {
+      height: 30px;
+      // margin-top: 8px;
+
+      span {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-radius: 0;
+      }
+
+      .p-element {
+        height: 30px;
+        .p-dropdown-trigger-icon {
+          position: relative;
+          top: 8px;
+        }
+      }
+    }
+    .input_Date {
+      height: 30px;
+    }
+    .formSearch {
+      margin-left: 20px;
+      // margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+      align-items: center;
+      .buttonSearch {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        border: 1px solid #f12711;
+        background: linear-gradient(to left, #f12711, #f5af19);
+        background-clip: text;
+        color: transparent;
+        &:hover {
+          color: white;
+          background: #f12711;
+          background: -webkit-linear-gradient(to left, #283c86, #f5af19);
+          background: linear-gradient(to right, #23074d, #cc5333) 1;
+          // border: none;
+          border-color: white;
+        }
+      }
+      .inputkeyword {
+        margin-left: 10px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #cc5333;
+        font-size: small;
+        padding: 0 5px;
+        // border-image: linear-gradient(to right, #23074d, #cc5333) 1;
+      }
+    }
+    input {
+      padding: 5px;
+      width: 160px;
+      border-radius: 0;
+    }
+    button {
+      padding: 5px;
+      background-color: white;
+      color: #ced4daa6;
+      border: 1px solid #ced4da;
+    }
+  }
+}
+
+::ng-deep .p-element {
+  .p-multiselect-token {
+    height: 20px;
+  }
+  .ng-star-inserted {
+    font-size: 12px;
+  }
+  .p-multiselect-label {
+    font-size: 12px;
+  }
+  .edit_button {
+    margin-left: 5px;
+    &:hover {
+      color: #f56c22;
+    }
+  }
+  .options_user {
+    display: flex;
+    .p-multiselect {
+      display: flex;
+      align-items: center;
+      height: 30px;
+      .p-multiselect-filter {
+        height: 30px;
+      }
+      .p-multiselect-items-wrapper {
+        max-width: 250px;
+        .p-multiselect-items {
+          width: 250px;
+        }
+      }
+    }
+    .button_User {
+      display: flex;
+      align-items: center;
+      .save_button {
+        color: #155724;
+        &:hover {
+          color: #1cb03f;
+        }
+      }
+      .cancel_button {
+        color: #b4322e;
+        &:hover {
+          color: #ea3029;
+        }
+      }
+    }
+  }
+  .p-badge {
+    width: 80px;
+  }
+
+  .low-priority {
+    .p-badge {
+      background-color: #d4edda;
+      color: #155724;
+    }
+  }
+
+  .medium-priority {
+    .p-badge {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+  }
+
+  .high-priority {
+    .p-badge {
+      background-color: #feddc7;
+      color: #e6670d;
+    }
+  }
+
+  .very-high-priority {
+    .p-badge {
+      color: #b32b23;
+      background: #ffd0ce;
+    }
+  }
+
+  .p-tag {
+    width: 80px;
+  }
+  .status-Pending {
+    .p-tag {
+      background-color: #feddc7;
+      color: #e6670d;
+    }
+  }
+
+
+  .status-InProgress {
+    .p-tag {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+  }
+  .status-OnHold {
+    .p-tag {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+  }
+  .status-Completed {
+    .p-tag {
+      background-color: #d4edda;
+      color: #155724;
+    }
+  }
+  .status-Cancelled {
+    .p-tag {
+      color: #b32b23;
+      background: #ffd0ce;
+    }
+  }
+}
+
+::ng-deep .p-panel-header {
+  display: block;
+  .title_Task {
+    display: flex;
+    align-items: center;
+    h5 {
+      font-size: 18px;
+      margin-bottom: 0;
+      margin-left: 5px;
+    }
+  }
+  .notice_task {
+    display: flex;
+  }
+
+  .task_summary {
+    padding: 10px 20px;
+    background-color: #f9f9f9; /* Màu nền */
+    border: 1px solid #ddd; /* Viền */
+  }
+
+  .task_label {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    i {
+      font-size: 14px;
+    }
+    h5 {
+      margin-left: 10px;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+  }
+
+  .task_value {
+    justify-content: center;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    color: #da1b1b; /* Màu chữ */
+  }
+}

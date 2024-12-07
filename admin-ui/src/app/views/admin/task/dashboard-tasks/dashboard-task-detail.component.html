@@ -1,0 +1,90 @@
+<form class="form-horizontal form-label-left" skipValidation [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnlDetail header="Thông tin" [toggleable]="true" [collapsed]="false">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label for="projectSlug" class="block">Chọn Dự Án</label>
+        <p-dropdown id="name" [options]="projectCategory" formControlName="projectSlug" [showClear]="true"
+          placeholder="Chọn Dự Án" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="title" class="block">Tên Task <span class="required">*</span></label>
+        <input id="title" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="name"
+          (keyup)="generateSlug()" [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="name" [validationMessages]="validationMessages">
+        </app-validation-message>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="slug">Slug<span class="required">*</span></label>
+        <input id="slug" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="slug"
+          [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="slug" [validationMessages]="validationMessages">
+        </app-validation-message>
+      </div>
+
+
+      <div class=" d-flex">
+        <div class="d-flex" style="align-items: end; margin-right: 10px; font-size: small;">
+          <div style="margin-right: 5px;">From Date</div>
+          <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+        </div>
+        <div class="d-flex" style="align-items: end; font-size: small;">
+          <div style="margin-right: 5px;">To Date</div>
+          <p-calendar formControlName="complete" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+        </div>
+      </div>
+      <div class="field col-12">
+        <label for="description" class="block">Mô tả <span class="required">*</span></label>
+        <textarea id="description" type="text" rows="4" pInputTextarea formControlName="description"
+          [style]="{ width: '100%' }"></textarea>
+        <app-validation-message [entityForm]="form" fieldName="description"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="priority" class="block">Ưu Tiên</label>
+        <p-dropdown id="name" [options]="priorityCategory" formControlName="priority" [showClear]="true"
+          placeholder="ưu tiên" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="status" class="block">Tình Trạng</label>
+        <p-dropdown id="name" [options]="statusCategory" formControlName="status" [showClear]="true"
+          placeholder="tình Trạng" autoWidth="false" [style]="{ width: '100%' }">
+        </p-dropdown>
+      </div>
+      <div class="field col-12">
+        <label for="timeTrackingSpent" class="block">Thời gian sử dụng <span class="required">*</span></label>
+        <input id="timeTrackingSpent" type="number" pInputText [pKeyFilter]="noSpecial"
+          formControlName="timeTrackingSpent" [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="timeTrackingSpent"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+      <!-- <div class="field col-12">
+        <label for="timeTrackingRemaining" class="block">Thời gian còn lại <span class="required">*</span></label>
+        <input id="timeTrackingRemaining" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="timeTrackingRemaining"
+        [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="timeTrackingRemaining"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div> -->
+      <div class="field col-12">
+        <label for="originalEstimate" class="block">Thời gian ước tính<span class="required">*</span></label>
+        <input id="originalEstimate" type="number" pInputText [pKeyFilter]="noSpecial"
+          formControlName="originalEstimate" [style]="{ width: '100%' }" />
+        <app-validation-message [entityForm]="form" fieldName="originalEstimate"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+    </div>
+    <ng-template pTemplate="footer">
+      <button type="submit" class="btn btn-primary ms-1" [disabled]="!form.valid || btnDisabled">
+        Lưu
+      </button>
+    </ng-template>
+
+    <p-blockUI [target]="pnlDetail" [blocked]="blockedPanelDetail">
+      <p-progressSpinner [style]="{ width: '100px', height: '100px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

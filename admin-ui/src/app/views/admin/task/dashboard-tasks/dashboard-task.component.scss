@@ -1,0 +1,123 @@
+::ng-deep .p-panel-header {
+  display: block;
+  .title_Task {
+    display: flex;
+    align-items: center;
+    h5 {
+      font-size: 18px;
+      margin-bottom: 0;
+      margin-left: 5px;
+    }
+  }
+  .notice_task {
+    display: flex;
+  }
+
+  .task_summary {
+    padding: 10px 20px;
+    background-color: #f9f9f9; /* Màu nền */
+    border: 1px solid #ddd; /* Viền */
+  }
+
+  .task_label {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    i {
+      font-size: 14px;
+    }
+    h5 {
+      margin-left: 10px;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+  }
+
+  .task_value {
+    justify-content: center;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    color: #da1b1b; /* Màu chữ */
+  }
+}
+
+::ng-deep .p-panel-content {
+  .card {
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    .card_doughnut {
+      border: 0.5px solid;
+      border-radius: 5px;
+      width: 400px;
+      .doughnut_header {
+        display: flex;
+        justify-content: center;
+        border-radius: 5px 5px 0 0;
+        padding-top: 10px;
+        background-color: aliceblue;
+        border-bottom: 1px solid;
+        h5 {
+          font-size: medium;
+          font-weight: 500;
+          color: #004085;
+        }
+      }
+      margin-right: 10px;
+    }
+    .card_bar {
+      border: 0.5px solid;
+      border-radius: 5px;
+      width: 550px !important;
+      .bar_header {
+        display: flex;
+        justify-content: center;
+        border-radius: 5px 5px 0 0;
+        padding-top: 10px;
+        background-color: aliceblue;
+        border-bottom: 1px solid;
+        h5 {
+          font-size: medium;
+          font-weight: 500;
+          color: #004085;
+        }
+      }
+      .bar_chart {
+        position: relative;
+        top: 100px;
+      }
+    }
+    margin: 10px 0;
+  }
+
+  .card_bottom {
+    border: 1px solid rgba(0, 0, 21, 0.175);
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+    border-radius: 5px;
+    .card_area {
+      // display: flex;
+      // justify-content: center;
+      border: 0.5px solid;
+      border-radius: 5px;
+      width: 500px;
+      //   height: 500px;
+      .area_header {
+        display: flex;
+        justify-content: center;
+        border-radius: 5px 5px 0 0;
+        padding-top: 10px;
+        background-color: aliceblue;
+        border-bottom: 1px solid;
+        h5 {
+          font-size: medium;
+          font-weight: 500;
+          color: #004085;
+        }
+      }
+    }
+  }
+}

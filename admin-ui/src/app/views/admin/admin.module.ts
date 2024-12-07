@@ -53,6 +53,7 @@ import {
   AdminApiInventoryApiClient,
   AdminApiProjectApiClient,
   AdminApiAnnouncementApiClient,
+  AdminApiTaskApiClient,
 } from '../../api/admin-api.service.generated';
 import { AuthGuard } from '../../shared/auth.guard';
 import { AlertService } from '../../shared/services/alert.service';
@@ -68,7 +69,9 @@ import { SignalRService } from '../../shared/services/signalr-service';
 import { ToastModule } from 'primeng/toast';
 import { NavbarModule } from '@coreui/angular';
 import { CalendarModule } from 'primeng/calendar';
-// import { CustomSidebarNavComponent } from './containers/default-layout/custom-sidebar/custom-sidebar-nav.component';
+import { TagModule } from 'primeng/tag';
+import { ChartModule } from 'primeng/chart';
+
 const APP_CONTAINERS = [
   DefaultFooterComponent,
   DefaultLayoutComponent,
@@ -106,7 +109,8 @@ const APP_CONTAINERS = [
     DynamicDialogModule,
     ToastModule,
     NavbarModule,
-  
+    TagModule,
+    ChartModule,
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },
@@ -147,6 +151,7 @@ const APP_CONTAINERS = [
     AdminApiInventoryApiClient,
     AdminApiProjectApiClient,
     AdminApiAnnouncementApiClient,
+    AdminApiTaskApiClient,
     UploadService,
     SignalRService,
   ],

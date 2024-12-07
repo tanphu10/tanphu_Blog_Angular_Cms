@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+  <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
+    <p-header>
+
+      <div style="display: flex; justify-content: space-between;">
+        <div class="title_Task">
+          <div><i class="pi pi-spin pi-cog" style="font-size: 1rem"></i></div>
+          <h5> DASHBOARD</h5>
+          <h5>TASK</h5>
+        </div>
+        <div class="notice_task" style="display: flex">
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-folder-open"></i>
+              <h5>TỔNG SỐ TASK HÔM NAY</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ totalTasks }}</div>
+          </div>
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-file-edit"></i>
+              <h5> SỐ TASK CHƯA HOÀN THÀNH</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ incompleteTasks }}</div>
+          </div>
+          <div class="task_summary">
+
+            <div class="task_label">
+              <i class="pi pi-clock"></i>
+              <h5> SỐ TASK QUÁ HẠN</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ overdueTasks }}</div>
+          </div>
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-calendar "></i>
+              <h5>NGÀY HÔM NAY</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ today }}</div>
+          </div>
+        </div>
+      </div>
+    </p-header>
+
+
+    <div class="card">
+      <div class="card_doughnut flex justify-content-center">
+        <div class="doughnut_header">
+          <h5>BIỂU ĐỒ PHÂN TASK THEO BỘ PHẬN</h5>
+          <hr>
+        </div>
+        <c-chart [data]="dataDepartment" type="doughnut" class="doughnut_chart" />
+      </div>
+
+      <div class="card_bar flex justify-content-center">
+        <div class="bar_header">
+          <h5>BIỂU ĐỒ TASK PRIORITY</h5>
+          <hr>
+        </div>
+        <c-chart [data]="dataPriority" type="bar" class="bar_chart" />
+      </div>
+    </div>
+    <div class="card_bottom">
+      <div class="card_area ">
+        <div class="area_header">
+          <h5>BIỂU ĐỒ TASK STATUS</h5>
+          <hr>
+        </div>
+        <c-chart [data]="dataPolarStatus" type="polarArea" />
+      </div>
+    </div>
+
+
+
+    <!-- <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
+      [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator> -->
+
+
+    <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+      <p-progressSpinner [style]="{ width: '100px', height: '100px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</div>

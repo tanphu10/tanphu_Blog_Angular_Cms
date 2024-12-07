@@ -1,0 +1,224 @@
+<div class="animated fadeIn">
+  <p-panel #pnl [style]="{ 'margin-bottom': '10px' }">
+    <p-header>
+
+      <div style="display: flex; justify-content: space-between;">
+        <div class="title_Task">
+          <div><i class="pi pi-spin pi-cog" style="font-size: 1rem"></i></div>
+          <h5> QUẢN LÍ TASK</h5>
+        </div>
+        <div class="notice_task" style="display: flex">
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-folder-open"></i>
+              <h5>TỔNG SỐ TASK HÔM NAY</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ totalTasks }}</div>
+          </div>
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-file-edit"></i>
+              <h5> SỐ TASK CHƯA HOÀN THÀNH</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ incompleteTasks }}</div>
+          </div>
+          <div class="task_summary">
+
+            <div class="task_label">
+              <i class="pi pi-clock"></i>
+              <h5> SỐ TASK QUÁ HẠN</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ overdueTasks }}</div>
+          </div>
+          <div class="task_summary">
+            <div class="task_label">
+              <i class="pi pi-calendar "></i>
+              <h5>NGÀY HÔM NAY</h5>
+            </div>
+            <hr>
+            <div class="task_value">{{ today }}</div>
+          </div>
+        </div>
+      </div>
+
+    </p-header>
+
+    <div class="Header_tool">
+      <div class="Category">
+        <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%'}"
+          placeholder="Chọn dự án" [showClear]="true" [(ngModel)]="projectId">
+        </p-dropdown>
+      </div>
+      <div class="input_Date d-flex">
+        <div class="d-flex" style="align-items: end; margin-right: 10px; font-size: small;">
+          <div style="margin-right: 5px;">From Date</div>
+          <p-calendar [(ngModel)]="fromDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+        </div>
+        <div class="d-flex" style="align-items: end; font-size: small;">
+          <div style="margin-right: 5px;">To Date</div>
+          <p-calendar [(ngModel)]="toDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+        </div>
+      </div>
+
+      <div class="formSearch">
+        <div class="">
+          <input class="inputkeyword" id="txtKeyword" pInputText (keyup.enter)="loadData()" pInputText
+            [(ngModel)]="keyword" placeholder="tìm kiếm..." type="text">
+        </div>
+        <div class="" style="margin-left: 10px;">
+          <button type="button" style=" font-size: small;" class="buttonSearch" pButton (click)="loadData()">
+            <i class="pi pi-search "></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <p-table #dt [value]="items" selectionMode="multiple" dataKey="id" [(selection)]="selectedItems"
+        [metaKeySelection]="true" [responsive]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 10px">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Tên Công Việc</th>
+            <th>Mức Ưu Tiên</th>
+            <th>Ngày tạo Task</th>
+            <th>Hạn Cuối</th>
+            <th>Ngày Còn Lại</th>
+            <th>Trạng Thái</th>
+            <th>Người Thực Hiện</th>
+            <th>Mô Tả</th>
+            <th>Operations</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr [pSelectableRow]="row">
+            <td style="width: 10px">
+              <span class="ui-column-title"></span>
+              <p-tableCheckbox [value]="row"></p-tableCheckbox>
+            </td>
+            <td>{{ row.name }}</td>
+            <td>
+              <p-badge *ngIf="row.priority == 0" value="Low" [ngClass]="{ 'low-priority': true }"></p-badge>
+
+              <p-badge id="Medium" *ngIf="row.priority == 1" value="Medium" [ngClass]="{ 'medium-priority': true }">
+              </p-badge>
+
+              <p-badge id="High" *ngIf="row.priority == 2" value="High" [ngClass]="{ 'high-priority': true }">
+              </p-badge>
+              <p-badge *ngIf="row.priority == 3" value="VeryHigh" severity="danger"
+                [ngClass]="{ 'very-high-priority': true }"> </p-badge>
+            </td>
+            <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
+            <td>{{ row.dueDate | date : 'dd-MM-yyyy hh:mm' }}</td>
+            <td style="display: flex; justify-content: center; align-items: center;">{{ row.timeTrackingRemaining }}
+            </td>
+            <td>
+              <p-tag *ngIf="row.status == 0" severity="warning" value="Pending"
+                [ngClass]="{ 'status-Pending': true }" />
+              <p-tag *ngIf="row.status == 1" severity="info" value="InProgress "
+                [ngClass]="{ 'status-InProgress': true }" />
+              <p-tag *ngIf="row.status == 2" severity="secondary" value="OnHold"
+                [ngClass]="{ 'status-OnHold': true }" />
+              <p-tag *ngIf="row.status == 3" severity="success" value="Completed "
+                [ngClass]="{ 'status-Completed': true }" />
+              <p-tag *ngIf="row.status == 4" severity="danger" value="Cancelled "
+                [ngClass]="{ 'status-Cancelled': true }" />
+            </td>
+            <td>
+              <ng-container *ngIf="!row.isEditingUser">
+                <!-- Hiển thị danh sách người thực hiện -->
+                <p-avatar *ngFor="let user of row.listAssignedTo || []"
+                  [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }" shape="circle" [title]="user.fullName"
+                  class="mr-2">
+                  <span style="font-size: 8px;">{{ user.userName}}</span>
+                </p-avatar>
+
+                <span class="edit_button" type="button" (click)="toggleEditingUser(row)">
+                  <i class="pi pi-user-edit"></i>
+                </span>
+              </ng-container>
+              <ng-container *ngIf="row.isEditingUser">
+                <div class="options_user">
+                  <!-- <p-multiSelect [options]="userOptions" [(ngModel)]="selectUsers" formControlName="userName"
+                    optionLabel="userName" placeholder="Select User"></p-multiSelect> -->
+                  <p-multiSelect [options]="userOptions" [(ngModel)]="selectUsers" placeholder="Select Cities"
+                    (ngModelChange)="onSelectUsersChange()" optionLabel="userName" display="chip"
+                    [showClear]="true"></p-multiSelect>
+
+                  <div class="button_User">
+                    <span class="save_button" type="button" (click)="saveAssignedUsers(row)">
+                      <i class="pi pi-upload"></i>
+                    </span>
+                    <span class="cancel_button" type="button" (click)="cancelEditingUser(row)">
+                      <i class="pi pi-times"></i>
+                    </span>
+                  </div>
+                </div>
+
+              </ng-container>
+
+
+            </td>
+            <td>
+              <!-- Hiển thị một đoạn ngắn của description -->
+              <span *ngIf="!row.isDescriptionExpanded">
+                {{ row.description | slice:0:100 }}... <!-- Cắt ngắn mô tả ở 100 ký tự -->
+              </span>
+
+              <!-- Hiển thị toàn bộ description nếu đã mở rộng -->
+              <span *ngIf="row.isDescriptionExpanded">
+                {{ row.description }}
+              </span>
+<!-- 
+              <button (click)="toggleDescription(row)">
+                {{ row.isDescriptionExpanded ? 'Thu gọn' : 'Xem thêm' }}
+              </button> -->
+
+
+              <!-- {{ row.description }} -->
+            </td>
+            <td>
+              <button style="width: 25px;height: 25px; border-radius: 50%;" appPermission
+                appPolicy="Permissons.Task.Add" pButton type="button" icon="fa fa-plus" (click)="assignToUser()"
+                class="p-button-success"></button>
+              <!-- <p-multiSelect [options]="cities" [(ngModel)]="selectedCities" optionLabel="name"
+                placeholder="Select Cities" /> -->
+
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="d-flex" style="justify-content: space-between;">
+            <div style="text-align: left">Tổng số: {{ totalCount | number }}</div>
+            <div class="">
+              <button appPermission appPolicy="Permissons.Task.Delete" pButton type="button" label="Xóa"
+                icon="fa fa-trash" class="p-button-sm p-button-danger ms-1" *ngIf="selectedItems.length > 0"
+                (click)="deleteItems()"></button>
+              <button appPermission appPolicy="Permissons.Task.Edit" pButton type="button" label="Sửa" icon="fa fa-edit"
+                class="p-button-sm p-button-warning ms-1" *ngIf="selectedItems.length == 1"
+                (click)="showEditModal()"></button>
+              <button appPermission appPolicy="Permissons.Task.Add" pButton type="button" label="Thêm" icon="fa fa-plus"
+                (click)="showAddModal()" class="p-button-sm p-button-success ms-1"></button>
+            </div>
+          </div>
+        </ng-template>
+      </p-table>
+
+    </div>
+
+    <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
+      [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator>
+
+
+    <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+      <p-progressSpinner [style]="{ width: '100px', height: '100px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</div>

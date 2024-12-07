@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Data.SeedWorks;
@@ -22,7 +23,16 @@ namespace TPBlog.Api.Controllers
         public async Task<IActionResult> CreateTasks([FromBody] CreateUpdateTaskRequest request)
         {
 
-            await _unitOfWork.IC_Tasks.CreateTaskWithAssignmentAsync(request);
+            await _unitOfWork.IC_Tasks.CreateTaskAsync(request);
+            await _unitOfWork.CompleteAsync();
+            return Ok();
+        }
+        [HttpPost("assign-task-user/{id}")]
+        //[Authorize(Permissions.Tasks.Create)]
+        public async Task<IActionResult> AssignToUser(Guid id, [FromBody] AssignToUserRequest request)
+        {
+
+            await _unitOfWork.IC_Tasks.AssignToUserAsync(id, request);
             await _unitOfWork.CompleteAsync();
             return Ok();
         }
@@ -35,14 +45,14 @@ namespace TPBlog.Api.Controllers
             {
                 return NotFound();
             }
-            await _unitOfWork.IC_Tasks.UpdateTaskWithAssignmentAsync(id, request);
+            await _unitOfWork.IC_Tasks.UpdateTaskAsync(id, request);
             await _unitOfWork.CompleteAsync();
             return Ok();
         }
 
         [HttpGet("task/{id}")]
         //[Authorize(Permissions.Tasks.View)]
-        public async Task<ActionResult<List<Task>>> GetTaskProject(Guid id)
+        public async Task<ActionResult<TaskDto>> GetTaskProject(Guid id)
         {
             var task = await _unitOfWork.IC_Tasks.GetByIdAsync(id);
             return Ok(task);
@@ -92,7 +102,7 @@ namespace TPBlog.Api.Controllers
 
         [HttpGet]
         //[Authorize(Permissions.Tasks.View)]
-        public async Task<ActionResult<List<TaskInListDto>>> GetAllProjects()
+        public async Task<ActionResult<List<TaskInListDto>>> GetAllTasks()
         {
 
             //var userPermissions = await _permission.UserHasPermissionForProjectAsync();

@@ -16,16 +16,16 @@ namespace TPBlog.Core.Models.content
         public required string Slug { get; set; }
         [MaxLength(500)]
         public string? Description { get; set; }
-        public Guid[] AssignedTo { get; set; }
         public Guid UserId { get; set; }
         public TaskUserStatus Status { get; set; }
         public PriorityStatus Priority { get; set; }
+        //public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset DueDate { get; set; }
         public DateTimeOffset Complete { get; set; }
         [Column(TypeName = "varchar(250)")]
         public string ProjectSlug { get; set; }
         public int TimeTrackingSpent { get; set; }
-        public int TimeTrackingRemaining { get; set; }
+        //public int TimeTrackingRemaining { get; set; }
         public int OriginalEstimate { get; set; }
         public class AutoMapperProfiles : Profile
         {

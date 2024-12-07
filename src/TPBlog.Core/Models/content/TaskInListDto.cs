@@ -29,10 +29,11 @@ namespace TPBlog.Core.Models.content
         public DateTimeOffset Complete { get; set; }
         [Column(TypeName = "varchar(250)")]
         public string ProjectSlug { get; set; }
-        public Guid  ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         public int TimeTrackingSpent { get; set; }
         public int TimeTrackingRemaining { get; set; }
         public int OriginalEstimate { get; set; }
+        public List<UserAssignTo> ListAssignedTo { get; set; }
         public class AutoMapperProfiles : Profile
         {
             public AutoMapperProfiles()
@@ -41,4 +42,12 @@ namespace TPBlog.Core.Models.content
             }
         }
     }
+}
+
+
+public class UserAssignTo
+{
+    public Guid UserId { get; set; }
+    public string UserName { get; set; }
+    public string FullName { get; set; }
 }
