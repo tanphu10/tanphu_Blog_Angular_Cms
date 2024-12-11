@@ -19,7 +19,7 @@ namespace TPBlog.Core.Models.content
         public Guid UserId { get; set; }
         public TaskUserStatus Status { get; set; }
         public PriorityStatus Priority { get; set; }
-        //public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset DueDate { get; set; }
         public DateTimeOffset Complete { get; set; }
         [Column(TypeName = "varchar(250)")]

@@ -14,7 +14,6 @@ namespace TPBlog.Core.Domain.Content
     {
         public IC_Announcement()
         {
-            //AnnouncementUsers = new List<AnnouncementUser>();
         }
         public int Id { set; get; }
 
@@ -27,11 +26,8 @@ namespace TPBlog.Core.Domain.Content
 
         public Guid UserId { set; get; }
 
-        //public virtual AppUser? AppUser { get; set; }
 
         public bool Status { get; set; }
-
-        //public virtual ICollection<AnnouncementUser>? AnnouncementUsers { get; set; }
 
         [Column(TypeName = "varchar(250)")]
         public string ProjectSlug { get; set; }

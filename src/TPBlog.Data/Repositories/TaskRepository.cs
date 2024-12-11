@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using TPBlog.Api.SignalR;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Helpers;
 using TPBlog.Core.Models;
@@ -15,78 +19,205 @@ namespace TPBlog.Data.Repositories
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uniOfWork;
+        private readonly NotificationsHub _notificationsHub;
+        private readonly TPBlogContext _context;
 
-        public TaskRepository(TPBlogContext context, IMapper mapper) : base
+        public TaskRepository(TPBlogContext context, IMapper mapper, NotificationsHub notificationsHub) : base
             (context)
         {
             _mapper = mapper;
+            _notificationsHub = notificationsHub;
+            _context = context;
+        }
+        public async Task<PageResult<TaskNotificationViewModel>> ListAllTaskUnreadAsync(Guid userId, int pageIndex = 1, int pageSize = 10)
+        {
+
+            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == userId).Result;
+
+            var query = (from x in _context.TaskNotifications
+                         join y in _context.TaskNotificationUsers on x.TaskId equals y.TaskId into xy
+                         from y in xy.DefaultIfEmpty()
+                         where ( y.UserId == userId)
+                         select new TaskNotificationViewModel
+                         {
+                             TaskId = x.TaskId,
+                             UserBy = x.UserBy,
+                             Content = x.Content,
+                             UserName = x.UserName,
+                             ProjectSlug = x.ProjectSlug,
+                             DateCreated = x.DateCreated,
+                             HasRead = y.HasRead
+                         });
+            var totalRow = await query.CountAsync();
+
+            var result = await query.OrderByDescending(x => x.DateCreated)
+               .Skip((pageIndex - 1) * pageSize)
+               .Take(pageSize).ToListAsync();
+            return new PageResult<TaskNotificationViewModel>
+            {
+                Results = result,
+                CurrentPage = pageIndex,
+                RowCount = totalRow,
+                PageSize = pageSize
+            };
+
+
+
+
 
         }
 
-        public async Task<bool> AssignToUserAsync(Guid id, AssignToUserRequest request)
+        public async Task<PageResult<TaskNotificationViewModel>> GetUserTaskNotificationAsync(Guid userId)
+        {
+            var query = await (from au in _context.TaskNotificationUsers
+                               join a in _context.TaskNotifications on au.TaskId equals a.TaskId
+                               where au.UserId == userId && !au.HasRead
+                               select new TaskNotificationViewModel
+                               {
+                                   TaskId = a.TaskId,
+                                   UserName = a.UserName,
+                                   UserBy = a.UserBy,
+                                   Content = a.Content,
+                                   DateCreated = au.DateCreated,
+                                   ProjectSlug = a.ProjectSlug
+                               }).ToListAsync();
+            return new PageResult<TaskNotificationViewModel>
+            {
+                Results = query.ToList(),
+            };
+        }
+        public async Task MarkTaskAsReadAsync(Guid userId, Guid notificationId)
+        {
+            var announ = await _context.TaskNotificationUsers.Where(x => x.TaskId == notificationId && x.UserId == userId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+            if (announ == null)
+            {
+                _context.TaskNotificationUsers.Add(new IC_TaskNotificationUsers()
+                {
+                    TaskId = notificationId,
+                    UserId = userId,
+                    UserName = user.UserName,
+                    HasRead = true,
+                    DateCreated = DateTime.UtcNow
+                });
+            }
+            else
+            {
+                announ.HasRead = true;
+            }
+            await _context.SaveChangesAsync(); // Hoặc _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> AssignToUserAsync(Guid taskId, AssignToUserRequest request)
         {
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
+                    // 1. Lấy danh sách người dùng hiện tại
+                    var existingAssignedUsers = await _context.TaskUsers
+                        .Where(x => x.TaskId == taskId)
+                        .ToListAsync();
+                    var existingUserIds = existingAssignedUsers.Select(x => x.UserId).ToHashSet();
+                    var newUserIds = request.AssignedToUser.ToHashSet();
 
-                    //var project = _context.Project.Where(x => x.Slug == request.ProjectSlug).FirstOrDefaultAsync();
-                    //if (project == null)
-                    //{
-                    //    throw new Exception("Project don't exist");
-                    //}
-                    ////var task = await _uniOfWork.IC_Tasks.GetByIdAsync(id);
-                    //var task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
-
-                    //task.DateLastModified = DateTimeOffset.Now;
-                    //var updateTask = _mapper.Map(request, task);
-
-                    //// Add task
-                    //_context.Tasks.Update(updateTask);
-                    if (request.AssignedToUser != null && request.AssignedToUser.Length > 0)
+                    // 2. Xóa người dùng không còn trong danh sách mới
+                    var usersToRemove = existingUserIds.Except(newUserIds).ToList();
+                    if (usersToRemove.Any())
                     {
+                        var taskUsersToRemove = existingAssignedUsers
+                            .Where(x => usersToRemove.Contains(x.UserId))
+                            .ToList();
 
-                        //1. kiểm tra xem có bao nhiêu thèn trong TaskUsers
-                        var existingAssignedUsers = await _context.TaskUsers
-                            .Where(x => x.TaskId == id)
+                        _context.TaskUsers.RemoveRange(taskUsersToRemove);
+                    }
+
+                    // 3. Thêm người dùng mới chưa có trong danh sách cũ
+                    var usersToAdd = newUserIds.Except(existingUserIds).ToList();
+                    if (usersToAdd.Any())
+                    {
+                        var validUsers = await _context.Users
+                            .Where(x => usersToAdd.Contains(x.Id))
+                            .Select(x => x.Id)
                             .ToListAsync();
 
-                        //2.xem thử thèn gửi lên có trong array có sẵn không - nếu không thì xóa
-                        foreach (var existingUser in existingAssignedUsers)
+                        if (validUsers.Count != usersToAdd.Count)
                         {
-                            if (!request.AssignedToUser.Contains(existingUser.UserId))
-                            {
-                                _context.TaskUsers.Remove(existingUser);
-                            }
+                            throw new Exception("One or more users do not exist");
                         }
-                        foreach (var userId in request.AssignedToUser)
+
+                        var newTaskUsers = validUsers.Select(userId => new IC_TaskUser
                         {
-                            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
-                            if (user == null)
-                            {
-                                throw new Exception("User does not exist");
-                            }
+                            TaskId = taskId,
+                            UserId = userId
+                        }).ToList();
 
-                            var findTaskUser = await _context.TaskUsers
-                                .FirstOrDefaultAsync(x => x.TaskId == id && x.UserId == userId);
-
-                            if (findTaskUser == null)
-                            {
-                                findTaskUser = new IC_TaskUser { TaskId = id, UserId = userId };
-                                _context.TaskUsers.Add(findTaskUser);
-                            }
-                            else
-                            {
-                                findTaskUser.UserId = userId;
-                                _context.TaskUsers.Update(findTaskUser);
-                            }
-                        }
+                        _context.TaskUsers.AddRangeAsync(newTaskUsers);
                     }
-                    // Save changes
+
+                    // 4. Ghi log thay đổi
+                    var task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
+                    if (task == null)
+                    {
+                        throw new Exception("Task does not exist");
+                    }
+
+                    var taskHistory = new IC_TaskHistory
+                    {
+                        TaskId = task.Id,
+                        UserId = task.UserId,
+                        TaskSlug = task.Slug,
+                        ChangeTaskStatus = task.Status,
+                        OldContent = $"AssignedUserIds: {string.Join(", ", existingUserIds)}",
+                        NewContent = $"AssignedUserIds: {string.Join(", ", newUserIds)}",
+                        ChangeDate = DateTime.Now,
+                        DateCreated = DateTime.Now,
+                        DateLastModified = DateTime.Now,
+                        ProjectSlug = task.ProjectSlug
+                    };
+
+                    _context.TaskHistories.Add(taskHistory);
                     var result = await _context.SaveChangesAsync();
+
+                    // 5. Lưu thay đổi
                     if (result > 0)
                     {
+                        var userNamesToAdd = await (from taskUser in _context.TaskUsers
+                                                    join user in _context.Users
+                                                    on taskUser.UserId equals user.Id
+                                                    where taskUser.TaskId == taskId
+                                                    select user.UserName).ToListAsync();
+
+                        // Thêm các userName vào nhóm SignalR
+                        if (userNamesToAdd.Any())
+                        {
+                            var message = "old Content" + string.Join(", ", existingUserIds) + "; new Content" + string.Join(", ", newUserIds);
+
+                            // Gửi thông báo tới nhóm
+                            var user = await _context.Users.Where(x => x.Id == task.UserId).FirstOrDefaultAsync();
+                            if (user == null)
+                            {
+                                throw new InvalidOperationException("user is not initialized.");
+                            }
+                            var taskAnnounce = new TaskNotificationViewModel
+                            {
+                                TaskId = task.Id,
+                                Content = message,
+                                UserBy = task.UserId,
+                                UserName = user.UserName,
+                                ProjectSlug = task.ProjectSlug,
+                                DateCreated = DateTime.UtcNow,
+                                HasRead = false
+                            };
+
+                            await _notificationsHub.AddUsersToTaskGroup(userNamesToAdd, taskAnnounce);
+
+                            //var taskNotification = await _context.TaskNotifications.Where(x => x.TaskId == task.Id && x.UserBy ==task.UserId ).FirstOrDefaultAsync();
+                            //var resultMessage = _mapper.Map<TaskNotificationViewModel>(taskNotification);
+
+                            await _notificationsHub.SendNotificationToTaskGroup(taskId, taskAnnounce);
+                        }
                         await transaction.CommitAsync();
                         return true;
                     }
@@ -94,15 +225,19 @@ namespace TPBlog.Data.Repositories
                     await transaction.RollbackAsync();
                     return false;
                 }
-                catch
+                catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
+                    // Log lỗi để tiện theo dõi
+                    Console.WriteLine($"Error: {ex.Message}");
                     throw;
                 }
+
+
             }
         }
 
-        public async Task<bool> CreateTaskAsync(CreateUpdateTaskRequest request)
+        public async Task<bool> CreateTaskAsync(Guid userId, CreateUpdateTaskRequest request)
         {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
@@ -117,30 +252,25 @@ namespace TPBlog.Data.Repositories
                     var task = _mapper.Map<CreateUpdateTaskRequest, IC_Task>(request);
                     task.DateCreated = DateTimeOffset.Now;
                     task.TimeTrackingRemaining = request.OriginalEstimate - request.TimeTrackingSpent;
-                    // Add task
+                    task.UserId = userId;
                     _context.Tasks.Add(task);
 
 
-                    //// Add assignTaskUser for each AssignedTo user
-                    //if (request.AssignedTo != null && request.AssignedTo.Length > 0)
-                    //{
-                    //    foreach (var userId in request.AssignedTo)
-                    //    {
-                    //        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
-                    //        if (user == null)
-                    //        {
-                    //            throw new Exception("không tồn tại user");
-                    //        }
+                    var taskHistory = new IC_TaskHistory()
+                    {
+                        TaskId = task.Id,
+                        UserId = task.UserId,
+                        TaskSlug = task.Slug,
+                        ChangeTaskStatus = task.Status,
+                        OldContent = $"Name: {task.Name}, Priority: {task.Priority}",
+                        NewContent = $"Name: {task.Name}, Priority: {task.Priority}",
+                        ChangeDate = DateTime.Now,
+                        DateCreated = DateTime.Now,
+                        DateLastModified = DateTime.Now,
+                        ProjectSlug = task.ProjectSlug
+                    };
 
-                    //        var assignTaskUser = new IC_TaskUser
-                    //        {
-                    //            TaskId = task.Id, // Ensure task.Id is available
-                    //            UserId = userId,
-                    //        };
-                    //        _context.TaskUsers.Add(assignTaskUser);
-                    //    }
-                    //}
-
+                    _context.TaskHistories.Add(taskHistory);
 
                     // Save changes
                     var result = await _context.SaveChangesAsync();
@@ -182,6 +312,7 @@ namespace TPBlog.Data.Repositories
                             i.Priority,
                             i.DueDate,
                             i.Slug,
+                            i.StartDate,
                             i.Complete,
                             i.TimeTrackingSpent,
                             i.TimeTrackingRemaining,
@@ -200,6 +331,7 @@ namespace TPBlog.Data.Repositories
                             UserName = groupedTasks.Key.Name, // Thay đổi nếu cần lấy tên người tạo task
                             Status = groupedTasks.Key.Status,
                             Priority = groupedTasks.Key.Priority,
+                            StartDate = groupedTasks.Key.StartDate,
                             DueDate = groupedTasks.Key.DueDate,
                             Slug = groupedTasks.Key.Slug,
                             Complete = groupedTasks.Key.Complete,
@@ -328,17 +460,57 @@ namespace TPBlog.Data.Repositories
                     }
                     //var task = await _uniOfWork.IC_Tasks.GetByIdAsync(id);
                     var task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+                    // Lưu thông tin cũ để ghi log
+                    var oldName = task.Name;
+                    var oldPriority = task.Priority;
                     task.TimeTrackingRemaining = request.OriginalEstimate - request.TimeTrackingSpent;
                     task.DateLastModified = DateTimeOffset.Now;
                     var updateTask = _mapper.Map(request, task);
 
                     // Add task
                     _context.Tasks.Update(updateTask);
-
-
-
                     // Save changes
                     var result = await _context.SaveChangesAsync();
+                    var taskHistory = new IC_TaskHistory()
+                    {
+                        TaskId = id,
+                        UserId = task.UserId,
+                        TaskSlug = task.Slug,
+                        ChangeTaskStatus = task.Status,
+                        OldContent = $"Name: {oldName}, Priority: {oldPriority}",
+                        NewContent = $"Name: {task.Name}, Priority: {task.Priority}",
+                        ChangeDate = DateTime.Now,
+                        DateCreated = DateTime.Now,
+                        DateLastModified = DateTime.Now,
+                        ProjectSlug = task.ProjectSlug
+                    };
+                    _context.TaskHistories.Add(taskHistory);
+
+
+                    var taskUsers = await _context.TaskUsers.Where(x => x.TaskId == task.Id).ToListAsync(); ;
+                    // Giả sử bạn có phương thức này để lấy danh sách người dùng
+
+                    //if (taskUsers != null)
+                    //{
+                    //    var message = new TaskNotificationViewModel
+                    //    {
+                    //        Content = $"Có một task mới với nội dung: {request.Name}",
+                    //    };
+
+                    //    // Gửi thông báo tới từng người dùng trong taskUsers
+                    //    foreach (var user in taskUsers)
+                    //    {
+                    //        // Gửi thông báo tới người dùng
+                    //        var userConnection = _notificationsHub.FirstOrDefault(u => u.Id == taskUser.UserId);
+                    //        if (userConnection != null)
+                    //        {
+                    //            string connectionId = userConnection.ConnectionId;
+                    //            // Tiến hành gửi thông báo hoặc làm gì đó với connectionId
+                    //        }
+                    //    }
+                    //}
+                    // Gửi thông báo đến các người dùng liên quan trong taskUsers
+
                     if (result > 0)
                     {
                         await transaction.CommitAsync();
@@ -366,5 +538,42 @@ namespace TPBlog.Data.Repositories
             }
             return false;
         }
+
+        public async Task<PageResult<TaskInListDto>> GetAllUserTaskAsync(Guid userId)
+        {
+
+            var query = await (from i in _context.Tasks
+                               join t in _context.TaskUsers on i.Id equals t.TaskId
+                               join u in _context.Users on i.UserId equals u.Id
+                               join p in _context.Project on i.ProjectSlug equals p.Slug
+                               where t.UserId == userId
+                               select new TaskInListDto
+                               {
+                                   Id = i.Id,
+                                   Name = i.Name,
+                                   Description = i.Description,
+                                   UserName = i.Name,
+                                   Status = i.Status,
+                                   Priority = i.Priority,
+                                   DueDate = i.DueDate,
+                                   Slug = i.Slug,
+                                   Complete = i.Complete,
+                                   TimeTrackingSpent = i.TimeTrackingSpent,
+                                   TimeTrackingRemaining = i.TimeTrackingRemaining,
+                                   OriginalEstimate = i.OriginalEstimate,
+                                   DateCreated = i.DateCreated,
+                                   DateLastModified = i.DateLastModified,
+                                   ProjectSlug = i.ProjectSlug,
+                                   ProjectId = p.Id
+                               }).ToListAsync();
+
+
+            return new PageResult<TaskInListDto>
+            {
+                Results = query,
+            };
+        }
+
+
     }
 }

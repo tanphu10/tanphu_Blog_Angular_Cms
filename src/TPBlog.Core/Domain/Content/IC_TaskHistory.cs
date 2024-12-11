@@ -13,7 +13,7 @@ namespace TPBlog.Core.Domain.Content
 {
 
     [Table("IC_TaskHistories")]
-    [Index(nameof(Slug), IsUnique = true)]
+    //[Index(nameof(Slug), IsUnique = true)]
     public class IC_TaskHistory : EntityBase<Guid>
     {
         [Required]
@@ -21,11 +21,11 @@ namespace TPBlog.Core.Domain.Content
         [Required]
         public Guid UserId { get; set; }
         [MaxLength(250)]
-        public required string Slug { get; set; }
+        public required string TaskSlug { get; set; }
         public TaskUserStatus ChangeTaskStatus { get; set; }
         public PriorityStatus ChangePrority { get; set; }
-        public string oldContent { get; set; }
-        public string newContent { get; set; }
+        public string OldContent { get; set; }
+        public string NewContent { get; set; }
         public DateTimeOffset ChangeDate { get; set; }
         [Column(TypeName = "varchar(250)")]
         public string ProjectSlug { get; set; }

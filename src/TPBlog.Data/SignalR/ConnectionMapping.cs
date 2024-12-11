@@ -27,14 +27,32 @@
                 }
             }
         }
+
         public IEnumerable<string> GetConnections(T key)
         {
-            HashSet<string> connections;
-            if (_connections.TryGetValue(key, out connections))
+            if (_connections.ContainsKey(key))
             {
-                return connections;
+                return _connections[key];
             }
             return Enumerable.Empty<string>();
+        }
+        // Thêm phương thức Where để lọc các kết nối theo điều kiện
+        public IEnumerable<string> Where(Func<string, bool> predicate)
+        {
+            foreach (var connections in _connections.Values)
+            {
+                foreach (var connectionId in connections)
+                {
+                    if (predicate(connectionId))
+                    {
+                        yield return connectionId;
+                    }
+                }
+            }
+        }
+        public IEnumerable<T> GetAllKeys()
+        {
+            return _connections.Keys;
         }
         public void Remove(T key, string connectionId)
         {

@@ -41,6 +41,8 @@ namespace TPBlog.Data
        
 
         //- Quản lí Task
+        public DbSet<IC_TaskNotifications> TaskNotifications { get; set; }
+        public DbSet<IC_TaskNotificationUsers> TaskNotificationUsers { get; set; }
         public DbSet<IC_Task> Tasks { get; set; }
         public DbSet<IC_TaskComment> TaskComments { get; set; }
         public DbSet<IC_TaskAttachment> TaskAttachments { get; set; }
@@ -63,6 +65,7 @@ namespace TPBlog.Data
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
 
             builder.Entity<IC_AnnouncementUser>().ToTable("IC_AnnouncementUsers").HasKey(x => new { x.UserId, x.AnnouncementId });
+            builder.Entity<IC_TaskNotificationUsers>().ToTable("IC_TaskNotificationUsers").HasKey(x => new { x.UserId, x.TaskId });
         }
         //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{

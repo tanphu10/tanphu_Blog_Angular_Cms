@@ -12,9 +12,9 @@ namespace TPBlog.Core.Repositories
 {
     public interface IAnnouncementRepository : IRepository<IC_Announcement, int>
     {
-        //IQueryable<Announcement> GetAllUnread(Guid userId);
+        Task<PageResult<AnnouncementViewModel>> GetUserAnnoucenmentsAsync(Guid userId);
         Task<PageResult<AnnouncementViewModel>> GetAllPaging(int pageIndex = 1, int pageSize = 10);
-        Task<PageResult<IC_Announcement>> ListAllUnread(Guid userId, int pageIndex=1, int pageSize=10);
+        Task<PageResult<AnnouncementViewModel>> ListAllUnread(Guid userId, int pageIndex=1, int pageSize=10);
 
     }
 }

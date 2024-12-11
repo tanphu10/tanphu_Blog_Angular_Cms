@@ -844,6 +844,9 @@ namespace TPBlog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(250)");
 
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -963,35 +966,90 @@ namespace TPBlog.Data.Migrations
                     b.Property<DateTimeOffset?>("DateLastModified")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("NewContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProjectSlug")
                         .IsRequired()
                         .HasColumnType("varchar(250)");
 
-                    b.Property<string>("Slug")
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaskSlug")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("newContent")
+                    b.HasKey("Id");
+
+                    b.ToTable("IC_TaskHistories");
+                });
+
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskNotificationUsers", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("HasRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("oldContent")
+                    b.HasKey("UserId", "TaskId");
+
+                    b.ToTable("IC_TaskNotificationUsers", (string)null);
+                });
+
+            modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskNotifications", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DateLastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ProjectSlug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Slug")
-                        .IsUnique();
-
-                    b.ToTable("IC_TaskHistories");
+                    b.ToTable("IC_TaskNotifications");
                 });
 
             modelBuilder.Entity("TPBlog.Core.Domain.Content.IC_TaskTag", b =>

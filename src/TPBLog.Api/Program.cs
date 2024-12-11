@@ -48,7 +48,7 @@ internal class Program
         }));
         //Config DB Context and ASP.NET Core Identity
         builder.Services.AddDbContext<TPBlogContext>(options =>
-                        options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
+                         options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
         builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<TPBlogContext>();
 
@@ -98,7 +98,7 @@ internal class Program
         builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
         builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
 
-        builder.Services.AddSingleton<NotificationsHub>();
+        builder.Services.AddScoped<NotificationsHub>();
 
         builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
         builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();

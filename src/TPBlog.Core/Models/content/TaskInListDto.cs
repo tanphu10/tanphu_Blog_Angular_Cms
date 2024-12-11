@@ -23,6 +23,7 @@ namespace TPBlog.Core.Models.content
         public string UserName { get; set; }
         public TaskUserStatus Status { get; set; }
         public PriorityStatus Priority { get; set; }
+        public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset DueDate { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset? DateLastModified { get; set; }

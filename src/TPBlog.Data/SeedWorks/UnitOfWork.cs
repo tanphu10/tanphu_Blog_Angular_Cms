@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPBlog.Api.SignalR;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Domain.Royalty;
@@ -16,8 +17,9 @@ namespace TPBlog.Data.SeedWorks
     public class UnitOfWork : IUnitOfWork
     {
         private readonly TPBlogContext _context;
+        private readonly NotificationsHub _notificationsHub;
 
-        public UnitOfWork(TPBlogContext context, IMapper mapper, UserManager<AppUser> userManager)
+        public UnitOfWork(TPBlogContext context, IMapper mapper, UserManager<AppUser> userManager, NotificationsHub notificationsHub)
         {
             _context = context;
             IC_Posts = new PostRepository(context, mapper, userManager);
@@ -33,7 +35,7 @@ namespace TPBlog.Data.SeedWorks
             IC_Announcements = new AnnouncementRepository(context, mapper);
             IC_AnnouncementUsers = new AnnouncementUserRepository(context);
             IC_InventoryCategories = new InventoryCategoryRepository(context,mapper);
-            IC_Tasks = new TaskRepository(context,mapper);
+            IC_Tasks = new TaskRepository(context,mapper, notificationsHub);
         }
         public ITaskRepository IC_Tasks { get; private set; }
 

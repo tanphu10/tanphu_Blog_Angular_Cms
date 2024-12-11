@@ -22,9 +22,5 @@ namespace TPBlog.Core.Domain.Content
         public Guid UserId { get; set; }  // Foreign Key to AppUser
 
         public bool HasRead { get; set; }
-
-        //public virtual AppUser AppUser { get; set; }
-
-        //public virtual Announcement Announcement { get; set; }
     }
 }

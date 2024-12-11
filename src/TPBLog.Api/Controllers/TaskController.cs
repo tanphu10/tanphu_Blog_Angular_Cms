@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TPBlog.Api.Extensions;
+using TPBlog.Api.SignalR;
 using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
@@ -13,26 +15,59 @@ namespace TPBlog.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public TaskController(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly NotificationsHub _notificationsHub;
+
+        public TaskController(IUnitOfWork unitOfWork, IMapper mapper, NotificationsHub notificationsHub)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _notificationsHub = notificationsHub;
+        }
+        [HttpGet]
+        [Route("Get-Top-Task-Notifications")]
+        public async Task<ActionResult<PageResult<TaskNotificationViewModel>>> GetTopMyTaskNotifications([FromQuery]
+          int pageIndex = 1, int pageSize = 10)
+        {
+            var userId = User.GetUserId();
+            var result = await _unitOfWork.IC_Tasks.ListAllTaskUnreadAsync(userId, pageIndex, pageSize);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("mark-read")]
+        public async Task<IActionResult> MarkAsTaskRead([FromQuery] Guid announId)
+        {
+            var userId = User.GetUserId();
+            await _unitOfWork.IC_Tasks.MarkTaskAsReadAsync(userId, announId);
+            return Ok();
+        }
+        [Route("user-annoucements/{id}")]
+        [HttpGet]
+        public async Task<ActionResult<PageResult<TaskNotificationViewModel>>> UserTaskNotificationAsync(Guid id)
+        {
+            var announcement = await _unitOfWork.IC_Tasks.GetUserTaskNotificationAsync(id);
+            if (announcement == null)
+            {
+                return NotFound();
+            }
+            return Ok(announcement);
         }
         [HttpPost]
         //[Authorize(Permissions.Tasks.Create)]
         public async Task<IActionResult> CreateTasks([FromBody] CreateUpdateTaskRequest request)
         {
+            var userId = User.GetUserId();
 
-            await _unitOfWork.IC_Tasks.CreateTaskAsync(request);
+
+            await _unitOfWork.IC_Tasks.CreateTaskAsync(userId,request);
             await _unitOfWork.CompleteAsync();
             return Ok();
         }
-        [HttpPost("assign-task-user/{id}")]
+        [HttpPost("assign-task-user")]
         //[Authorize(Permissions.Tasks.Create)]
-        public async Task<IActionResult> AssignToUser(Guid id, [FromBody] AssignToUserRequest request)
+        public async Task<IActionResult> AssignToUser(Guid taskId,[FromBody] AssignToUserRequest request)
         {
 
-            await _unitOfWork.IC_Tasks.AssignToUserAsync(id, request);
+            await _unitOfWork.IC_Tasks.AssignToUserAsync(taskId, request);
             await _unitOfWork.CompleteAsync();
             return Ok();
         }
@@ -99,6 +134,13 @@ namespace TPBlog.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("task-all-user")]
+        public async Task<ActionResult<TaskInListDto>> GetAllUserTask(Guid userId)
+        {
+            var task = await _unitOfWork.IC_Tasks.GetAllUserTaskAsync(userId);
+            return Ok(task);
+        }
 
         [HttpGet]
         //[Authorize(Permissions.Tasks.View)]
@@ -107,13 +149,13 @@ namespace TPBlog.Api.Controllers
 
             //var userPermissions = await _permission.UserHasPermissionForProjectAsync();
 
-            var allProjects = await _unitOfWork.IC_Tasks.GetAllAsync();
+            var all = await _unitOfWork.IC_Tasks.GetAllAsync();
 
 
             //var allowedProjects = allProjects.Where(p => userPermissions.Contains($"Permissions.Projects.{p.Slug}"));
 
-            var Projects = _mapper.Map<List<ProjectInListDto>>(allProjects);
-            return Ok(Projects);
+            var tasks = _mapper.Map<List<TaskInListDto>>(all);
+            return Ok(tasks);
         }
 
 

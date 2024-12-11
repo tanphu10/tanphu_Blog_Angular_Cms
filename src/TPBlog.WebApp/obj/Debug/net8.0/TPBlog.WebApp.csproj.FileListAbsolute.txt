@@ -181,3 +181,9 @@ D:\13_Production\tanphu_Blog_Angular_Cms-lession-4.6\tanphu_Blog_Angular_Cms-les
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\web.config
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\appsettings.UAT.json
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\obj\Debug\net8.0\TPBlog.W.90C353F9.Up2Date
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Microsoft.AspNet.SignalR.Core.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Microsoft.Owin.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Microsoft.Owin.Security.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\Owin.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBlog.WebApp\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

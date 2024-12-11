@@ -12,6 +12,7 @@ using TPBlog.Core.Models.content;
 using TPBlog.Core.Repositories;
 using TPBlog.Core.SeedWorks.Contants;
 using TPBlog.Data.SeedWorks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TPBlog.Data.Repositories
 {
@@ -24,25 +25,35 @@ namespace TPBlog.Data.Repositories
         {
             _mapper = mapper;
         }
-        public async Task<PageResult<IC_Announcement>> ListAllUnread(Guid userId, int pageIndex, int pageSize)
+        public async Task<PageResult<AnnouncementViewModel>> ListAllUnread(Guid userId, int pageIndex, int pageSize)
         {
+            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == userId).Result;
             var query = (from x in _context.Announcements
                          join y in _context.AnnouncementUsers on x.Id equals y.AnnouncementId into xy
                          from y in xy.DefaultIfEmpty()
-                         where (y.HasRead == null || y.HasRead == false)
-                               && (y.UserId == null || y.UserId == userId)
-                         select x);
-            //.Include(x => x.AppUser);
-            //totalRow = query.Count();4
+                         where (y.UserId == null || y.UserId == userId)
+                         select new AnnouncementViewModel
+                         {
+                             Id = x.Id,
+                             Title = x.Title,
+                             Content = x.Content,
+                             DateCreated = x.DateCreated,
+                             UserId = x.UserId,
+                             Status = x.Status,
+                             ProjectName = x.ProjectSlug,
+                             UserName = user.UserName,
+                             HasRead = y.HasRead
+                         });
+
             var totalRow = await query.CountAsync();
 
             var result = await query.OrderByDescending(x => x.DateCreated)
                .Skip((pageIndex - 1) * pageSize)
                .Take(pageSize).ToListAsync();
-            return new PageResult<IC_Announcement>
+            //var result = _mapper.Map<>(queryRow);
+            return new PageResult<AnnouncementViewModel>
             {
-                //Results = await _mapper.ProjectTo<Announcement>(res).ToListAsync(),
-                Results = result, // `result` is now awaited and gives List<Announcement>
+                Results = result,
                 CurrentPage = pageIndex,
                 RowCount = totalRow,
                 PageSize = pageSize
@@ -83,16 +94,24 @@ namespace TPBlog.Data.Repositories
 
         }
 
-        //public IQueryable<Announcement> GetAllUnread(Guid userId)
-        //{
-        //    var query = (from x in _context.Announcements.Include("AppUser")
-        //                 join u in _context.AnnouncementUsers.DefaultIfEmpty()
-        //                 on x.Id equals u.AnnouncementId
-        //                 where (u.UserId == null || u.UserId == userId) && (u.HasRead == null || u.HasRead == false)
-        //                 select x);
+        public async Task<PageResult<AnnouncementViewModel>> GetUserAnnoucenmentsAsync(Guid userId)
+        {
+            var query = await (from au in _context.AnnouncementUsers
+                               join a in _context.Announcements on au.AnnouncementId equals a.Id
+                               where au.UserId == userId && !au.HasRead
+                               select new AnnouncementViewModel
+                               {
+                                   Id = a.Id,
+                                   Title = a.Title,
+                                   Content = a.Content,
+                                   DateCreated = a.DateCreated
+                               }).ToListAsync();
+            return new PageResult<AnnouncementViewModel>
+            {
+                Results = query.ToList(),
+            };
+        }
 
-        //    //.Include(x => x.AppUser);
-        //    return query;
-        //}
+
     }
 }

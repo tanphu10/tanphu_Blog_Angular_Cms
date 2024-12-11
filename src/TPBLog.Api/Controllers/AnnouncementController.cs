@@ -9,6 +9,7 @@ using TPBlog.Core.Domain.Content;
 using TPBlog.Core.Models;
 using TPBlog.Core.Models.content;
 using TPBlog.Data.SeedWorks;
+using static TPBlog.Core.SeedWorks.Contants.Permissions;
 
 namespace TPBlog.Api.Controllers
 {
@@ -45,8 +46,7 @@ namespace TPBlog.Api.Controllers
             foreach (var id in ids)
             {
                 var item = await _unitOfWork.IC_Announcements.GetByIdAsync(id);
-                var item2 = _unitOfWork.IC_AnnouncementUsers.Find(x => x.AnnouncementId == id && x.UserId == userId).FirstOrDefault();
-                //var product = _mapper.Map<>(item);
+                var item2 = _unitOfWork.IC_AnnouncementUsers.Find(x => x.AnnouncementId == id);
                 if (item == null)
                 {
                     return NotFound();
@@ -56,7 +56,11 @@ namespace TPBlog.Api.Controllers
                 {
                     return NotFound();
                 }
-                _unitOfWork.IC_AnnouncementUsers.Remove(item2);
+                foreach (var i in item2)
+                {
+                    _unitOfWork.IC_AnnouncementUsers.Remove(i);
+
+                }
                 await _unitOfWork.CompleteAsync();
             }
             return NoContent();
@@ -65,7 +69,7 @@ namespace TPBlog.Api.Controllers
         [Route("add")]
         public async Task<IActionResult> CreateNotification([FromBody] CreateAnnouncementRequest model)
         {
-            var project = _unitOfWork.IC_Projects.GetByIdAsync(model.ProjectId);
+            var project = await _unitOfWork.IC_Projects.GetByIdAsync(model.ProjectId);
 
 
             var newAnnoun = new IC_Announcement
@@ -75,11 +79,10 @@ namespace TPBlog.Api.Controllers
                 Title = model.Title,
                 DateCreated = DateTime.Now,
                 UserId = User.GetUserId(),
-                ProjectSlug = project.Result.Slug,
+                ProjectSlug = project.Slug,
             };
 
-            await _announcementService.CreateAsync(newAnnoun);  // đảm bảo CreateAsync là async và lưu vào DB
-
+            await _announcementService.CreateAsync(newAnnoun);
             if (newAnnoun.UserId != null)
             {
                 await _unitOfWork.IC_AnnouncementUsers.Add(new IC_AnnouncementUser()
@@ -98,7 +101,10 @@ namespace TPBlog.Api.Controllers
                 return NotFound();
             }
             var result = _mapper.Map<AnnouncementViewModel>(announ);
-            _notificationsHub.PushToAllUsers(result);
+
+            result.HasRead = false;
+            await _notificationsHub.PushToAllUsers(result);
+            await _unitOfWork.CompleteAsync();
 
             return Ok(result);
         }
@@ -108,7 +114,6 @@ namespace TPBlog.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<AnnouncementViewModel>> DetailsAsync(int id)
         {
-
             var announcement = await _unitOfWork.IC_Announcements.GetByIdAsync(id);
             if (announcement == null)
             {
@@ -117,6 +122,22 @@ namespace TPBlog.Api.Controllers
             var result = _mapper.Map<AnnouncementViewModel>(announcement);
             return Ok(result);
         }
+
+        [Route("user-annoucements/{id}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(AnnouncementViewModel), 200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<PageResult<AnnouncementViewModel>>> UserAnnoucementAsync(Guid id)
+        {
+            var announcement = await _unitOfWork.IC_Announcements.GetUserAnnoucenmentsAsync(id);
+            if (announcement == null)
+            {
+                return NotFound();
+            }
+            return Ok(announcement);
+        }
+
+
         [HttpGet]
         [Route("Get-All-Paging")]
         public async Task<ActionResult<PageResult<AnnouncementViewModel>>> GetNotificationPaging([FromQuery]
@@ -128,7 +149,7 @@ namespace TPBlog.Api.Controllers
         }
         [HttpGet]
         [Route("Get-Top-Announcement")]
-        public async Task<ActionResult<PageResult<IC_Announcement>>> GetTopMyAnnouncement([FromQuery]
+        public async Task<ActionResult<PageResult<AnnouncementViewModel>>> GetTopMyAnnouncement([FromQuery]
           int pageIndex = 1, int pageSize = 10)
         {
             var userId = User.GetUserId();
