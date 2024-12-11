@@ -1,12 +1,26 @@
 ::ng-deep .p-panel-header {
   display: block;
-  .title_Task {
-    display: flex;
-    align-items: center;
-    h5 {
-      font-size: 18px;
-      margin-bottom: 0;
-      margin-left: 5px;
+
+  .title_Header {
+    .title_Task {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      h5 {
+        font-size: 18px;
+        margin-bottom: 0;
+        margin-left: 5px;
+      }
+    }
+    .title_Project {
+      height: 20px;
+      margin-right: 10px;
+      width: 185px;
+      .p-dropdown {
+        height: 30px;
+        display: flex;
+        align-items: center;
+      }
     }
   }
   .notice_task {

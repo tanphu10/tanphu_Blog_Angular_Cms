@@ -12,18 +12,13 @@ import {
   AssignToUserRequest,
   ProjectDto,
   ProjectInListDto,
+  TaskDto,
   TaskInListDto,
   TaskInListDtoPageResult,
   UserPagingDto,
   UserPagingDtoPageResult,
 } from '../../../../api/admin-api.service.generated';
 import { environment } from 'src/environments/environment';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 // Import các module của PrimeNG
 
 @Component({
@@ -84,14 +79,14 @@ export class TaskComponent implements OnInit, OnDestroy {
     await this.loadUser();
     // this.buildForm();
 
-    console.log('check User', row.listAssignedTo);
+    // console.log('check User', row.listAssignedTo);
     // console.log('check ', this.userOptions);
-    console.log('check selectUsers before update', this.selectUsers);
+    // console.log('check selectUsers before update', this.selectUsers);
 
     this.selectUsers = this.userOptions.filter((user) =>
       row.listAssignedTo?.some((assign) => assign.userId == user.id)
     );
-    console.log('check selectUsers after update', this.selectUsers);
+    // console.log('check selectUsers after update', this.selectUsers);
 
     if (!this.arrayUser) {
       this.arrayUser = new AssignToUserRequest(); // Khởi tạo arrayUser với kiểu AssignToUserRequest
@@ -103,12 +98,14 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   onSelectUsersChange() {
     // Kiểm tra giá trị của selectUsers sau khi thay đổi
-    console.log('selectUsers has changed:', this.selectUsers);
+    // console.log('selectUsers has changed:', this.selectUsers);
     this.arrayUser.assignedToUser = this.selectUsers.map((x) => x.id);
     // console.log('Assigned Users after change:', this.arrayUser.assignedToUser);
   }
 
   saveAssignedUsers(row: any) {
+    console.log('saveAssignedUsers', row.id);
+    console.log('arrayUser', this.arrayUser);
     this.taskApiClient
       .assignToUser(row.id, this.arrayUser)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -152,7 +149,7 @@ export class TaskComponent implements OnInit, OnDestroy {
       this.toggleBlockUI(false);
     } catch (error) {
       this.toggleBlockUI(false);
-      console.error('Error loading users:', error);
+      // console.error('Error loading users:', error);
     }
   }
   loadProjects() {
@@ -168,7 +165,7 @@ export class TaskComponent implements OnInit, OnDestroy {
       });
   }
   assignToUser() {
-    console.log('updateUser');
+    // console.log('updateUser');
   }
 
   loadData(selectionId = null) {
@@ -198,7 +195,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
   calculateTaskSummary() {
     if (!this.items || !Array.isArray(this.items)) {
-      console.log('items is not initialized or not an array', this.items);
+      // console.log('items is not initialized or not an array', this.items);
       return;
     }
 
@@ -220,14 +217,14 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   showAddModal() {
     const ref = this.dialogService.open(TaskDetailComponent, {
-      header: 'Thêm mới Dự Án',
+      header: 'Thêm mới Task',
       width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
     const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-    ref.onClose.subscribe((data: ProjectInListDto) => {
+    ref.onClose.subscribe((data: TaskInListDto) => {
       if (data) {
         this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
         this.selectedItems = [];
@@ -254,18 +251,19 @@ export class TaskComponent implements OnInit, OnDestroy {
       data: {
         id: id,
       },
-      header: 'Cập nhật Dự Án',
+      header: 'Cập nhật Task',
       width: '70%',
     });
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
     const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
     const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-    ref.onClose.subscribe((data: ProjectDto) => {
+    ref.onClose.subscribe((data: TaskDto) => {
+      // console.log('update Success Task', data);
       if (data) {
         this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
         this.selectedItems = [];
-        this.loadData(data.id);
+        this.loadData();
       }
     });
   }

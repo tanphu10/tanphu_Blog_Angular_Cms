@@ -37,6 +37,7 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private confirmationService: ConfirmationService
   ) {}
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -48,13 +49,12 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.toggleBlockUI(true);
-
     this.announcementService
       .getNotificationPaging(this.pageIndex, this.pageSize)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: AnnouncementViewModelPageResult) => {
-          // console.log("check abc",response.results);
+          console.log('response Annoucement', response);
           this.items = response.results;
           this.totalCount = response.rowCount;
           this.toggleBlockUI(false);
@@ -106,16 +106,22 @@ export class AnnouncementComponent implements OnInit, OnDestroy {
     var ids = [];
     this.selectedItems.forEach((element) => {
       ids.push(element.id);
+      console.log('delete', ids);
     });
-    this.confirmationService.confirm({
-      message: MessageConstants.CONFIRM_DELETE_MSG,
-      accept: () => {
-        this.deleteItemsConfirm(ids);
-      },
-    });
+
+    this.deleteItemsConfirm(ids);
+
+    // this.confirmationService.confirm({
+    //   message: MessageConstants.CONFIRM_DELETE_MSG,
+    //   accept: () => {
+    //     console.log('delete1', ids);
+    //     this.deleteItemsConfirm(ids);
+    //   },
+    // });
   }
 
   deleteItemsConfirm(ids: any[]) {
+    console.log('delete2', ids);
     this.toggleBlockUI(true);
 
     this.announcementService.deleteAnnouncementById(ids).subscribe({

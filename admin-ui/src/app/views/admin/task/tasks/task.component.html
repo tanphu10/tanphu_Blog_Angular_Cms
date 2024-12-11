@@ -78,7 +78,7 @@
 
     <div class="row mt-3">
       <p-table #dt [value]="items" selectionMode="multiple" dataKey="id" [(selection)]="selectedItems"
-        [metaKeySelection]="true" [responsive]="true">
+        [metaKeySelection]="false" [responsive]="true">
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 10px">
@@ -86,7 +86,7 @@
             </th>
             <th>Tên Công Việc</th>
             <th>Mức Ưu Tiên</th>
-            <th>Ngày tạo Task</th>
+            <th>Bắt Đầu</th>
             <th>Hạn Cuối</th>
             <th>Ngày Còn Lại</th>
             <th>Trạng Thái</th>
@@ -114,7 +114,7 @@
               <p-badge *ngIf="row.priority == 3" value="VeryHigh" severity="danger"
                 [ngClass]="{ 'very-high-priority': true }"> </p-badge>
             </td>
-            <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
+            <td>{{ row.startDate | date : 'dd-MM-yyyy hh:mm' }}</td>
             <td>{{ row.dueDate | date : 'dd-MM-yyyy hh:mm' }}</td>
             <td style="display: flex; justify-content: center; align-items: center;">{{ row.timeTrackingRemaining }}
             </td>

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TaskComponent } from './tasks/task.component';
 import { DashboardTaskComponent } from './dashboard-tasks/dashboard-task.component';
 import { AuthGuard } from '../../../shared/auth.guard';
-
+import { SchedulerTaskComponent } from './scheduler-tasks/scheduler-task.component';
 const routes: Routes = [
   {
     path: '',
@@ -11,7 +11,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'management',
+    path: 'task-management',
     component: TaskComponent,
     data: {
       title: 'Tasks',
@@ -24,9 +24,18 @@ const routes: Routes = [
     component: DashboardTaskComponent,
     data: {
       title: 'Dashboard-task',
-      // requiredPolicy: 'Permissions.Projects.View',
+      requiredPolicy: 'Permissions.Projects.View',
     },
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'task-scheduler',
+    component: SchedulerTaskComponent,
+    data: {
+      title: 'scheduler-task',
+      requiredPolicy: 'Permissions.Projects.View',
+    },
+    canActivate: [AuthGuard],
   },
 ];
 

@@ -64,66 +64,15 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.itemsMenu = [
-    //   {
-    //     icon: 'pi pi-list',
-    //     tooltip: 'Loạt bài',
-    //     command: () => {
-    //       if (this.canAddToSeries()) {
-    //         this.addToSeries(this.row.id);
-    //       }
-    //     },
-    //     visible: this.canAddToSeries()
-    //   },
-    //   {
-    //     icon: 'pi pi-check',
-    //     tooltip: 'Duyệt bài',
-    //     command: () => {
-    //       if (this.canApprove() && this.row.status != 3) {
-    //         this.approve(this.row.id);
-    //       }
-    //     },
-    //     visible: this.canApprove() && this.row.status != 3
-    //   },
-    //   {
-    //     icon: 'pi pi-forward',
-    //     tooltip: 'Gửi duyệt',
-    //     command: () => {
-    //       if (this.row.status != 3 && this.row.status != 1) {
-    //         this.sendToApprove(this.row.id);
-    //       }
-    //     },
-    //     visible: this.row.status != 3 && this.row.status != 1
-    //   },
-    //   {
-    //     icon: 'pi pi-backward',
-    //     tooltip: 'Trả lại',
-    //     command: () => {
-    //       if (this.canApprove() && this.row.status != 3) {
-    //         this.reject(this.row.id);
-    //       }
-    //     },
-    //     visible: this.canApprove() && this.row.status != 3
-    //   },
-    //   {
-    //     icon: 'pi pi-history',
-    //     tooltip: 'Xem lịch sử',
-    //     command: () => {
-    //       this.showLogs(this.row.id);
-    //     },
-    //     // visible: this.hasPermission('Permissons.Posts.View')
-    //   }
-    // ];
-
     this.loadPostCategories();
     this.loadProjects();
     this.loadData();
     this.permissions = this.token.getUser().permissions;
-    console.log(this.permissions);
-    console.log(
-      'oninit approve',
-      this.permissions.includes('Permissions.Posts.Approve')
-    ); // Phải trả về true
+    // // console.log(this.permissions);
+    // console.log(
+    //   'oninit approve',
+    //   this.permissions.includes('Permissions.Posts.Approve')
+    // ); // Phải trả về true
   }
 
   canAddToSeries(): boolean {

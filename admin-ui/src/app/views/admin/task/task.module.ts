@@ -11,7 +11,6 @@ import { BadgeModule } from 'primeng/badge';
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { KeyFilterModule } from 'primeng/keyfilter';
-// import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -35,8 +34,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DashboardTaskComponent } from '../task/dashboard-tasks/dashboard-task.component';
 import { DashboardTaskDetailComponent } from '../task/dashboard-tasks/dashboard-task-detail.component';
-import { ChartModule } from 'primeng/chart';
-
+import { SchedulerTaskComponent } from './scheduler-tasks/scheduler-task.component';
 @NgModule({
   imports: [
     TaskRoutingModule,
@@ -77,6 +75,7 @@ import { ChartModule } from 'primeng/chart';
     AppLinkComponent,
     DashboardTaskDetailComponent,
     DashboardTaskComponent,
+    SchedulerTaskComponent,
   ],
 })
 export class TaskModule {}

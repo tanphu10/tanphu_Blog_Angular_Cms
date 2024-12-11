@@ -5,7 +5,7 @@ import {
   LocationStrategy,
 } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {
   DefaultFooterComponent,
@@ -68,9 +68,9 @@ import { AdminComponent } from './admin.component';
 import { SignalRService } from '../../shared/services/signalr-service';
 import { ToastModule } from 'primeng/toast';
 import { NavbarModule } from '@coreui/angular';
-import { CalendarModule } from 'primeng/calendar';
 import { TagModule } from 'primeng/tag';
 import { ChartModule } from 'primeng/chart';
+// import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -111,6 +111,7 @@ const APP_CONTAINERS = [
     NavbarModule,
     TagModule,
     ChartModule,
+    // OverlayBadgeModule
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },

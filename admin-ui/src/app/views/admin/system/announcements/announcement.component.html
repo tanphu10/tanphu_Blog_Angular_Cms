@@ -22,7 +22,7 @@
   </div>
   <div class="row mt-3">
     <p-table #dt [value]="items" selectionMode="multiple" dataKey="id" [(selection)]="selectedItems"
-      [metaKeySelection]="true">
+      [metaKeySelection]="false">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10px">
@@ -48,13 +48,11 @@
           <td>{{ row.userName }}</td>
           <td>{{ row.dateCreated | date : 'dd-MM-yyyy hh:mm' }}</td>
           <td>{{ row.projectName }}</td>
-          <!-- <td>{{ row.status }}</td> -->
           <td style="width: 150px">
             <p-badge *ngIf="row.status == 1" value="Kích hoạt" severity="success"></p-badge>
             <p-badge *ngIf="row.status == 0" value="Khoá" severity="danger"></p-badge>
           </td>
           <td>
-            <!-- <button pButton class="p-button-sm" (click)="showPermissionModal(row.id, row.name)">Phân quyền</button> -->
           </td>
         </tr>
       </ng-template>

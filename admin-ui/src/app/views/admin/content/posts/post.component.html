@@ -77,22 +77,6 @@
                 <p-speedDial [model]="itemsMenu" direction="down-right" type="quarter-circle"
                   buttonClassName="p-button-success" (onClick)="updateItemsMenu(row)" />
               </div>
-
-
-              <!-- <button pButton pRipple type="button" icon="pi pi-list" pTooltip="Loạt bài" tooltipPosition="top"
-                *ngIf="canAddToSeries()" (click)="addToSeries(row.id)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="canApprove() && row.status != 3" pButton appPermission appPolicy="Permissons.Posts.Approve"
-                pRipple type="button" icon="pi pi-check" pTooltip="Duyệt bài" tooltipPosition="top"
-                (click)="approve(row.id)" class="p-button-rounded p-button-text p-button-success"></button>
-              <button *ngIf="row.status != 3 && row.status != 1" pButton pRipple type="button" icon="pi pi-forward"
-                pTooltip="Gửi duyệt" tooltipPosition="top" (click)="sendToApprove(row.id)" appPermission
-                appPolicy="Permissons.Posts.Edit" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf=" canApprove() && row.status != 3" pButton pRipple type="button" icon="pi pi-backward"
-                pTooltip="Trả lại" tooltipPosition="top" (click)="reject(row.id)" appPermission
-                appPolicy="Permissons.Posts.Approve" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button pButton pRipple type="button" icon="pi pi-history" pTooltip="Xem lịch sử" tooltipPosition="top"
-                (click)="showLogs(row.id)" appPermission appPolicy="Permissons.Posts.View"
-                class="p-button-rounded p-button-text p-button-info"></button> -->
             </td>
           </tr>
         </ng-template>

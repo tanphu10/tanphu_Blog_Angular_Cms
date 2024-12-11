@@ -3,10 +3,17 @@
     <p-header>
 
       <div style="display: flex; justify-content: space-between;">
-        <div class="title_Task">
-          <div><i class="pi pi-spin pi-cog" style="font-size: 1rem"></i></div>
-          <h5> DASHBOARD</h5>
-          <h5>TASK</h5>
+        <div class="title_Header">
+          <div class="title_Task">
+            <div><i class="pi pi-spin pi-cog" style="font-size: 1rem"></i></div>
+            <h5> DASHBOARD TASK</h5>
+          </div>
+
+          <div class="title_Project">
+            <p-dropdown [options]="projectCategory" (onChange)="loadData()" [style]="{ width: '100%'}"
+              placeholder="Chọn dự án" [showClear]="true" [(ngModel)]="projectId">
+            </p-dropdown>
+          </div>
         </div>
         <div class="notice_task" style="display: flex">
           <div class="task_summary">

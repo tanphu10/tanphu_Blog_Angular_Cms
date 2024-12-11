@@ -17,6 +17,7 @@ import {
 import { UploadService } from '../../../../shared/services/upload.service';
 import { environment } from '../../../../../environments/environment';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -69,7 +70,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private taskApiClient: AdminApiTaskApiClient,
     private projectApiClient: AdminApiProjectApiClient,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private tokenService: TokenStorageService
   ) {}
   ngOnDestroy(): void {
     if (this.ref) {
@@ -197,7 +199,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
           next: () => {
             console.log('update');
             this.toggleBlockUI(false);
-
             this.ref.close(this.form.value);
           },
           error: () => {
@@ -217,7 +218,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
+
   buildForm() {
+    const userId = this.tokenService.getUser().id;
+    // Lấy userId từ token
+
     // console.log('project>>>');
     this.form = this.fb.group({
       name: new FormControl(
@@ -230,6 +235,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       ),
       slug: new FormControl(
         this.selectedEntity.slug || null,
+        Validators.required
+      ),
+      userId: new FormControl(
+        userId, // Gán userId lấy từ token
         Validators.required
       ),
 
@@ -249,8 +258,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.selectedEntity.dueDate || null,
         Validators.required
       ),
-      complete: new FormControl(
-        this.selectedEntity.complete || null,
+      startDate: new FormControl(
+        this.selectedEntity.startDate || null,
         Validators.required
       ),
       projectSlug: new FormControl(

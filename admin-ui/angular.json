@@ -39,7 +39,9 @@
               "node_modules/primeicons/primeicons.css",
               "src/scss/styles.scss"
             ],
-            "scripts": ["node_modules/chart.js/dist/chart.js"],
+            "scripts": [
+              "node_modules/chart.js/dist/chart.js"
+           ],
             "allowedCommonJsDependencies": ["chart.js"]
           },
           "configurations": {

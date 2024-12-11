@@ -1,0 +1,210 @@
+.notificateDropdown {
+  button {
+    padding: 8px 0;
+    .start-30 {
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      span {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  ul li:first-child {
+    position: sticky;
+    top: 0; /* Đảm bảo li đầu tiên dính vào trên cùng */
+    background-color: white; /* Đặt màu nền để li nổi bật khi sticky */
+    z-index: 1; /* Đảm bảo nó nằm trên các phần tử khác */
+  }
+  ul {
+    overflow-y: auto;
+    scrollbar-width: 5px;
+    scroll-padding-top: 20px; /* Tạo khoảng cách trên khi cuộn */
+    width: 300px !important;
+    margin-top: 13px !important;
+    position: absolute;
+    right: -180px !important;
+    height: calc(100vh - 80px) !important;
+    box-sizing: content-box; /* Đảm bảo padding không ảnh hưởng đến kích thước tổng thể */
+    li {
+      .announceItems {
+        height: 70px !important;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        margin-left: 0;
+        // cursor: pointer;
+        // width: 100%;
+        // border: none;
+        &:hover {
+          // padding: 5px;
+          border-radius: 10px;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        .itemNotify {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          .image {
+            margin-top: 10px;
+            .avatar {
+              width: 30px;
+              height: 30px;
+            }
+          }
+          .itemContent {
+            margin-top: 10px;
+            margin-left: 10px;
+            white-space: nowrap; /* Không cho phép xuống dòng */
+            overflow: hidden; /* Ẩn nội dung tràn */
+            text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung tràn */
+            width: 200px; /* Đặt chiều rộng tối đa cho phần nội dung (tùy chỉnh theo ý bạn) */
+            /* Căn các phần tử con từ trái */
+            text-align: left; /* Căn chữ từ trái */
+            .content {
+              font-size: 14px;
+              // position: relative;
+              // right: ;
+            }
+            .time {
+              display: flex;
+              font-size: 10px;
+              color: blue;
+            }
+          }
+          .dot_button {
+            position: absolute;
+            right: 5px;
+            button {
+              background-color: #0083b0;
+              width: 5px;
+              margin-bottom: 10px;
+              height: 5px !important;
+              padding: 5px;
+              border-radius: 50%;
+              border: 0.5px solid rgb(24, 31, 229);
+              &:hover {
+                background-color: #0c3cdbfe;
+              }
+            }
+          }
+        }
+      }
+      .text-center {
+        button {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.taskDropdown {
+  button {
+    padding: 8px 0;
+    .start-30 {
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      span {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  ul {
+    overflow-y: auto;
+    width: 300px !important;
+    margin-top: 13px !important;
+    position: absolute !important;
+    right: -140px !important;
+    height: calc(100vh - 80px) !important;
+    li {
+      .announceItems {
+        height: 70px !important;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        margin-left: 0;
+
+        &:hover {
+          // padding: 5px;
+          border-radius: 10px;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        .itemNotify {
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          .image {
+            margin-top: 10px;
+            .avatar {
+              width: 30px;
+              height: 30px;
+            }
+          }
+          .itemContent {
+            margin-top: 10px;
+            margin-left: 10px;
+            white-space: nowrap; /* Không cho phép xuống dòng */
+            overflow: hidden; /* Ẩn nội dung tràn */
+            text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung tràn */
+            width: 200px; /* Đặt chiều rộng tối đa cho phần nội dung (tùy chỉnh theo ý bạn) */
+            /* Căn các phần tử con từ trái */
+            text-align: left; /* Căn chữ từ trái */
+            .content {
+              font-size: 14px;
+            }
+            .time {
+              display: flex;
+              font-size: 10px;
+              color: blue;
+            }
+          }
+          .dot_button {
+            position: absolute;
+            right: 5px;
+            button {
+              background-color: #0083b0;
+              width: 5px;
+              margin-bottom: 10px;
+              height: 5px !important;
+              padding: 5px;
+              border-radius: 50%;
+              border: 0.5px solid rgb(24, 31, 229);
+              &:hover {
+                background-color: #0c3cdbfe;
+              }
+            }
+          }
+        }
+      }
+      .text-center {
+        button {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.userMenuDropdown {
+  ul {
+    margin-top: 8px !important;
+    li{
+      h6{
+        border-radius:5px 5px 0 0;
+      }
+    }
+  }
+  button {
+    .avatar_ {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+  }
+}

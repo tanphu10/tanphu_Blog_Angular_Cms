@@ -8,6 +8,7 @@ import {
   AdminApiProjectApiClient,
   AdminApiTaskApiClient,
   AdminApiUserApiClient,
+  ProjectInListDto,
   TaskInListDto,
   TaskInListDtoPageResult,
 } from '../../../../api/admin-api.service.generated';
@@ -37,7 +38,7 @@ export class DashboardTaskComponent implements OnInit, OnDestroy {
   public projectId?: string = null;
   public projectCategory: any[] = [];
   slug: string | null = null;
-
+  public projectItem: any[] = [];
   fromDate: Date | undefined;
   toDate: Date | undefined;
   totalTasks: number = 0; // Tổng số task
@@ -50,6 +51,7 @@ export class DashboardTaskComponent implements OnInit, OnDestroy {
   }).format(new Date());
 
   constructor(
+    private projectApiClient: AdminApiProjectApiClient,
     private taskApiClient: AdminApiTaskApiClient,
     public dialogService: DialogService
   ) {}
@@ -59,21 +61,24 @@ export class DashboardTaskComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  dataValues = [0, 0];
+  // Hàm tạo màu ngẫu nhiên
+  getRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+  backgroundColors = this.dataValues.map(() => this.getRandomColor());
+  // Tạo cấu trúc dataDepartment
   dataDepartment = {
-    labels: [
-      'Shop-Department',
-      'Qs-Department',
-      'Qa-Qc-Department',
-      'Site-Department',
-    ],
+    labels: this.projectItem,
     datasets: [
       {
-        backgroundColor: ['#41B883', '#cce5ff', '#feddc7', '#DD1B16'],
-        data: [40, 20, 80, 10],
+        backgroundColor: this.backgroundColors,
+        data: this.dataValues,
       },
     ],
   };
 
+  // Tạo mảng màu động
   dataPriority = {
     labels: ['Low', 'Medium', 'High', 'Very High'],
     datasets: [
@@ -104,7 +109,21 @@ export class DashboardTaskComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
+    this.loadProjects();
     this.loadData();
+  }
+
+  loadProjects() {
+    this.projectApiClient
+      .getAllProjects()
+      .subscribe((response: ProjectInListDto[]) => {
+        response.forEach((element) => {
+          this.projectCategory.push({
+            value: element.id,
+            label: element.name,
+          });
+        });
+      });
   }
   loadData(selectionId = null) {
     this.toggleBlockUI(true);
@@ -122,6 +141,31 @@ export class DashboardTaskComponent implements OnInit, OnDestroy {
         next: (response: TaskInListDtoPageResult) => {
           console.log('check TaskInListDtoPageResult', response);
           this.items = response.results;
+          // Nhóm dữ liệu theo `projectSlug` và đếm số lượng mục trong mỗi dự án
+          const groupedProjects = this.items.reduce((acc, item) => {
+            if (!acc[item.projectSlug]) {
+              acc[item.projectSlug] = [];
+            }
+            acc[item.projectSlug].push(item);
+            return acc;
+          }, {});
+          // Lấy danh sách dự án (loại bỏ trùng lặp)
+          this.projectItem = Object.keys(groupedProjects);
+          this.dataValues = this.projectItem.map(
+            (project) => groupedProjects[project].length
+          );
+
+          // Cấu hình dataDepartment
+          this.dataDepartment = {
+            labels: this.projectItem,
+            datasets: [
+              {
+                backgroundColor: this.backgroundColors,
+                data: this.dataValues,
+              },
+            ],
+          };
+
           this.updateChartData();
           this.totalCount = response.rowCount;
           this.toggleBlockUI(false);

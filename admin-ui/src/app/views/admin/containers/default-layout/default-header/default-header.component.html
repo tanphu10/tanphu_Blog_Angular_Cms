@@ -25,10 +25,10 @@
       </c-nav-item>
 
       <c-nav-item>
-        <a routerLink="./" cNavLink>
-          <svg cIcon name="cilTask" size="lg"></svg>
-        </a>
+        <ng-container *ngTemplateOutlet="TaskDropdown"></ng-container>
       </c-nav-item>
+
+
       <c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
@@ -41,48 +41,93 @@
 
   </c-container>
   <c-header-divider></c-header-divider>
-  <c-container [fluid]="true">
+  <!-- <c-container [fluid]="true">
     <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
-  </c-container>
+  </c-container> -->
 </ng-container>
 <!--</c-header>-->
-<ng-template #notificationDropdown>
-  <c-dropdown alignment="end" variant="nav-item">
-    <button cButton color="" [caret]="false" cDropdownToggle class="p-2">
-      <svg cIcon name="cilBell" size="lg"></svg>
-      <c-badge *ngIf="announcements && announcements.length>0" class="start-30 translate-middle" style="top: -5px;
-    border-radius: 15px;" color="success">
-        {{announcements.length}} </c-badge>
+
+
+<ng-template #TaskDropdown>
+  <c-dropdown alignment="end" variant="nav-item" class="taskDropdown">
+    <button cButton color="" [caret]="false" cDropdownToggle>
+      <svg cIcon name="cilTask" size="lg"></svg>
+      <!-- <c-badge *ngIf="taskNotifications && taskNotifications.length>0" class="start-30 translate-middle"
+        color="success">
+        {{taskNotifications.length}} </c-badge> -->
+      <c-badge *ngIf="hasUnreadTasks" class="start-30 translate-middle" color="danger">
+        <span> {{ unreadTasksCount }}</span>
+      </c-badge>
     </button>
     <ul cDropdownMenu class="pt-0 pr-5 w-auto">
       <li>
-        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Thông Báo</h6>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2 " style="border-radius: 5px 5px 0px 0px ;">Thông Báo Task
+        </h6>
       </li>
-      <li *ngFor="let item of announcements">
-        <a (click)="markAsRead(item.id)" style="cursor: pointer;">
-          <span class="image">
-            <!-- <img [src]="item" height="30" alt="{{ item.message }}" /> -->
-          </span>
-          <span>
-            <span>{{ item.content }}</span>
-            <span class="time">{{ item.dateCreated | date: 'short' }}</span>
-          </span>
-          <!-- <span class="message">
-            {{ item.Content }}
-          </span> -->
-        </a>
+      <li *ngFor="let item of taskNotifications" (click)="markTaskAsRead(item.taskId)">
+        <div class="announceItems">
+          <div class="itemNotify">
+            <div class="image" style="width: 30px;">
+              <c-avatar color="secondary" status="success">CUI</c-avatar>
+            </div>
+            <div class="itemContent">
+              <span class="content">{{ item.content }}</span>
+              <span class="time">{{ item.dateCreated }}</span>
+            </div>
+            <div class="dot_button" *ngIf="!item.hasRead">
+              <button>
+              </button>
+            </div>
+          </div>
+        </div>
       </li>
-      <li *ngIf="announcements && announcements.length > 0">
+      <!-- <li style="position: absolute; bottom: 10px; left: 40px;" *ngIf="announcements && announcements.length > 0">
+        <div class="text-center" style="cursor: pointer;">
+          <span (click)="loadTaskNotifications()">
+            Đánh dấu đọc tất cả thông báo
+          </span>
+        </div>
+      </li> -->
+      <!-- <li *ngIf="!announcements || announcements.length === 0">
         <div class="text-center">
-          <a (click)="loadAnnouncements()">
-            <span>Xem tất cả thông báo</span>
-            <i class="fa fa-angle-right"></i>
-          </a>
+          <p><span style="font-size: 13px ">Không có thông báo mới</span></p>
+        </div>
+      </li> -->
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+
+<ng-template #notificationDropdown>
+  <c-dropdown alignment="end" variant="nav-item" class="notificateDropdown">
+    <button cButton color="" [caret]="false" cDropdownToggle>
+      <svg cIcon name="cilBell" size="lg"></svg>
+      <c-badge *ngIf="hasUnreadAnnouncements" class="start-30 translate-middle" color="success">
+        <span> {{ unreadAnnouncementsCount }}</span> </c-badge>
+    </button>
+
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2 " style="border-radius: 5px 5px 0px 0px ;">Thông Báo System
+        </h6>
+      </li>
+      <li *ngFor="let item of announcements" (click)="markAsRead(item.id)">
+        <div class="announceItems">
+          <div class="itemNotify">
+            <div class="image" style="width: 30px;">
+              <c-avatar color="secondary" status="success">AN</c-avatar>
+            </div>
+            <div class="itemContent">
+              <span class="content">{{ item.title }}</span>
+              <span class="time">{{ item.dateCreated }}</span>
+            </div>
+            <div class="dot_button" *ngIf="!item.hasRead">
+              <button> </button>
+            </div>
+          </div>
         </div>
       </li>
 
-
-      <hr style="margin-top: 10px;margin-bottom: 0px; ">
       <li *ngIf="!announcements || announcements.length === 0">
         <div class="text-center">
           <p><span style="font-size: 13px ">Không có thông báo mới</span></p>
@@ -93,34 +138,42 @@
 </ng-template>
 
 
-
-
 <ng-template #userDropdown>
-  <c-dropdown alignment="end" variant="nav-item">
+  <c-dropdown alignment="end" variant="nav-item" class="userMenuDropdown">
     <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
       <c-avatar cTextColor="primary" shape="circle" size="md" [src]="environment.API_URL + user.avatar" status="success"
-        style="border-radius: 50%; width: 50px; height: 50px;"></c-avatar>
+        class="avatar_"></c-avatar>
     </button>
     <ul cDropdownMenu class="pt-0 pr-5 w-auto">
       <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
       </li>
+      <li>
 
-      <li class="d-lg-none">
-        <a routerLink="./" cDropdownItem>
+        <!-- <li class="d-lg-none"> -->
+        <!-- <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilBell"></svg>
           <span style="font-size: 16px;">Thông Báo</span>
           <c-badge *ngIf="announcements && announcements.length>0" class="ms-2 float-end" color="success">
             {{announcements.length}}
+          </c-badge>
+        </a> -->
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilBell"></svg>
+          <span style="font-size: 16px;">Tasks</span>
+          <c-badge *ngIf="hasUnreadAnnouncements" class="start-30 translate-middle" color="success"
+            style="position: relative; left: 63px; top: 8px;">
+            {{ unreadAnnouncementsCount }}
           </c-badge>
         </a>
       </li>
       <li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilTask"></svg>
-          Tasks
-          <c-badge class="ms-2 float-end" color="danger">
-            42
+          <span style="font-size: 16px;">Tasks</span>
+          <c-badge *ngIf="hasUnreadTasks" class="start-30 translate-middle" color="danger"
+            style="position: relative; left: 63px; top: 8px;">
+            {{ unreadTasksCount }}
           </c-badge>
         </a>
       </li>

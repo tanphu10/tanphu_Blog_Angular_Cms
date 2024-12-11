@@ -22,16 +22,14 @@
         <app-validation-message [entityForm]="form" fieldName="slug" [validationMessages]="validationMessages">
         </app-validation-message>
       </div>
-
-
       <div class=" d-flex">
-        <div class="d-flex" style="align-items: end; margin-right: 10px; font-size: small;">
-          <div style="margin-right: 5px;">From Date</div>
-          <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
-        </div>
         <div class="d-flex" style="align-items: end; font-size: small;">
+          <div style="margin-right: 5px;">From Date</div>
+          <p-calendar formControlName="startDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+        </div>
+        <div class="d-flex" style="align-items: end; margin-right: 10px; font-size: small;">
           <div style="margin-right: 5px;">To Date</div>
-          <p-calendar formControlName="complete" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
+          <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="mm/dd/yy"></p-calendar>
         </div>
       </div>
       <div class="field col-12">
@@ -53,18 +51,11 @@
           placeholder="tình Trạng" autoWidth="false" [style]="{ width: '100%' }">
         </p-dropdown>
       </div>
-      <div class="field col-12">
+      <!-- <div class="field col-12">
         <label for="timeTrackingSpent" class="block">Thời gian sử dụng <span class="required">*</span></label>
         <input id="timeTrackingSpent" type="number" pInputText [pKeyFilter]="noSpecial"
           formControlName="timeTrackingSpent" [style]="{ width: '100%' }" />
         <app-validation-message [entityForm]="form" fieldName="timeTrackingSpent"
-          [validationMessages]="validationMessages"></app-validation-message>
-      </div>
-      <!-- <div class="field col-12">
-        <label for="timeTrackingRemaining" class="block">Thời gian còn lại <span class="required">*</span></label>
-        <input id="timeTrackingRemaining" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="timeTrackingRemaining"
-        [style]="{ width: '100%' }" />
-        <app-validation-message [entityForm]="form" fieldName="timeTrackingRemaining"
           [validationMessages]="validationMessages"></app-validation-message>
       </div> -->
       <div class="field col-12">
