@@ -1,27 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Swashbuckle.AspNetCore.SwaggerGen;
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using TPBlog.Api.Services;
 using TPBlog.Api;
-using TPBlog.Core.ConfigureOptions;
-using TPBlog.Core.Domain.Identity;
 using TPBlog.Core.Models.content;
 using TPBlog.Data.Repositories;
 using TPBlog.Data.SeedWorks;
-using TPBlog.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
 using TPBlog.Api.Authorization;
 using Microsoft.OpenApi.Models;
-using TPBlog.Core.Services;
-using TPBlog.Data.Services;
-using TPBlog.Api.Services.IServices;
-using TPBlog.Core.Repositories;
-using MediatR;
 using TPBlog.Api.SignalR;
+using TPBlog.Api.Extensions;
 
 internal class Program
 {
@@ -29,16 +18,24 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                              .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+        //builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //                      .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
         var configuration = builder.Configuration;
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        builder.Host.AddAppConfigurations();
+        builder.Services.AddConfigurationSettings(builder.Configuration);
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+        builder.Services.ConfigureServices();
+        builder.Services.AddHangfireService();
+        builder.Services.AddSignalR();
+
+        //var connectionString = configuration.GetConnectionString("DefaultConnection");
         //configurate Cors;
         var TeduCorsPolicy = "TeduCorsPolicy";
-        builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-        builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-        builder.Services.AddSignalR();
+        //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        //builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+
         builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
         {
             builder.AllowAnyMethod()
@@ -47,34 +44,34 @@ internal class Program
                 .AllowCredentials();
         }));
         //Config DB Context and ASP.NET Core Identity
-        builder.Services.AddDbContext<TPBlogContext>(options =>
-                         options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
-        builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddEntityFrameworkStores<TPBlogContext>();
+        //builder.Services.AddDbContext<TPBlogContext>(options =>
+        //                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
+        //builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
+        //    .AddEntityFrameworkStores<TPBlogContext>();
 
 
-        builder.Services.Configure<IdentityOptions>(options =>
-        {
-            // Password settings.
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequiredLength = 6;
-            options.Password.RequiredUniqueChars = 1;
-            // Lockout settings.
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.AllowedForNewUsers = false;
-            // User settings.
-            options.User.AllowedUserNameCharacters =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = true;
-        });
+        //builder.Services.Configure<IdentityOptions>(options =>
+        //{
+        //    // Password settings.
+        //    options.Password.RequireDigit = true;
+        //    options.Password.RequireLowercase = true;
+        //    options.Password.RequireNonAlphanumeric = true;
+        //    options.Password.RequireUppercase = true;
+        //    options.Password.RequiredLength = 6;
+        //    options.Password.RequiredUniqueChars = 1;
+        //    // Lockout settings.
+        //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        //    options.Lockout.MaxFailedAccessAttempts = 5;
+        //    options.Lockout.AllowedForNewUsers = false;
+        //    // User settings.
+        //    options.User.AllowedUserNameCharacters =
+        //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        //    options.User.RequireUniqueEmail = true;
+        //});
 
         // Add services to the container.
-        builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        //builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
+        //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // Business services and repositories
         var services = typeof(PostRepository).Assembly.GetTypes()
@@ -94,21 +91,21 @@ internal class Program
         //Auto mapper
         builder.Services.AddAutoMapper(typeof(PostInListDto));
 
-        //Authen and author
-        builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
-        builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
+        ////Authen and author
+        //builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+        //builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
 
-        builder.Services.AddScoped<NotificationsHub>();
+        //builder.Services.AddScoped<NotificationsHub>();
 
-        builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-        builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
-        builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
-        builder.Services.AddScoped<ITokenService, TokenService>();
-        builder.Services.AddScoped<IPostService, PostService>();
-        builder.Services.AddScoped<IPermissionService, PermissionService>();
-        builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
-        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-        builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
+        //builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+        //builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+        //builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+        //builder.Services.AddScoped<ITokenService, TokenService>();
+        //builder.Services.AddScoped<IPostService, PostService>();
+        //builder.Services.AddScoped<IPermissionService, PermissionService>();
+        //builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
+        //builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        //builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
         builder.Services.AddHttpContextAccessor();
         //Default config for ASP.NET Core
@@ -207,6 +204,7 @@ internal class Program
         app.UseAuthentication();
 
         app.UseAuthorization();
+        app.UseHangfireDashboard(builder.Configuration);
 
         app.MapControllers();
 

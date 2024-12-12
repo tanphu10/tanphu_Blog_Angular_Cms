@@ -174,3 +174,10 @@ D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Owin.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
 D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\obj\Debug\net8.0\TPBlog.Api.MvcApplicationPartsAssemblyInfo.cs
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Hangfire.AspNetCore.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Hangfire.Core.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Hangfire.NetCore.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\Hangfire.SqlServer.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MailKit.dll
+D:\05_ASP.Net\02_CMS\TPBlog\src\TPBLog.Api\bin\Debug\net8.0\MimeKit.dll

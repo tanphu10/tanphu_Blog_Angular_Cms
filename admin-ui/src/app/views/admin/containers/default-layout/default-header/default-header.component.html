@@ -101,7 +101,7 @@
 <ng-template #notificationDropdown>
   <c-dropdown alignment="end" variant="nav-item" class="notificateDropdown">
     <button cButton color="" [caret]="false" cDropdownToggle>
-      <svg cIcon name="cilBell" size="lg"></svg>
+      <svg cIcon name="cilBell" size="lg" class="svg"></svg>
       <c-badge *ngIf="hasUnreadAnnouncements" class="start-30 translate-middle" color="success">
         <span> {{ unreadAnnouncementsCount }}</span> </c-badge>
     </button>

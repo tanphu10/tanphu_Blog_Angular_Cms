@@ -1,6 +1,11 @@
 .notificateDropdown {
   button {
+    border: none !important;
     padding: 8px 0;
+    .svg :hover {
+      color: red;
+    }
+
     .start-30 {
       left: 3px;
       width: 20px;
@@ -103,12 +108,20 @@
 
 .taskDropdown {
   button {
+    border: none !important;
     padding: 8px 0;
+    .header-nav .nav-link:hover,
+    .header-nav .nav-link:focus {
+      &:hover {
+        color: red;
+      }
+    }
     .start-30 {
       left: 3px;
       width: 20px;
       height: 20px;
       border-radius: 50%;
+
       span {
         display: flex;
         justify-content: center;
@@ -194,13 +207,14 @@
 .userMenuDropdown {
   ul {
     margin-top: 8px !important;
-    li{
-      h6{
-        border-radius:5px 5px 0 0;
+    li {
+      h6 {
+        border-radius: 5px 5px 0 0;
       }
     }
   }
   button {
+    border: none !important;
     .avatar_ {
       border-radius: 50%;
       width: 50px;
