@@ -67,7 +67,7 @@
 
         <c-header-nav class=" userIo">
             <ng-container *ngIf="isLoggedIn == true;else loginTemplate ">
-                <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+                <ng-container *ngTemplateOutlet="userDropdown" ></ng-container>
             </ng-container>
             <ng-template #loginTemplate class="ms-2">
                 <button id="_buttonLogin" cButton class="d-flex my-auto  " style="margin-right: 12px;" color="danger"

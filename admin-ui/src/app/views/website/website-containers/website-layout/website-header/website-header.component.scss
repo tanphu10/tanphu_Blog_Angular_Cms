@@ -120,6 +120,9 @@
     top: 10px; /* Khoảng cách từ trên */
     right: 10px;
     z-index: 1050; /* Đặt trên các thành phần khác */
+    ::ng-deep .dropdown  button{
+      border: none !important;
+    }
   }
 }
 @media (max-width: 992px) {
@@ -155,11 +158,13 @@
     }
   }
 }
+
 .notificateDropdown {
   left: -7px;
   top: -5px;
   button {
-    margin-left: 3px;
+    border: none !important;
+    margin-left: -1.5px;
     height: 25px !important;
     .start-30 {
       top: -25px;
@@ -167,9 +172,17 @@
       border-radius: 15px;
     }
   }
+  ul li:first-child {
+    position: sticky;
+    top: 0; /* Đảm bảo li đầu tiên dính vào trên cùng */
+    background-color: white; /* Đặt màu nền để li nổi bật khi sticky */
+    z-index: 1; /* Đảm bảo nó nằm trên các phần tử khác */
+  }
   ul {
     width: 300px !important;
     margin-top: 19px !important;
+    overflow-y: auto;
+    height: calc(100vh - 80px) !important;
     li {
       .announceItems {
         height: 70px !important;

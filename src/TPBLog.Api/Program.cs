@@ -18,8 +18,6 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        //builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        //                      .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
 
         var configuration = builder.Configuration;
         builder.Host.AddAppConfigurations();
@@ -29,12 +27,8 @@ internal class Program
         builder.Services.AddHangfireService();
         builder.Services.AddSignalR();
 
-        //var connectionString = configuration.GetConnectionString("DefaultConnection");
         //configurate Cors;
         var TeduCorsPolicy = "TeduCorsPolicy";
-        //builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-        //builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
 
         builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
         {
@@ -43,40 +37,9 @@ internal class Program
                 .WithOrigins(configuration["AllowedOrigins"])
                 .AllowCredentials();
         }));
-        //Config DB Context and ASP.NET Core Identity
-        //builder.Services.AddDbContext<TPBlogContext>(options =>
-        //                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TPBlog.Data")));
-        //builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-        //    .AddEntityFrameworkStores<TPBlogContext>();
-
-
-        //builder.Services.Configure<IdentityOptions>(options =>
-        //{
-        //    // Password settings.
-        //    options.Password.RequireDigit = true;
-        //    options.Password.RequireLowercase = true;
-        //    options.Password.RequireNonAlphanumeric = true;
-        //    options.Password.RequireUppercase = true;
-        //    options.Password.RequiredLength = 6;
-        //    options.Password.RequiredUniqueChars = 1;
-        //    // Lockout settings.
-        //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-        //    options.Lockout.MaxFailedAccessAttempts = 5;
-        //    options.Lockout.AllowedForNewUsers = false;
-        //    // User settings.
-        //    options.User.AllowedUserNameCharacters =
-        //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-        //    options.User.RequireUniqueEmail = true;
-        //});
-
-        // Add services to the container.
-        //builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
-        //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        // Business services and repositories
         var services = typeof(PostRepository).Assembly.GetTypes()
-            .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
-            && !x.IsAbstract && x.IsClass && !x.IsGenericType);
+         .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
+         && !x.IsAbstract && x.IsClass && !x.IsGenericType);
 
         foreach (var service in services)
         {
@@ -90,22 +53,6 @@ internal class Program
 
         //Auto mapper
         builder.Services.AddAutoMapper(typeof(PostInListDto));
-
-        ////Authen and author
-        //builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
-        //builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
-
-        //builder.Services.AddScoped<NotificationsHub>();
-
-        //builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-        //builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
-        //builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
-        //builder.Services.AddScoped<ITokenService, TokenService>();
-        //builder.Services.AddScoped<IPostService, PostService>();
-        //builder.Services.AddScoped<IPermissionService, PermissionService>();
-        //builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
-        //builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-        //builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
         builder.Services.AddHttpContextAccessor();
         //Default config for ASP.NET Core

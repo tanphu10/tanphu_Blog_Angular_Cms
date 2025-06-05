@@ -13,7 +13,7 @@ using TPBlog.Core.Shared.Enums;
 using TPBlog.Data;
 using TPBlog.Data.SeedWorks;
 
-namespace TPBlog.Data.Repositories
+namespace TPBlog.Data.Repositories  
 {
     public class PostRepository : RepositoryBase<IC_Post, Guid>, IPostRepository
     {

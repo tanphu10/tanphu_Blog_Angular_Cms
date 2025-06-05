@@ -61,6 +61,8 @@ namespace TPBlog.Api.Controllers
             {
                 return NotFound();
             }
+            post.ViewCount = post.ViewCount + 1;
+            await _unitOfWork.CompleteAsync();
             return Ok(post);
         }
         [HttpGet]
@@ -105,7 +107,7 @@ namespace TPBlog.Api.Controllers
             var userId = User.GetUserId();
             var userPermissions = await _permissionService.UserHasPermissionForProjectAsync();
 
-            var query = await _unitOfWork.IC_Posts.GetAllPaging(keyword, userId, categoryId,projectId, pageIndex, pageSize);
+            var query = await _unitOfWork.IC_Posts.GetAllPaging(keyword, userId, categoryId, projectId, pageIndex, pageSize);
             var allowedProjects = query.Results.Where(p => userPermissions.Contains($"Permissions.Projects.{p.ProjectSlug}"));
             query.Results = allowedProjects.ToList();
             return Ok(query);

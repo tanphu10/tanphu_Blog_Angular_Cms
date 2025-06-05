@@ -7,14 +7,14 @@ import {
   PostCategoryDto,
   PostInListDto,
   PostInListDtoPageResult,
-} from 'src/app/api/admin-api.service.generated';
+} from '../../../../app/api/admin-api.service.generated';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { CommonModule } from '@angular/common';
-import { environment } from 'src/environments/environment';
-import { TabService } from 'src/app/shared/services/tab.service';
+import { environment } from '../../../../environments/environment';
+import { TabService } from '../../../../app/shared/services/tab.service';
 import { WebsiteSubHeader } from '../website-containers/website-layout/website-sub-header/website-sub-header.component';
 import { BlockUIModule } from 'primeng/blockui';
 import { PaginatorModule } from 'primeng/paginator';

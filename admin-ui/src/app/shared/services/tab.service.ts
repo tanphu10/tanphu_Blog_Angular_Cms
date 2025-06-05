@@ -12,16 +12,15 @@ export class TabService {
   userImage$ = this.userImageSource.asObservable();
 
   constructor(private tokenSerive: TokenStorageService) {
-    // const savedUser = localStorage.getItem('auth-token');
+    const savedUser = localStorage.getItem('auth-token');
     const userImageStorage = this.tokenSerive.getUser().avatar;
     if (userImageStorage) {
-      // console.log('kiểm tra khi load data', userImageStorage);
-
+      console.log('kiểm tra khi load data', userImageStorage);
       this.setUserImage(userImageStorage);
     }
   }
   setActiveIndex(index: number): void {
-    // console.log("servicetab",index)
+    console.log("servicetab",index)
     this.activeIndexSource.next(index);
   }
   setUserImage(imageUrl: string): void {

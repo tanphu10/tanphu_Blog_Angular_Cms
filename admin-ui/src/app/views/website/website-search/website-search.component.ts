@@ -26,8 +26,9 @@ import {
   AdminApiPostApiClient,
   PostInListDto,
   PostInListDtoPageResult,
-} from 'src/app/api/admin-api.service.generated';
-import { environment } from 'src/environments/environment';
+} from '../../../../app/api/admin-api.service.generated';
+import { environment } from '../../../../environments/environment';
+import { BadgeModule } from 'primeng/badge';
 @Component({
   templateUrl: 'website-search.component.html',
   styleUrls: ['./website-search.component.scss'],
@@ -50,6 +51,7 @@ import { environment } from 'src/environments/environment';
     BlockUIModule,
     PaginatorModule,
     FieldsetModule,
+    BadgeModule
   ],
 })
 export class WebsiteSearchComponent implements OnInit, OnDestroy {
@@ -118,7 +120,26 @@ export class WebsiteSearchComponent implements OnInit, OnDestroy {
         },
       });
   }
+  ChangeViewCount(id: string) {
+    this.toggleBlockUI(true);
+    this.postApiClient
+      .getPostById(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (response: any) => {
+          // console.log('check postItems', response.results);
+          // this.postItems = response.results;
+          // this.totalCount = response.rowCount;
+          // this.toggleBlockUI(false);
+          this.loadData();
+        },
+        error: (e) => {
+          console.log('error', e);
 
+          this.toggleBlockUI(false);
+        },
+      });
+  }
   private toggleBlockUI(enabled: boolean) {
     if (enabled == true) {
       this.blockedPanel = true;
